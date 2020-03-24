@@ -1,0 +1,246 @@
+{% extends 'AppRepresentante/base.html' %}
+{% block usuario %}
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
+{% endblock %}
+{% block contenido %}
+
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="container-fluid">
+                    <br>
+                    <br>
+                    <form method="post" class="user">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <div class="container">
+                                <h1 class="h3 mb-2 text-gray-800" align="center">Datos Personales</h1>
+                                <br>
+                                <br>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-6 mb-sm-0">
+                                        <label>Nombres:<input type="text" class="form-control form-control-user"
+                                                              name="nombres" size="100"
+                                                              onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                              required></label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Apellidos:<input type="text" class="form-control form-control-user"
+                                                                name="apellidos" size="100"
+                                                                onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                                required></label>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <label>Cédula:<input type="text" class="form-control form-control-user"
+                                                             name="cedula" id="cedula" size="100"
+                                                             maxlength="10"
+                                                             onkeypress="return soloNumeros(event)"
+                                                             required></label>
+
+                                        <div id="salida" class="text-danger"></div>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="fechaNacimiento">Fecha de Nacimiento:<input type="date"
+                                                                                            class="form-control form-control-user datepicker"
+                                                                                            data-date-format="yyyy/mm/dd"
+                                                                                            id="fechaNacimiento"
+                                                                                            name="fechaNacimiento"
+                                                                                            required/></label>
+                                </div>
+
+                                <br>
+                                <h1 class="h3 mb-2 text-gray-800" align="center">Ficha Informativa</h1>
+                                <hr class="sidebar-divider my-0">
+                                <br>
+                                <ol>
+
+                                    <li value="1">Nivel que cursa:</li>
+                                    <dd>
+                                        <select name="nivelCursa" id="nivelCursa"
+                                                class="btn btn-primary dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                required>
+                                            <option value="">Seleccione una opción</option>
+                                            <option value="Subnivel 1">Subnivel 1 (2 años)
+                                            </option>
+                                            <option value="Subnivel 2">Subnivel 2 (3 años)
+                                            </option>
+                                            <option value="Subnivel 3">Subnivel 3 (4 años)
+                                            </option>
+                                        </select>
+
+                                    </dd>
+
+                                    <li>Se presentaron dificultades en las siguientes etapas:</li>
+                                    <dd>
+                                        <h6>Prenatal (antes del nacimiento):</h6>
+
+                                        <input type="radio" value="Si" name="respuesta_prenatal"
+                                               onchange="habilitarP2L1(this.value);"> Si
+                                        <input type="radio" value="No" name="respuesta_prenatal"
+                                               onchange="habilitarP2L1(this.value);"> No
+                                        <input type="radio" value="Desconozco" name="respuesta_prenatal"
+                                               onchange="habilitarP2L1(this.value);" checked> Desconozco
+                                        <input type="text" id="descripcion_prenatal" name="descripcion_prenatal"
+                                               size="100"
+                                               disabled>
+
+                                        <h6>Perinatal (durante el nacimiento):</h6>
+
+                                        <input type="radio" value="Si" name="respuesta_perinatal"
+                                               onchange="habilitarP2L2(this.value);"> Si
+                                        <input type="radio" value="No" name="respuesta_perinatal"
+                                               onchange="habilitarP2L2(this.value);"> No
+                                        <input type="radio" value="Desconozco" name="respuesta_perinatal"
+                                               onchange="habilitarP2L2(this.value);" checked> Desconozco
+                                        <input type="text" id="descripcion_perinatal" name="descripcion_perinatal"
+                                               size="100"
+                                               disabled>
+
+                                        <h6>Postnatal (después del nacimiento 0-1 año ):</h6>
+
+                                        <input type="radio" value="Si" name="respuesta_postnatal"
+                                               onchange="habilitarP2L3(this.value);"> Si
+                                        <input type="radio" value="No" name="respuesta_postnatal"
+                                               onchange="habilitarP2L3(this.value);"> No
+                                        <input type="radio" value="Desconozco" name="respuesta_postnatal"
+                                               onchange="habilitarP2L3(this.value);" checked> Desconozco
+                                        <input type="text" id="descripcion_postnatal" name="descripcion_postnatal"
+                                               size="100"
+                                               disabled>
+                                    </dd>
+
+
+                                    <li>Tipo de Familia:</li>
+                                    <dd>
+
+                                        <input type="radio" value="Nuclear" name="tipoFamilia"
+                                               onchange="habilitarP3(this.value);"> Nuclear (Progenitores e hijos)
+                                        <br>
+                                        <input type="radio" value="Extendida" name="tipoFamilia"
+                                               onchange="habilitarP3(this.value);"> Extendida (Abuelos, tíos, primos y
+                                        otros parientes consanguíneos o afines que viven juntos)
+                                        <br>
+                                        <input type="radio" value="Monoparental" name="tipoFamilia"
+                                               onchange="habilitarP3(this.value);"> Monoparental (Un solo progenitor ya
+                                        sea la madre o el padre)
+                                        <br>
+                                        <input type="radio" value="Otro" name="tipoFamilia"
+                                               onchange="habilitarP3(this.value);"> Otro (indique)
+                                        <br>
+                                        <input type="text" id="descripcion_tipoFamilia" name="descripcion_tipoFamilia"
+                                               disabled>
+                                    </dd>
+
+                                    <li>Desde su perspectiva la dinámica familiar del niño/a es:</li>
+                                    <dd>
+                                        <select name="dinamicaFamiliar" id="dinamicaFamiliar"
+                                                class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false" required>
+                                            <option value="">Seleccione una opción</option>
+                                            <option value="Excelente">Excelente</option>
+                                            <option value="Muy Buena">Muy Buena</option>
+                                            <option value="Buena">Buena</option>
+                                            <option value="Regular">Regular</option>
+                                        </select>
+                                    </dd>
+
+                                    <li>Existen antecedentes familiares patológicos significativos:</li>
+                                    <dd>
+                                        <input type="radio" value="Si" name="antecedentesFPatologicos"
+                                               onchange="habilitarP5(this.value);"/> Si(Indique)
+                                        <br>
+                                        <input type="radio" value="No" name="antecedentesFPatologicos"
+                                               onchange="habilitarP5(this.value);"/> No
+                                        <br>
+                                        <input type="radio" value="Desconozco" name="antecedentesFPatologicos"
+                                               onchange="habilitarP5(this.value);" checked/> Desconozco
+                                        <br>
+                                        <input type="text" id="descripcionAntecedentesFPatologicos"
+                                               name="descripcionAntecedentesFPatologicos" disabled/>
+
+                                    </dd>
+
+                                    <li>El Diagnóstico médico(Información proporcionada por un especialista de salud)
+                                        (se
+                                        presenta la lista si marca afirmativo)
+                                    </li>
+
+                                    <dd>
+                                        <input type="radio" value="Si" name="diagnosticoMedicoRespuesta"
+                                               onchange="habilitarP6(this.value);"> Si &nbsp;
+
+
+                                        <select onchange="habilitarP6(this.value);" name="diagnosticoMedicoOpcion"
+                                                id="diagnosticoMedicoOpcion"
+                                                class="btn btn-primary dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                disabled
+                                                required>
+                                            <option value="">Seleccione una opción</option>
+                                            <option value="Visual">Visual</option>
+                                            <option value="Auditivo">Auditivo</option>
+                                            <option value="Motriz">Motriz</option>
+                                            <option value="Fisico">Físico</option>
+                                            <option value="Neurologico">Neurológico</option>
+                                            <option value="Sindrome">Síndrome (indique)</option>
+                                        </select> &nbsp;
+                                        <input type="text" name="diagnosticoMedicoDescripcion"
+                                               id="diagnosticoMedicoDescripcion" disabled/>
+                                        <br>
+                                        <input type="radio" value="No" name="diagnosticoMedicoRespuesta"
+                                               id="diagnosticoMedicoRespuesta"
+                                               onchange="habilitarP6(this.value);" checked> No
+
+                                    </dd>
+
+
+                                    <li>Detalle de signos y síntomas que requieren asesoría</li>
+
+                                    <dd>
+                                        <textarea name="detalleDificultades" rows="10" cols="50"></textarea>
+
+                                    </dd>
+
+                                </ol>
+
+                                <div>
+                                    <h6>Enviar a:</h6>
+                                    <div>
+                                        <label><input type="checkbox" id="todos" name="todos" value="todos">
+                                            Todos</label><br>
+                                        <label><input type="checkbox" id="psicologo" value="psicologo">
+                                            Psicólogo/a</label><br>
+                                        <label><input type="checkbox" id="terapistaLenguaje" value="terapistaLenguaje">
+                                            Terapista de Lenguaje</label><br>
+                                        <label><input type="checkbox" id="terapistaFisico" value="terapistaFisico">
+                                            Terapista de Físico</label><br>
+                                        <label><input type="checkbox" id="educador" value="educador"> Educador/a</label><br>
+                                        <label><input type="checkbox" id="fonoaudiologo" value="fonoaudiologo">
+                                            Fonoaudiologo/a</label><br>
+                                        <label><input type="checkbox" id="estimulador" value="estimulador">
+                                            Estimulador/a temprano/a</label><br>
+                                    </div>
+                                </div>
+
+
+                                <div align="center">
+                                    <button type="submit" class="btn btn btn-primary btn-user">Guardar
+                                    </button>
+                                    <a class="btn btn btn-danger btn-user"
+                                       href="{% url 'apprepresentante:base' %}">Cancelar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{#{%  extends 'AppDocente/base.html' %}#}
+{#{%  block content %}#}
+{#    <!-- Page Heading -->#}
+{#    <h1 class="h3 mb-2 text-gray-800" align="center">ESTUDIANTE</h1>#}
+{#    <div class="table-responsive">#}
+{#        <form method="post">#}
+{#            {%  csrf_token %}#}
+{#            <a class="btn btn-success" href="{%   url 'appdocente:fichaEstudianteCrear' %}">Nuevo Registro</a>#}
+{#             <br/>#}
+{#            <br/>#}
+{#            <br/>#}
+{#        </form>#}
+{#        <!-- DataTales Example -->#}
+{#        <div class="card shadow mb-4">#}
+{#            <div class="card-header py-3">#}
+{#                <h6 class="m-0 font-weight-bold text-primary">Lista de Estudiantes</h6>#}
+{#            </div>#}
+{#            <div class="card-body">#}
+{#                <div class="table-responsive">#}
+{#                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">#}
+{#                        <thead>#}
+{#                        <tr>#}
+{#                            <td>Código</td>#}
+{#                            <td>Nombres</td>#}
+{#                            <td>Apellidos</td>#}
+{#                            <td>Fecha de Nacimiento</td>#}
+{#                            <td>Institucion</td>#}
+{#                            <td>Nivel que cursa</td>#}
+{#                            <td>Se presentaron dificultades en las siguientes entapas:</td>#}
+{##}
+{#                            <td>Tipo de Familia</td>#}
+{#                            <td>La relacion entre los miembros de la familia es :</td>#}
+{#                            <td>Existen antecedentes familiares patologicos</td>#}
+{#                            <td>Diagnostico Medico</td>#}
+{#                            <td>Detalle de las Dificultades</td>#}
+{#                        </tr>#}
+{#                        </thead>#}
+{#                        <tbody>#}
+{#                        {% if fichasEstudiantes %}#}
+{#                            {% for fichaEstudiante in fichasEstudiantes %}#}
+{#                                <tr>#}
+{#                                    <td>{{ fichaEstudiante.id }}</td>#}
+{#                                    <td>{{ fichaEstudiante.nombres }}</td>#}
+{#                                    <td>{{ fichaEstudiante.apellidos }}</td>#}
+{#                                    <td>{{ fichaEstudiante.fechaNacimiento }}</td>#}
+{#                                    <td>{{ fichaEstudiante.institucion }}</td>#}
+{#                                    <td>{{ fichaEstudiante.nivelCursa }}</td>#}
+{#                                    <td>{{ fichaEstudiante.dificultades }}</td>#}
+{#                                    <td>{{ fichaEstudiante.tipoFamilia }}</td>#}
+{#                                    <td>{{ fichaEstudiante.relacionFamilia }}</td>#}
+{#                                    <td>{{ fichaEstudiante.antecedentesFPatologicos }}</td>#}
+{#                                    <td>{{ fichaEstudiante.diagnosticoRecibido }}</td>#}
+{#                                    <td>{{ fichaEstudiante.detalleDificultades }}</td>#}
+{#                                    <td>#}
+{#                                        <a class="btn btn-primary" href="{% url 'appdocente:estudiante_editar' fichaEstudiante.id %}">Editar</a>#}
+{#                                        <a class="btn btn-danger" href="{% url 'appdocente:estudiante_eliminar' fichaEstudiante.id %}">Eliminar</a>#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+{#                        {% else %}#}
+{#                            <h4>No hay registros de Estudiantes.</h4>#}
+{#                        {% endif %}#}
+{#                        </tbody>#}
+{#                    </table>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#    </div>#}
+{#{% endblock %}#}

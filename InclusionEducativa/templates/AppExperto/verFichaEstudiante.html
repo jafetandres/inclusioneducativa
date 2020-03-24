@@ -1,0 +1,361 @@
+{% extends 'AppExperto/base.html' %}
+{% block usuario %}
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
+{% endblock %}
+{% block contenido %}
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <div class="container-fluid">
+                <form method="post" class="user">
+                    {% csrf_token %}
+
+                    <div class="container">
+
+                        {#                        <a target="_blank" href="{% url 'django_chatter:index' %}">CHAT CASO</a>#}
+                        <br>
+                        <br>
+
+                        <h1 class="h3 mb-2 text-gray-800" align="center">Datos Personales</h1>
+                        <br>
+                        <br>
+
+
+                        <div class="">
+
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label><b>Nombres:</b>
+                                        <p>
+                                            {{ estudianteDocenteFicha.nombres }}
+                                        </p>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label><b>Apellidos:</b>
+                                        <p>
+                                            {{ estudianteDocenteFicha.apellidos }}
+                                        </p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label><b>Cedula:</b>
+                                        <p>
+                                            {{ estudianteDocenteFicha.cedula }}
+                                        </p>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+
+                                    <label><b>Fecha de Nacimiento:</b>
+                                        <p>
+                                            {{ estudianteDocenteFicha.fechaNacimiento }}
+                                        </p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="h3 mb-2 text-gray-800" align="center">Ficha Informativa realizada por el Docente</h1>
+                        <hr class="sidebar-divider my-0">
+                        <br>
+                        {% if estudianteDocenteFicha %}
+                            <label><b>Nivel que cursa:</b>
+                                <p>
+                                    {{ estudianteDocenteFicha.nivelCursa }}
+                                </p>
+                            </label>
+                            <br/>
+                            <label><b>Dificultad Prenatal:</b>
+                                <p>
+                                    Respuesta: {{ estudianteDocenteFicha.dificultad.respuesta_prenatal }} <br/>
+                                    Descripcion: {{ estudianteDocenteFicha.dificultad.descripcion_prenatal }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Dificultad Perinatal:</b>
+                                <p>
+                                    Respuesta: {{ estudianteDocenteFicha.dificultad.respuesta_perinatal }} <br/>
+                                    Descripcion: {{ estudianteDocenteFicha.dificultad.descripcion_perinatal }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Dificultad Postnatal:</b>
+                                <p>
+                                    Respuesta: {{ estudianteDocenteFicha.dificultad.respuesta_postnatal }} <br/>
+                                    Descripcion: {{ estudianteDocenteFicha.dificultad.descripcion_postnatal }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Tipo de Familia:</b>
+                                <p>
+                                    {{ estudianteDocenteFicha.tipoFamilia }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Dinamica Familiar:</b>
+                                <p>
+                                    {{ estudianteDocenteFicha.dinamicaFamiliar }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Antecedentes familiares patológicos significativos:</b>
+                                <p>
+                                    {{ estudianteDocenteFicha.antecedentesFPatologicos }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Diagnóstico médico:</b>
+                                <p>
+                                    Respuesta: {{ estudianteDocenteFicha.diagnosticoMedico.diagnosticoMedicoRespuesta }}<br/>
+                                    Opcion: {{ estudianteDocenteFicha.diagnosticoMedico.diagnosticoMedicoOpcion }}<br/>
+                                    Descripcion: {{ estudianteDocenteFicha.diagnosticoMedico.diagnosticoMedicoDescripcion }}
+
+                                </p>
+                            </label>
+                            <br>
+
+                            <label><b>Diagnóstico sindrómico:</b>
+                                <p>
+                                    Respuesta: {{ estudianteDocenteFicha.diagnosticoSindromico.diagnosticoSindromicoRespuesta }}<br/>
+                                    Opcion: {{ estudianteDocenteFicha.diagnosticoSindromico.diagnosticoSindromicoOpcion }}<br/>
+                                    Descripcion: {{ estudianteDocenteFicha.diagnosticoSindromico.diagnosticoSindromicoDescripcion }}
+
+                                </p>
+                            </label>
+                            <br>
+
+                            <label><b>Detalle de Dificultades:</b>
+                                <p>
+                                    {{ estudianteDocenteFicha.detalleDificultades }}<br/>
+
+
+                                </p>
+                            </label>
+                        {% endif %}
+                        <br>
+
+                        <h1 class="h3 mb-2 text-gray-800" align="center">Ficha Informativa realizada por el
+                            Representante</h1>
+                        <hr class="sidebar-divider my-0">
+                        <br>
+                        {% if estudianteRepresentanteFicha %}
+                            <label><b>Nivel que cursa:</b>
+                                <p>
+                                    {{ estudianteRepresentanteFicha.nivelCursa }}
+                                </p>
+                            </label>
+                            <br/>
+                            <label><b>Dificultad Prenatal:</b>
+                                <p>
+                                    Respuesta: {{ estudianteRepresentanteFicha.dificultad.respuesta_prenatal }} <br/>
+                                    Descripcion: {{ estudianteRepresentanteFicha.dificultad.descripcion_prenatal }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Dificultad Perinatal:</b>
+                                <p>
+                                    Respuesta: {{ estudianteRepresentanteFicha.dificultad.respuesta_perinatal }} <br/>
+                                    Descripcion: {{ estudianteRepresentanteFicha.dificultad.descripcion_perinatal }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Dificultad Postnatal:</b>
+                                <p>
+                                    Respuesta: {{ estudianteRepresentanteFicha.dificultad.respuesta_postnatal }} <br/>
+                                    Descripcion: {{ estudianteRepresentanteFicha.dificultad.descripcion_postnatal }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Tipo de Familia:</b>
+                                <p>
+                                    {{ estudianteRepresentanteFicha.tipoFamilia }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Dinamica Familiar:</b>
+                                <p>
+                                    {{ estudianteRepresentanteFicha.dinamicaFamiliar }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Antecedentes familiares patológicos significativos:</b>
+                                <p>
+                                    {{ estudianteRepresentanteFicha.antecedentesFPatologicos }}
+                                </p>
+                            </label>
+                            <br>
+                            <label><b>Diagnóstico médicos:</b>
+                                <p>
+                                    Respuesta: {{ estudianteRepresentanteFicha.diagnosticoMedico.diagnosticoMedicoRespuesta }}<br/>
+                                    Opcion: {{ estudianteRepresentanteFicha.diagnosticoMedico.diagnosticoMedicoOpcion }}<br/>
+                                    Descripcion: {{ estudianteRepresentanteFicha.diagnosticoMedico.diagnosticoMedicoDescripcion }}
+
+                                </p>
+                            </label>
+                            <br>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <div class="container-fluid">
+                <form method="post"
+                      id="formulario" class="user">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                <p class="text-secondary text-center"></p>
+                            </div>
+                            <div class="col-md-10">
+                                <p>
+                                    <a class="float-left"
+                                    ><strong>{{ usuarioLogueado.correo }}</strong></a>
+
+                                </p>
+                                <div class="clearfix">
+
+                                    <textarea placeholder="Comentar..." name="contenidoComentario"
+                                              id="contenidoComentario" class="form-control"
+                                              rows="5"></textarea>
+
+                                </div>
+
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+                <div>
+                    <button type="submit" id="comentar" class="float-right btn btn-outline-primary ml-2">Comentar
+                    </button>
+                </div>
+
+                <br>
+                <br>
+
+                <div id="comentariosHechos" name="comentariosHechos">
+
+                    {% if comentarios %}
+                        {% for comentario in comentarios %}
+                            <div class="card card-inner">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg"
+                                                 class="img img-rounded img-fluid"/>
+                                            <p class="text-secondary text-center">15 Minutes Ago</p>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <p>
+                                                <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{ comentario.emisor }}</strong></a>
+                                            </p>
+                                            <p>{{ comentario.contenido }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block js %}
+
+
+
+
+    <script>
+
+
+        $('#comentar').on('click', inicio);
+
+
+        function inicio() {
+
+
+            var contenidoComentario = $('#contenidoComentario').val();
+
+
+            $.ajax({
+                url: "{% url 'appexperto:crearComentario' %}",
+                type: "post", // or "get"
+                data: {
+
+                    'contenidoComentario': contenidoComentario,
+                    'id': {{ estudianteDocenteFicha.id }}
+                },
+                success: function (data) {
+
+                    console.log(data);
+                    var html = "";
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        html += '    <div class="card card-inner">\n' +
+                            '\n' +
+                            '                                <div class="card-body">\n' +
+                            '                                    <div class="row">\n' +
+                            '                                        <div class="col-md-2">\n' +
+                            '                                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg"\n' +
+                            '                                                 class="img img-rounded img-fluid"/>\n' +
+                            '                                            <p class="text-secondary text-center">15 Minutes Ago</p>\n' +
+                            '                                        </div>\n' +
+                            '                                        <div class="col-md-10">\n' +
+                            '                                            <p>\n' +
+                            '                                                <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>' + data[i].fields.correoEmisor + '</strong></a>\n' +
+                            '                                            </p>\n' +
+                            '                                            <p>' + data[i].fields.contenido + '</p>\n' +
+                            '                                        </div>\n' +
+                            '                                    </div>\n' +
+                            '                                </div>\n' +
+                            '                            </div>\n  <br>\n' +
+                            '                            <br>';
+
+                    }
+                    $('#comentariosHechos').html(html);
+
+                },
+                error: function () {
+                    alert('There was some error performing the AJAX call!');
+                }
+            });
+
+        }
+
+
+
+    </script>
+
+
+
+{% endblock %}

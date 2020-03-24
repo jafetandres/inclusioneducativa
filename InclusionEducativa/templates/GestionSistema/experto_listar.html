@@ -1,0 +1,74 @@
+{% extends 'GestionSistema/base.html' %}
+{% block usuario %}
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
+{% endblock %}
+
+{% block contenido %}
+    <div class="table-responsive">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800" align="center">EXPERTOS</h1>
+        <form method="post">
+            {% csrf_token %}
+            <a class="btn btn-success" href="{% url 'gestionsistema:experto_crear' %}">Nuevo Registro <i class="far fa-file"></i></a>
+            <br/>
+            <br/>
+            <br/>
+        </form>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Lista de Expertos</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <td><b>ID</b></td>
+                            <td><b>Nombres</b></td>
+                            <td><b>Apellidos</b></td>
+                            <td><b>Cédula</b></td>
+                            <td><b>Título Universitario</b></td>
+                            <td><b>Experiencia Profesional</b></td>
+                            <td><b>Experiencia Académica</b></td>
+                            <td><b>Experiencia Investigativa</b></td>
+                            <td><b>Fecha de Nacimiento</b></td>
+                            <td><b>Correo</b></td>
+                            <td><b>Acciones</b></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if expertos %}
+                            {% for experto in expertos %}
+                                <tr>
+                                    <td>{{ experto.usuario.id }}</td>
+                                    <td>{{ experto.usuario.nombres }}</td>
+                                    <td>{{ experto.usuario.apellidos }}</td>
+                                    <td>{{ experto.usuario.cedula }}</td>
+                                    <td>{{ experto.tituloUniversitario }}</td>
+                                    <td>{{ experto.experienciaProfesional }}</td>
+                                    <td>{{ experto.experienciaAcademica }}</td>
+                                    <td>{{ experto.experienciaInvestigativa }}</td>
+                                    <td>{{ experto.usuario.fechaNacimiento }}</td>
+                                    <td>{{ experto.usuario.correo }}</td>
+                                    <td>
+                                        <a class="btn btn-primary"
+                                           href="{% url 'gestionsistema:experto_editar' experto.id %}">Editar <i class="fas fa-cogs"></i></a>
+                                        <a class="btn btn-danger"
+                                           href="{% url 'gestionsistema:experto_eliminar' experto.id %}">Eliminar <i class="far fa-trash-alt"></i></a>
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+                        {% else %}
+                            <h4>No hay registros de Expertos.</h4>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

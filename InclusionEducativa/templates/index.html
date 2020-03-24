@@ -1,0 +1,315 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Inclusión Educativa</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+          rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+
+    <!-- =======================================================
+      Theme Name: Rapid
+      Theme URL: https://bootstrapmade.com/rapid-multipurpose-bootstrap-business-template/
+      Author: BootstrapMade.com
+      License: https://bootstrapmade.com/license/
+    ======================================================= -->
+</head>
+
+<body>
+<!--==========================
+Header
+============================-->
+<header id="header">
+
+    <div id="topbar">
+        <div class="container">
+            <div class="social-links">
+                <a href="{% url 'login' %}" class="active">Iniciar Sesión</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+
+        <nav class="main-nav float-right d-none d-lg-block">
+            <ul>
+                <li class="active"><a href="#intro">Inicio</a></li>
+                <li><a href="#about">Acerca del Sistema</a></li>
+                <li><a href="#services">Expertos</a></li>
+                <li><a href="#footer">Contáctanos</a></li>
+            </ul>
+        </nav><!-- .main-nav -->
+    </div>
+
+</header><!-- #header -->
+
+<!--==========================
+  Intro Section
+============================-->
+
+<section id="intro" class="clearfix">
+    <br>
+    <br>
+    <br>
+    <div class="row justify-content-center align-self-center">
+        <div class="col-lg-5 intro-info order-md-first order-last">
+            <h2 align="center">Plataforma de Inclusión <span>Educativa</span></h2>
+        </div>
+    </div>
+</section>
+
+<!-- #intro -->
+
+<main id="main">
+
+    <!--==========================
+      About Us Section
+    ============================-->
+    <section id="about">
+
+        <div class="container">
+            <div class="row">
+
+                {#                <div class="col-lg-5 col-md-6 order-last ">#}
+                {#                    <br>#}
+                {#                    <br>#}
+                {#                    <br>#}
+                {#                    <br>#}
+                {#                    <div class="about-img">#}
+                {#                        <img src="{% static '/img/intro-bg.png' %}" alt="">#}
+                {#                    </div>#}
+                {#                </div>#}
+
+                <div class="col-lg-7 col-md-6">
+                    <div class="about-content">
+                        <h2>Componentes</h2>
+                        <h3>Plataforma accesible y siempre disponible.</h3>
+                        <p>Plataforma web que dispone de componentes indispensables para una Educación Inclusiva y de
+                            calidad.</p>
+
+                        <ul>
+                            <li><i class="ion-android-checkmark-circle"></i> Sistemas Expertos.</li>
+                            <li><i class="ion-android-checkmark-circle"></i> Equipo profesional.</li>
+                            <li><i class="ion-android-checkmark-circle"></i> Comunicación integral.</li>
+                            <li><i class="ion-android-checkmark-circle"></i> Diagnóstico Presuntivo.</li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- #about -->
+
+
+    <!--==========================
+      Services Section
+    ============================-->
+    <section id="services" class="section-bg">
+        <div class="container">
+
+            <header class="section-header">
+                <h3>Expertos</h3>
+                <p>Equipo de Trabajo integral que brinda asistencia. </p>
+            </header>
+
+            <div class="row">
+
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon" style="background: #fceef3;"><i class="fas fa-female"></i></div>
+                        <h4 class="title"><a href="{% url 'curriculum' %}" target="_blank">Lcda. Fernanda Bermeo</a></h4>
+                        <p class="description">Fonoaudióloga</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon" style="background: #fff0da;"><i class="fas fa-male"></i></div>
+                        <h4 class="title"><a href="">Mgst. Adrián León</a></h4>
+                        <p class="description">Terapista de Lenguaje</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon" style="background: #e6fdfc;"><i class="fas fa-female"></i></div>
+                        <h4 class="title"><a href="">Mgst. Liliana Peñafiel</a></h4>
+                        <p class="description">Psicóloga Clínica</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon" style="background: #eafde7;"><i class="fas fa-female"></i></div>
+                        <h4 class="title"><a href="">Mgst. Cayetana Palacios</a></h4>
+                        <p class="description">Estimulación Temprana</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.2s" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon" style="background: #e1eeff;"><i class="fas fa-female"></i></div>
+                        <h4 class="title"><a href="">Lcda. Soledad Rivera</a></h4>
+                        <p class="description">Terapia Física</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.2s" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon" style="background: #ecebff;"><i class="fas fa-female"></i></div>
+                        <h4 class="title"><a href="">Mgst. Jaimmy Vélez</a></h4>
+                        <p class="description">Educadora</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- #services -->
+
+    <!--==========================
+      Why Us Section
+    ============================-->
+    <section id="why-us" class="wow fadeIn">
+        <div class="container-fluid">
+
+            <header class="section-header">
+                <h3>Por qué Nosotros?</h3>
+                <p>Somos un equipo de profesionales dispuestos a brindar la ayuda necesaria y requerida por los docentes
+                    y padres de familia de instituciones educativas.</p>
+            </header>
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="why-us-img">
+                        <img src="img/why-us.jpg" alt="" class="img-fluid">
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        </div>
+
+        </div>
+
+
+    </section><!-- #portfolio -->
+
+</main>
+
+<!--==========================
+  Footer
+============================-->
+<footer id="footer" class="section-bg">
+    <div class="footer-top">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-6">
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+
+                            <div class="footer-info">
+                                <h3>PLAINCED</h3>
+                                <p>Plataforma para el diagnóstico presuntivo de problemas y síndromes en estudiantes
+                                    pertenecentes a instituciones educativas. .</p>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-sm-6">
+
+
+                            <div class="footer-links">
+                                <h4>Contáctanos</h4>
+                                <p>
+                                    Cuenca<br>
+                                    Ecuador <br>
+
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    </div>
+
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong>Rapid</strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            <!--
+              All the links in the footer should remain intact.
+              You can delete the links only if you purchased the pro version.
+              Licensing information: https://bootstrapmade.com/license/
+              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Rapid
+            -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+    </div>
+</footer><!-- #footer -->
+
+<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+<!-- Uncomment below i you want to use a preloader -->
+<!-- <div id="preloader"></div> -->
+
+<!-- JavaScript Libraries -->
+<script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'lib/jquery/jquery-migrate.min.js' %}"></script>
+<script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'lib/easing/easing.min.js' %}"></script>
+{#<script src="{% static 'lib/mobile-nav/mobile-nav.js' %}"></script>#}
+<script src="{% static 'lib/wow/wow.min.js' %}"></script>
+<script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+<script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+<script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+<script src="{% static 'lib/isotope/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+<!-- Contact Form JavaScript File -->
+<script src="{% static 'contactform/contactform.js' %}"></script>
+
+<!-- Template Main Javascript File -->
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>
