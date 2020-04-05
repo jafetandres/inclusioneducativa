@@ -24,7 +24,10 @@
 
         <!-- Custom styles for this template-->
         <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
-        <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker3.min.css' %}"/>
+        <link rel="stylesheet" href="{% static 'css/datepicker.css' %}" type="text/css"/>
+        <!-- Custom styles for this page -->
+        <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
 
     </head>
 {% endblock %}
@@ -211,8 +214,20 @@
 
                             {% endblock %}
 
-                            <img class="img-profile rounded-circle"
-                                 src="http://pngimages.net/sites/default/files/user-png-image-79267.png">
+                            {% if usuario_logueado.foto %}
+                                <img class="img-profile rounded-circle" src="{{ usuario_logueado.foto.url }}">
+                            {% else %}
+                                <svg class="bi bi-people-circle" width="2em" height="2em" viewBox="0 0 16 16"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 008 15a6.987 6.987 0 005.468-2.63z"/>
+                                    <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+                                    <path fill-rule="evenodd"
+                                          d="M8 1a7 7 0 100 14A7 7 0 008 1zM0 8a8 8 0 1116 0A8 8 0 010 8z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            {% endif %}
+
+
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -331,7 +346,11 @@
         <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
         <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
         <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
-        <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+        <script src="{% static 'js/locales/bootstrap-datepicker.es.js' %}"></script>
+        <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
 
         <script>
             var estadoCedula = false;
@@ -339,11 +358,12 @@
 
         </script>
 
-        <script type="text/javascript">
-            $('.date-picker').datepicker({
-                autoclose: true,
-                todayHighlight: true
-            })
+        <script>
+            $('#date-picker').datepicker({
+                language: 'es'
+            });
+
+
         </script>
 
         <script>
@@ -458,6 +478,46 @@
 
             }
 
+        </script>
+
+        <script>
+
+            function readImage(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#blah').attr('src', e.target.result); // Renderizamos la imagen
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#imgInp").change(function () {
+                // Código a ejecutar cuando se detecta un cambio de archivO
+                readImage(this);
+            });
+        </script>
+
+        <script>
+
+            document.getElementById("file").onchange = function (e) {
+                // Creamos el objeto de la clase FileReader
+                let reader = new FileReader();
+
+                // Leemos el archivo subido y se lo pasamos a nuestro fileReader
+                reader.readAsDataURL(e.target.files[0]);
+
+                // Le decimos que cuando este listo ejecute el código interno
+                reader.onload = function () {
+                    let preview = document.getElementById('preview'),
+                        image = document.getElementById('img');
+
+                    image.src = reader.result;
+
+                    preview.innerHTML = '';
+                    preview.append(image);
+                };
+            }
         </script>
 
 

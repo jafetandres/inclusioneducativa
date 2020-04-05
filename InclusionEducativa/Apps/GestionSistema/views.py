@@ -325,6 +325,8 @@ def login_view(request):
                     return redirect('apprepresentante:base')
                 return redirect('gestionsistema:base')
             else:
+
+                messages.error(request, 'Correo electronico o contraseña incorrectos')
                 form = LoginForm()
     return render(request, 'login.html')
 

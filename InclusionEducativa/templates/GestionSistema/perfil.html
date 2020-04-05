@@ -1,6 +1,7 @@
-{{% extends 'GestionSistema/base.html' %}
+{% extends 'GestionSistema/base.html' %}
 {% block usuario %}
-    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+          xmlns="http://www.w3.org/1999/html">{{ usuario_logueado }}</span>
 {% endblock %}
 {% block contenido %}
     <h1 class="h3 mb-2 text-gray-800" align="center">Mi perfil</h1>
@@ -17,13 +18,35 @@
                                 <br>
                                 <br>
                                 <div class="form-group">
+                                    <div class=" form-group text-center">
+                                        {% if usuario_logueado.foto %}
+                                            <img src="{{ usuario_logueado.foto.url }}"
+                                                 class="img-profile rounded-circle" alt="avatar" width="200"
+                                                 height="200" id="img">
+                                            <br>
+                                            <br>
+                                        {% else %}
+                                            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                                                 class="img-profile rounded-circle" alt="avatar">
+                                            <br>
+                                            <br>
+                                        {% endif %}
 
-                                    <br>
+                                        <div class="btn btn-primary btn-icon-split">
+                                            <span class="btn btn-primary   btn-file">
+                                                <i class="fas fa-upload"></i>
+                                                    <input type="file" id="file">
+                                            <span class="text">Actualizar foto</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                             <label for="nombres">Nombres: <input type="text"
                                                                                  class="form-control form-control-user"
-                                                                                 value='{{ usuario.nombres}}'
+                                                                                 value='{{ usuario.nombres }}'
                                                                                  id="nombres" name="nombres" size="1000"
                                                                                  onkeyup="javascript:this.value=this.value.toUpperCase();"
                                                                                  required></label>
@@ -62,31 +85,47 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
-                                        <label for="fechaNacimiento">Fecha de Nacimiento:<input type="date"
-                                                                                                class="form-control form-control-user datepicker"
-                                                                                                value="{{ usuario.fechaNacimiento }}"
-                                                                                                data-date-format="yyyy/mm/dd"
-                                                                                                id="fechaNacimiento"
-                                                                                                name="fechaNacimiento"
-                                                                                                required></label>
+                                        <div class="col-sm-6">
+                                            <label for="fechaNacimiento">Fecha de Nacimiento:
+                                                <div class="input-group input-append date" id="date-picker"
+                                                     data-date-format="yyyy-mm-dd">
+                                                    <input class="form-control bg-light border-0 small " type="text"
+                                                           value="{{ usuario.fechaNacimiento }}" id="fechaNacimiento"
+                                                           name="fechaNacimiento">
+                                                    <span class=" btn add-on">
+                                            <svg class="bi bi-calendar" width="1em" height="1em"
+                                                 viewBox="0 0 16 16" fill="currentColor"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                  d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"
+                                                  clip-rule="evenodd"/>
+                                                <path fill-rule="evenodd"
+                                                      d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"
+                                                      clip-rule="evenodd"/>
+                                            </svg>
+                                        </span>
+                                                </div>
+                                            </label>
+                                        </div>
+
+
+                                    <div align="center">
+                                        <button type="submit" class="btn btn btn-primary btn-user">Guardar Cambios
+                                        </button>
+                                        <a class="btn btn btn-danger btn-user"
+                                           href="{% url 'gestionsistema:base' %}">Cancelar</a>
                                     </div>
-
+                                    <br>
                                 </div>
-
-                                <div align="center">
-                                    <button type="submit" class="btn btn btn-primary btn-user">Guardar Cambios
-                                    </button>
-                                    <a class="btn btn btn-danger btn-user"
-                                       href="{% url 'gestionsistema:base' %}">Cancelar</a>
-                                </div>
-                                <br>
                             </div>
-                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
+
+
+
 {% endblock %}
+

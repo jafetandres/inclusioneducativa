@@ -9,7 +9,8 @@
         <h1 class="h3 mb-2 text-gray-800" align="center">EXPERTOS</h1>
         <form method="post">
             {% csrf_token %}
-            <a class="btn btn-success" href="{% url 'gestionsistema:experto_crear' %}">Nuevo Registro <i class="far fa-file"></i></a>
+            <a class="btn btn-success" href="{% url 'gestionsistema:experto_crear' %}">Nuevo Registro <i
+                    class="far fa-file"></i></a>
             <br/>
             <br/>
             <br/>
@@ -37,6 +38,21 @@
                             <td><b>Acciones</b></td>
                         </tr>
                         </thead>
+                        <tfoot>
+                        <tr>
+                            <td><b>ID</b></td>
+                            <td><b>Nombres</b></td>
+                            <td><b>Apellidos</b></td>
+                            <td><b>Cédula</b></td>
+                            <td><b>Título Universitario</b></td>
+                            <td><b>Experiencia Profesional</b></td>
+                            <td><b>Experiencia Académica</b></td>
+                            <td><b>Experiencia Investigativa</b></td>
+                            <td><b>Fecha de Nacimiento</b></td>
+                            <td><b>Correo</b></td>
+                            <td><b>Acciones</b></td>
+                        </tr>
+                        </tfoot>
                         <tbody>
                         {% if expertos %}
                             {% for experto in expertos %}
@@ -53,9 +69,11 @@
                                     <td>{{ experto.usuario.correo }}</td>
                                     <td>
                                         <a class="btn btn-primary"
-                                           href="{% url 'gestionsistema:experto_editar' experto.id %}">Editar <i class="fas fa-cogs"></i></a>
+                                           href="{% url 'gestionsistema:experto_editar' experto.id %}">Editar <i
+                                                class="fas fa-cogs"></i></a>
                                         <a class="btn btn-danger"
-                                           href="{% url 'gestionsistema:experto_eliminar' experto.id %}">Eliminar <i class="far fa-trash-alt"></i></a>
+                                           href="{% url 'gestionsistema:experto_eliminar' experto.id %}">Eliminar <i
+                                                class="far fa-trash-alt"></i></a>
                                     </td>
 
                                 </tr>

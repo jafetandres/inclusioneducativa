@@ -19,6 +19,7 @@ class PersonalizadoBaseUserManager(BaseUserManager):
 
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
+    foto = models.ImageField(upload_to = 'img_perfil',null=True, blank=True)
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
     cedula = models.CharField(max_length=50)
@@ -63,7 +64,6 @@ class Representante(models.Model):
 
 class Experto(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True, blank=True)
-    foto = models.ImageField(upload_to = 'img_perfil',null=True, blank=True)
     tituloUniversitario = models.CharField(max_length=50)
     experienciaProfesional = models.CharField(max_length=50)
     experienciaAcademica = models.CharField(max_length=50)
