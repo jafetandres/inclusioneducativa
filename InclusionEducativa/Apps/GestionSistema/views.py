@@ -34,7 +34,6 @@ def curriculum(request):
 
 def notificaciones(request):
     notificaciones = Notification.objects.filter(recipient_id=request.user.id)
-
     data1 = serializers.serialize('json', notificaciones)
     return HttpResponse(data1, content_type='application/json')
 
@@ -382,6 +381,7 @@ def perfil(request, id_usuario):
 
 
 def buscarUsuario(request):
+    print(request.GET['cedula'])
     if 'cedula' in request.GET:
         if Usuario.objects.filter(cedula=request.GET['cedula']).exists():
             usuario1 = Usuario.objects.filter(cedula=request.GET['cedula'])
