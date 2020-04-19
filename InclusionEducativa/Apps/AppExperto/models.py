@@ -11,5 +11,5 @@ class Comentario(models.Model):
     fichaEstudiante= models.ForeignKey(EstudianteDocente,on_delete=models.CASCADE, null=True, blank=True)
     contenido = models.CharField(max_length=500, null=True, blank=True)
     fechaCreacion=models.DateTimeField(auto_now=True, null=True, blank=True)
-    correoEmisor= models.CharField(max_length=500, null=True, blank=True)
+    usernameEmisor= models.CharField(max_length=500, null=True, blank=True)
 

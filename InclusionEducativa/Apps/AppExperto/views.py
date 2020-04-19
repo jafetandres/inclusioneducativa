@@ -118,14 +118,14 @@ def crearComentario(request):
         comentario.emisor = request.user
         fichaEstudiante = EstudianteDocente.objects.get(id=request.POST['id'])
         comentario.fichaEstudiante = fichaEstudiante
-        comentario.correoEmisor = request.user.correo
+        comentario.usernameEmisor = request.user.username
 
         comentario.save()
 
         # response_data['contenido'] = request.POST['contenidoComentario']
 
         # for comenta in comentarios:
-        #     comenta.emisor.correo
+        #     comenta.emisor.username
         data = serializers.serialize('json', comentarios)
         print(data)
 

@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'pwa',
     'django_chatter',
     'channels',
-
+    'notifications',
+    'django_summernote'
 
 ]
 
@@ -61,11 +62,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-
-
 ]
-
-
 
 ROOT_URLCONF = 'InclusionEducativa.urls'
 
@@ -113,20 +110,18 @@ DATABASES = {
 # DATABASES['default'].update(db_from_env)
 
 
-
-
 #
 ASGI_APPLICATION = 'InclusionEducativa.routing.application'
 #
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             'hosts': [('127.0.0.1', 6379)],
-#         },
-#
-#     },
-# }
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        },
+
+    },
+}
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -164,13 +159,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'InclusionEducativa/static/')),]
+STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'InclusionEducativa/static/')), ]
 #
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-
-
 
 
 AUTH_USER_MODEL = 'GestionSistema.Usuario'
@@ -183,4 +174,3 @@ EMAIL_USE_TLS = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'InclusionEducativa/media')
-

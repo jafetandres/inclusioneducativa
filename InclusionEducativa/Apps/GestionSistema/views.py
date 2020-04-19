@@ -5,11 +5,15 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
+from hamcrest.core import description
+from notifications.models import Notification
+
 from InclusionEducativa import settings
 from InclusionEducativa.Apps.GestionSistema.forms import *
 from InclusionEducativa.Apps.GestionSistema.models import *
 from django_chatter.models import UserProfile
 from datetime import datetime
+from notifications.signals import notify
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 
@@ -20,12 +24,38 @@ def index(request):
 
 def base(request):
     usuario_logueado = request.user
-    return render(request, 'GestionSistema/base.html', {'usuario_logueado': usuario_logueado})
+    return render(request, 'GestionSistema/base.html',
+                  {'usuario_logueado': usuario_logueado, 'notificaciones': notificaciones})
+
 
 def curriculum(request):
-
     return render(request, 'curriculum.html')
 
+
+def notificaciones(request):
+    notificaciones = Notification.objects.filter(recipient_id=request.user.id)
+
+    data1 = serializers.serialize('json', notificaciones)
+    return HttpResponse(data1, content_type='application/json')
+
+
+def crearUsuario(request):
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST)
+        if form.is_valid():
+            usuario = form.save()
+            usuario.is_active = False
+            usuario.set_password(form.cleaned_data.get('password'))
+            usuario.save()
+            administradores = Usuario.objects.filter(tipo_usuario='Administrador')
+            sistema = Usuario.objects.get(username='jafetandres@hotmail.com')
+            notify.send(sistema, recipient=administradores, verb="/", description="Nuevo usuario registrado")
+            return redirect('index')
+        else:
+            print(form.errors)
+    else:
+        form = UsuarioForm()
+    return render(request, 'registro.html', {'form': form})
 
 
 def cambiarPassword(request):
@@ -45,6 +75,7 @@ def InstitucionCrear(request):
         form = InstitucionForm(request.POST)
         if form.is_valid():
             form.save()
+            notify.send(request.user, recipient=request.user, verb="/")
         return redirect('gestionsistema:institucion_listar')
     else:
         form = InstitucionForm()
@@ -95,7 +126,7 @@ def ExpertoCrear(request):
             usuario.tipo_user = 'Experto'
             form_usuario.save()
             experto = form_experto.save(commit=False)
-            experto.foto=request.FILES.get('foto')
+            experto.foto = request.FILES.get('foto')
             experto.usuario = form_usuario.instance
             form_experto.save()
             usuarioChat = UserProfile()
@@ -160,7 +191,6 @@ def ExpertoEliminar(request, id_experto):
     experto = Experto.objects.get(id=id_experto)
     usuario = Usuario.objects.get(id=experto.usuario.id)
     if request.method == 'POST':
-
         experto.delete()
         usuario.delete()
         return redirect('gestionsistema:experto_listar')
@@ -309,25 +339,27 @@ def RepresentanteEliminar(request, id_representante):
 
 def login_view(request):
     if request.method == "POST":
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            correo = request.POST['correo']
-            password = request.POST['password']
-            user = authenticate(correo=correo, password=password)
-            if user is not None:
-                login(request, user)
-
-                if user.tipo_user == 'Docente':
-                    return redirect('appdocente:base')
-                elif user.tipo_user == 'Experto':
-                    return redirect('appexperto:base')
-                elif user.tipo_user == 'Representante':
-                    return redirect('apprepresentante:base')
-                return redirect('gestionsistema:base')
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if Usuario.objects.filter(username=username).exists():
+            usuario = Usuario.objects.get(username=username)
+            if usuario.is_active:
+                if user is not None:
+                    login(request, user)
+                    if user.tipo_usuario == 'Docente':
+                        return redirect('appdocente:base')
+                    elif user.tipo_usuario == 'Experto':
+                        return redirect('appexperto:base')
+                    elif user.tipo_usuario == 'Representante':
+                        return redirect('apprepresentante:base')
+                    return redirect('gestionsistema:base')
+                else:
+                    messages.error(request, 'Correo electronico o contraseña incorrectos')
             else:
-
-                messages.error(request, 'Correo electronico o contraseña incorrectos')
-                form = LoginForm()
+                messages.error(request, 'El usuario esta desactivado')
+        else:
+            messages.error(request, 'El usuario no existe')
     return render(request, 'login.html')
 
 
@@ -356,9 +388,9 @@ def buscarUsuario(request):
             data1 = serializers.serialize('json', usuario1)
             return HttpResponse(data1, content_type='application/json')
 
-    if 'correo' in request.GET:
-        if Usuario.objects.filter(correo=request.GET['correo']).exists():
-            usuario2 = Usuario.objects.filter(correo=request.GET['correo'])
+    if 'username' in request.GET:
+        if Usuario.objects.filter(username=request.GET['username']).exists():
+            usuario2 = Usuario.objects.filter(username=request.GET['username'])
             data2 = serializers.serialize('json', usuario2)
             return HttpResponse(data2, content_type='application/json')
 

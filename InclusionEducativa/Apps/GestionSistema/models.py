@@ -4,14 +4,14 @@ from django.contrib.auth.models import User
 
 
 class PersonalizadoBaseUserManager(BaseUserManager):
-    def create_user(self, correo, password):
-        user = self.model(correo=correo)
+    def create_user(self, username, password):
+        user = self.model(username=username)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, correo, password):
-        user = self.create_user(correo, password)
+    def create_superuser(self, username, password):
+        user = self.create_user(username, password)
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
@@ -19,17 +19,18 @@ class PersonalizadoBaseUserManager(BaseUserManager):
 
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
-    foto = models.ImageField(upload_to = 'img_perfil',null=True, blank=True)
+    foto = models.ImageField(upload_to = 'img_perfil',null=True,blank=True)
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
     cedula = models.CharField(max_length=50)
-    correo = models.EmailField(blank=True, unique=True)
-    fechaNacimiento = models.DateField(null=True, blank=True)
+    username = models.EmailField(unique=True)
+    fechaNacimiento = models.DateField()
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    tipo_user = models.CharField(max_length=50, null=True, blank=True)
-    USERNAME_FIELD = 'correo'
+    tipo_usuario = models.CharField(max_length=50,null=True,blank=True)
+    USERNAME_FIELD = 'username'
     objects = PersonalizadoBaseUserManager()
+
 
     def get_full_name(self):
         return self.nombres, self.apellidos

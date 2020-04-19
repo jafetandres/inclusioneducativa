@@ -5,27 +5,8 @@ from InclusionEducativa.Apps.GestionSistema.models import Experto, Docente, Repr
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model=Usuario
-        fields = [
-            'nombres',
-            'apellidos',
-            'cedula',
-            'correo',
-            'fechaNacimiento',
-        ]
-        labels = {
+        fields = "__all__"
 
-            'nombres': 'Nombres',
-            'fechaNacimiento': 'Fecha de Nacimiento',
-
-
-        }
-        widgets = {
-
-            'fechaNacimiento': forms.DateTimeInput(attrs={'type':'date'}),
-
-
-
-        }
 
 class DocenteForm(forms.ModelForm):
 
@@ -53,5 +34,5 @@ class InstitucionForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    correo = forms.CharField()
+    username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)

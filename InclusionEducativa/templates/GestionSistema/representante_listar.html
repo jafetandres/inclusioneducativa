@@ -47,7 +47,7 @@
                                     <td>{{ representante.institucion.nombre }}</td>
                                     <td>{{ representante.ocupacion }}</td>
                                     <td>{{ representante.usuario.fechaNacimiento }}</td>
-                                    <td>{{ representante.usuario.correo }}</td>
+                                    <td>{{ representante.usuario.username }}</td>
                                     <td>
                                         <a class="btn btn-primary"
                                            href="{% url 'gestionsistema:representante_editar' representante.id %}">Editar <i class="fas fa-cogs"></i></a>
