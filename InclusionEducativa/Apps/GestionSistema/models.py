@@ -3,6 +3,16 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Institucion(models.Model):
+    nombre = models.CharField(max_length=50)
+    tipoEstablecimiento = models.CharField(max_length=50, null=True, blank=True)
+    direccion = models.CharField(max_length=50)
+    telefono = models.CharField(max_length=50)
+
+    def __str__(self):
+        return "{0}".format(self.nombre)
+
+
 class PersonalizadoBaseUserManager(BaseUserManager):
     def create_user(self, username, password):
         user = self.model(username=username)
@@ -19,7 +29,8 @@ class PersonalizadoBaseUserManager(BaseUserManager):
 
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
-    foto = models.ImageField(upload_to = 'img_perfil',null=True,blank=True)
+    foto = models.ImageField(upload_to='img_perfil', null=True, blank=True)
+    institucion = models.ForeignKey(Institucion, on_delete=models.CASCADE, null=True, blank=True)
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
     cedula = models.CharField(max_length=50)
@@ -27,26 +38,15 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     fechaNacimiento = models.DateField()
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    tipo_usuario = models.CharField(max_length=50,null=True,blank=True)
+    tipo_usuario = models.CharField(max_length=50, null=True, blank=True)
     USERNAME_FIELD = 'username'
     objects = PersonalizadoBaseUserManager()
-
 
     def get_full_name(self):
         return self.nombres, self.apellidos
 
     def get_short_name(self):
         return self.nombres
-
-
-class Institucion(models.Model):
-    nombre = models.CharField(max_length=50)
-    tipoEstablecimiento = models.CharField(max_length=50, null=True, blank=True)
-    direccion = models.CharField(max_length=50)
-    telefono = models.CharField(max_length=50)
-
-    def __str__(self):
-        return "{0}".format(self.nombre)
 
 
 class Docente(models.Model):
@@ -73,7 +73,7 @@ class Experto(models.Model):
 
 class Notificacion(models.Model):
     emisor = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True, blank=True, related_name='emisor')
-    receptor = models.ForeignKey(Usuario,on_delete=models.CASCADE, null=True, blank=True, related_name='receptor')
+    receptor = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True, blank=True, related_name='receptor')
     tipo = models.CharField(max_length=50, null=True, blank=True)
     descripcion = models.CharField(max_length=50, null=True, blank=True)
     target = models.IntegerField(null=True, blank=True)

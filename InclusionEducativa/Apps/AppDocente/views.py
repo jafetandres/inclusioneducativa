@@ -5,6 +5,7 @@ from experta import *
 from InclusionEducativa.Apps.AppDocente.forms import *
 from InclusionEducativa.Apps.AppDocente.models import EstudianteDocente
 from InclusionEducativa.Apps.GestionSistema.models import *
+from InclusionEducativa.Apps.GestionSistema.forms import *
 from django_chatter.utils import create_room
 
 contador = 0
@@ -140,6 +141,19 @@ def ResultadoTest(request):
     contador = 0
 
     return render(request, 'AppDocente/resultado_test.html', {'resultado': resultado})
+
+
+def perfil(request, id_usuario):
+    usuario_logueado = request.user
+    usuario = Usuario.objects.get(id=request.user.id)
+    form_usuario = UsuarioForm(request.POST, instance=usuario)
+    if request.method == 'POST':
+        if form_usuario.is_valid():
+            form_usuario.save()
+
+        return redirect('appdocente:base')
+    return render(request, 'AppDocente/perfil.html', {'usuario': usuario,
+                                                          'usuario_logueado': usuario_logueado})
 
 
 def fichaEstudianteCrear(request):

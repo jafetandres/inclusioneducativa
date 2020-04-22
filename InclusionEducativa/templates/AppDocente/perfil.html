@@ -1,0 +1,130 @@
+{% extends 'AppDocente/base.html' %}
+{% block usuario %}
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+          xmlns="http://www.w3.org/1999/html">{{ usuario_logueado }}</span>
+{% endblock %}
+{% block contenido %}
+    <h1 class="h3 mb-2 text-gray-800" align="center">Mi perfil</h1>
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="container-fluid">
+                    <br>
+                    <br>
+                    <form method="post" class="user">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <div class="container">
+                                <br>
+                                <br>
+                                <div class="form-group">
+                                    <div class=" form-group text-center">
+                                        {% if usuario_logueado.foto %}
+                                            <img src="{{ usuario_logueado.foto.url }}"
+                                                 class="img-profile rounded-circle" alt="avatar" width="200"
+                                                 height="200" id="img">
+                                            <br>
+                                            <br>
+                                        {% else %}
+                                            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                                                 class="img-profile rounded-circle" alt="avatar">
+                                            <br>
+                                            <br>
+                                        {% endif %}
+
+                                        <div class="btn btn-primary btn-icon-split">
+                                            <span class="btn btn-primary   btn-file">
+                                                <i class="fas fa-upload"></i>
+                                                    <input type="file" id="file">
+                                            <span class="text">Actualizar foto</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <label for="nombres">Nombres: <input type="text"
+                                                                                 class="form-control form-control-user"
+                                                                                 value='{{ usuario.nombres }}'
+                                                                                 id="nombres" name="nombres" size="1000"
+                                                                                 onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                                                 required></label>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="col-sm-6">
+                                            <label for="apellidos">Apellidos: <input type="text"
+                                                                                     class="form-control form-control-user"
+                                                                                     value="{{ usuario.apellidos }}"
+                                                                                     id="apellidos" name="apellidos"
+                                                                                     size="1000"
+                                                                                     onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                                                     required></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <label for="cedula">Cedula:<input type="text"
+                                                                              class="form-control form-control-user"
+                                                                              value="{{ usuario.cedula }}"
+                                                                              id="cedula" name="cedula" size="1000"
+                                                                              maxlength="10"
+                                                                              onkeypress="return soloNumeros(event)"
+
+                                                                              required></label>
+
+                                            <div id="salida" class="text-danger"></div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="username">Correo: <input type="email"
+                                                                               class="form-control form-control-user"
+                                                                               value="{{ usuario.username }}"
+                                                                               id="username" name="username" size="1000"
+                                                                               required></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="fechaNacimiento">Fecha de Nacimiento:
+                                            <input class="form-control" id="fechaNacimiento"
+                                                   value="{{ usuario.fechaNacimiento }}" name="fechaNacimiento"
+                                                   placeholder="Seleccionar fecha" data-toggle="datepicker"
+                                                   autocomplete="off">
+                                        </label>
+
+                                    </div>
+                                    <div align="center">
+                                        <button type="submit" class="btn btn btn-primary btn-user">Guardar Cambios
+                                        </button>
+                                        <a class="btn btn btn-danger btn-user"
+                                           href="{% url 'gestionsistema:base' %}">Cancelar</a>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {# <h3 class="page-header">Demo</h3>#}
+    {#        <div class="docs-datepicker">#}
+    {#          <div class="input-group">#}
+    {#            <input type="text" class="form-control docs-date" name="date" placeholder="Pick a date" autocomplete="off">#}
+    {#            <div class="input-group-append">#}
+    {#              <button type="button" class="btn btn-outline-secondary docs-datepicker-trig" >#}
+    {#                <i class="fa fa-calendar" aria-hidden="false"></i>#}
+    {#              </button>#}
+    {#            </div>#}
+    {#          </div>#}
+    {#          <div class="docs-datepicker-container"></div>#}
+    {#        </div>#}
+    {#      </div>#}
+
+
+{% endblock %}
+

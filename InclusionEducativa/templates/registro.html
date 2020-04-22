@@ -23,8 +23,7 @@
     <!-- Datepicker styles for this template-->
     <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet"
-          href="{% static 'css/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
 
 
 </head>
@@ -48,11 +47,11 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="text" class="form-control form-control-user" name="nombres"
-                                           placeholder="Nombres" required>
+                                           placeholder="Nombres" onkeyup="mayus(this);" required>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-user" name="apellidos"
-                                           placeholder="Apellidos" required>
+                                           placeholder="Apellidos" onkeyup="mayus(this);" required>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -61,9 +60,11 @@
                                            placeholder="Correo electrónico" required>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" name="cedula" id="cedula"
-                                           placeholder="Cedula" onkeypress="return validarCedula(event)" maxlength="10" required>
-                                    <div id="salida"></div>
+                                    <input type="text" class="form-control form-control-user color" name="cedula"
+                                           id="cedula"
+                                           placeholder="Cedula" onkeypress="return validarCedula(event)" maxlength="10"
+                                           required>
+                                    <span id="spanCedula"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -87,14 +88,29 @@
                                 </div>
                             </div>
                             <div id="aviso_contrasena"></div>
-                            <hr>
-                            <div class="form-group">
-                                <select class="selectpicker" name="tipo_usuario" required>
-                                    <option value="" disabled selected>Escoger una opción</option>
-                                    <option value="Experto">Experto</option>
-                                    <option value="Docente">Docente</option>
-                                    <option value="Representante">Representante</option>
-                                </select>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label class="text-md-center font-weight-bold text-primary">INSTITUCION &nbsp
+                                        <select class="selectpicker" name="institucion" required>
+                                            <option value="" disabled selected>Escoger una opción</option>
+                                            {% if instituciones %}
+                                                {% for institucion in instituciones %}
+                                                    <option value="{{ institucion.id }}">{{ institucion.nombre }}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-md-center font-weight-bold text-primary">ROL &nbsp
+                                        <select class="selectpicker" name="tipo_usuario" required>
+                                            <option value="" disabled selected>Escoger una opción</option>
+                                            <option value="Experto">Experto</option>
+                                            <option value="Docente">Docente</option>
+                                            <option value="Representante">Representante</option>
+                                        </select>
+                                    </label>
+                                </div>
                             </div>
                             <hr>
                             <div id="form2"></div>
@@ -104,10 +120,10 @@
                         </form>
                         <hr>
                         <div class="text-center">
-                            <a class="small" href="forgot-password.html">Forgot Password?</a>
+                            <a class="small" href="forgot-password.html">Olvide mi contraseña?</a>
                         </div>
                         <div class="text-center">
-                            <a class="small" href="login.html">Already have an account? Login!</a>
+                            <a class="small" href="{% url 'login' %}">Ya tengo una cuenta? Iniciar Sesion!</a>
                         </div>
                     </div>
                 </div>
@@ -234,67 +250,59 @@
 </script>
 
 <script>
-
     function validarCedula(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
             return false;
-        } else
-            var cad = "";
-        $("#cedula").on('input', function () {
-            document.getElementById("salida").innerHTML = ("La cedula es incorrecta");
-            cad = $(this).val();
-            var total = 0;
-            var longitud = cad.length;
-            var longcheck = longitud - 1;
-            console.log("tamano = " + longitud);
-            if (cad !== "") {
-                for (i = 0; i < longcheck; i++) {
-                    if (i % 2 === 0) {
-                        var aux = cad.charAt(i) * 2;
-                        if (aux > 9) aux -= 9;
-                        total += aux;
+        } else {
+            var cedula = "";
+            $("#cedula").on('input', function () {
+                document.getElementById("spanCedula").innerHTML = ('<span class="text-danger">La cedula es incorrecta</span>');
+                cedula = $(this).val();
+                var total = 0;
+                var longitud = cedula.length;
+                var longcheck = longitud - 1;
+                if (cedula !== "") {
+                    for (i = 0; i < longcheck; i++) {
+                        if (i % 2 === 0) {
+                            var aux = cedula.charAt(i) * 2;
+                            if (aux > 9) aux -= 9;
+                            total += aux;
+                        } else {
+                            total += parseInt(cedula.charAt(i)); // parseInt o concatenará en lugar de sumar
+                        }
+                    }
+                    total = total % 10 ? 10 - total % 10 : 0;
+                    if (cedula.charAt(longitud - 1) == total) {
+                        $.ajax({
+                            url: "{% url 'gestionsistema:buscarUsuario'  %}",
+                            type: "get",
+                            data: {
+                                'cedula': cedula,
+                            },
+                            success: function (data) {
+                                if (data != null) {
+                                    document.getElementById("spanCedula").innerHTML = ('<span class="text-danger">La cedula ya existe</span>');
+                                }
+                            },
+                            error: function () {
+                                console.log('No se encontraron coicidencias');
+                            }
+                        });
+                        document.getElementById("spanCedula").innerHTML = ('<span class="text-success">Cedula correcta</span>');
                     } else {
-                        total += parseInt(cad.charAt(i)); // parseInt o concatenará en lugar de sumar
+                        document.getElementById("spanCedula").innerHTML = ('<span class="text-danger">La cedula es incorrecta</span>');
                     }
                 }
-                total = total % 10 ? 10 - total % 10 : 0;
-                if (cad.charAt(longitud - 1) == total) {
-                    document.getElementById("salida").innerHTML = ("Cedula correcta");
-
-                    $.ajax({
-                        url: "{% url 'gestionsistema:buscarUsuario'  %}",
-                        type: "get", // or "get"
-                        data: {
-                            'cedula': cad,
-
-                        },
-                        success: function (data) {
-                           console.log("entro a success");
-                            if (data != null) {
-                                console.log(data[0]);
-                                document.getElementById("salida").innerHTML = ("Cedula ya existe");
-                            }
-                        },
-                        error: function () {
-                            console.log('error' + data.error())
-                        }
-                    });
-                    estadoCedula = true;
-
-                } else {
-                    document.getElementById("salida").innerHTML = ("La cedula es incorrecta");
-
-                }
-            }
-        });
-
-
-        return true;
-
-
+            });
+        }
     }
+</script>
 
+<script>
+    function mayus(e) {
+        e.value = e.value.toUpperCase();
+    }
 </script>
 
 </body>

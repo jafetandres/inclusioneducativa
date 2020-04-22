@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     url(r'^$', base, name='base'),
 
-
     url(r'^institucion_listar$', login_required(InstitucionListar), name='institucion_listar'),
     url(r'^institucion_crear$', login_required(InstitucionCrear), name='institucion_crear'),
     url(r'^institucion_editar/(?P<id_institucion>\d+)/$', login_required(InstitucionEditar), name='institucion_editar'),
@@ -27,7 +26,7 @@ urlpatterns = [
         name='representante_eliminar'),
     url(r'^perfil/(?P<id_usuario>\d+)/$', login_required(perfil),
         name='perfil'),
-    url(r'^buscarUsuario$', login_required(buscarUsuario),
+    url(r'^buscarUsuario$', buscarUsuario,
         name='buscarUsuario'),
 
 ]

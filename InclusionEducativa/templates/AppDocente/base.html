@@ -13,14 +13,14 @@
         <meta name="author" content="">
 
         <title>Portal Docente</title>
-
         <!-- Custom fonts for this template-->
         <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
               rel="stylesheet">
-
         <!-- Custom styles for this template-->
         <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
 
     </head>
 {% endblock %}
@@ -113,7 +113,7 @@
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                              aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{% url 'appdocente:perfil' usuario_logueado.id %}">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Perfil
                             </a>
@@ -249,6 +249,17 @@
         <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
         <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
 
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+
+        <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+        <script src="{% static 'js/i18n/defaults-es_ES.min.js' %}"></script>
+
+
+        <script>
+            $('select').selectpicker();
+        </script>
+
         <script>
             function habilitarP2L1(value) {
                 if (value == "Si") {
@@ -321,7 +332,6 @@
                 } else if (value == "Si") {
                     document.getElementById("diagnosticoMedicoOpcion").disabled = false;
                 }
-
                 if (value == "Sindrome") {
 
                     document.getElementById("diagnosticoMedicoDescripcion").disabled = false;

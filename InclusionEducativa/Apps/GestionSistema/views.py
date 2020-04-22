@@ -24,8 +24,9 @@ def index(request):
 
 def base(request):
     usuario_logueado = request.user
+    usuarios = Usuario.objects.all().order_by('is_active', '-is_active')
     return render(request, 'GestionSistema/base.html',
-                  {'usuario_logueado': usuario_logueado, 'notificaciones': notificaciones})
+                  {'usuario_logueado': usuario_logueado, 'notificaciones': notificaciones, 'usuarios': usuarios})
 
 
 def curriculum(request):
@@ -39,6 +40,7 @@ def notificaciones(request):
 
 
 def crearUsuario(request):
+    instituciones = Institucion.objects.all()
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
@@ -54,7 +56,7 @@ def crearUsuario(request):
             print(form.errors)
     else:
         form = UsuarioForm()
-    return render(request, 'registro.html', {'form': form})
+    return render(request, 'registro.html', {'form': form, 'instituciones': instituciones})
 
 
 def cambiarPassword(request):
@@ -346,11 +348,11 @@ def login_view(request):
             if usuario.is_active:
                 if user is not None:
                     login(request, user)
-                    if user.tipo_usuario == 'Docente':
+                    if user.tipo_usuario == 'DOCENTE':
                         return redirect('appdocente:base')
-                    elif user.tipo_usuario == 'Experto':
+                    elif user.tipo_usuario == 'EXPERTO':
                         return redirect('appexperto:base')
-                    elif user.tipo_usuario == 'Representante':
+                    elif user.tipo_usuario == 'REPRESENTANTE':
                         return redirect('apprepresentante:base')
                     return redirect('gestionsistema:base')
                 else:
@@ -381,7 +383,6 @@ def perfil(request, id_usuario):
 
 
 def buscarUsuario(request):
-    print(request.GET['cedula'])
     if 'cedula' in request.GET:
         if Usuario.objects.filter(cedula=request.GET['cedula']).exists():
             usuario1 = Usuario.objects.filter(cedula=request.GET['cedula'])

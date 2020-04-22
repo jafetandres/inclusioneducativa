@@ -322,34 +322,65 @@
 
             </div>
             {% block contenido %}
+                <div class="table-responsive">
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800" align="center">Usuarios</h1>
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Lista de Usuarios</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <td><b>Estado</b></td>
+                                        <td><b>Nombres</b></td>
+                                        <td><b>Apellidos</b></td>
+                                        <td><b>Rol</b></td>
+                                        <td><b>Cedula</b></td>
+                                        <td><b>Perfil</b></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if usuarios %}
+                                        {% for usuario in usuarios %}
+                                            <tr>
+                                                {% if usuario.is_active == True %}
+                                                    <td><a class="btn btn-danger"
+                                                           href="{% url 'gestionsistema:institucion_editar' usuario.id %}">Deshabilitar
+                                                    </a>
+                                                    </td>
+                                                {% else %}
+                                                    <td><a class="btn btn-success"
+                                                           href="{% url 'gestionsistema:institucion_editar' usuario.id %}">Habilitar
+                                                    </a>
+                                                    </td>
+                                                {% endif %}
+                                                <td>{{ usuario.nombres }}</td>
+                                                <td>{{ usuario.apellidos }}</td>
+                                                <td>{{ usuario.tipo_usuario }}</td>
+                                                <td>{{ usuario.cedula }}</td>
+
+                                                <td>
+                                                    <a class="btn btn-primary"
+                                                       href="{% url 'gestionsistema:institucion_editar' usuario.id %}">Ver
+                                                        <i class="fa fa-search"></i></a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <h4>No hay registros de Usuarios.</h4>
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-                <!-- Content Row -->
-
-                {#                <div class="row">#}
-                {##}
-                {##}
-                {##}
-                {#                    <div class="col-xl-3 col-md-6 mb-4">#}
-                {#                        <div class="card border-left-success shadow h-100 py-2">#}
-                {#                            <div class="card-body">#}
-                {#                                <div class="row no-gutters align-items-center">#}
-                {#                                    <div class="col mr-2">#}
-                {#                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>#}
-                {#                                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>#}
-                {#                                    </div>#}
-                {#                                    <div class="col-auto">#}
-                {#                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>#}
-                {#                                    </div>#}
-                {#                                </div>#}
-                {#                            </div>#}
-                {#                        </div>#}
-                {#                    </div>#}
-                {#                </div>#}
-
-
-
-                <!-- End of Main Content -->
 
             {% endblock %}
             {% block footer %}
@@ -430,21 +461,20 @@
                                     console.log("status: " + data[i].fields.unread);
                                     if (data[i].fields.unread == true) {
                                         unread++;
-                                        html1 = '   <a class="dropdown-item d-flex align-items-center"  href="'+data[i].fields.verb+'">\n' +
+                                        html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +
                                             '                                <div class="mr-3">\n' +
                                             '                                    <div class="icon-circle bg-primary">\n' +
                                             '                                        <i class="fas fa-file-alt text-white"></i>\n' +
                                             '                                    </div>\n' +
                                             '                                </div>\n' +
                                             '                                <div>\n' +
-                                            '                                    <div class="small text-gray-500">'+data[i].fields.timestamp+'</div>\n' +
-                                            '                                    <span class="font-weight-bold"> '+data[i].fields.description+'</span>\n' +
+                                            '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +
+                                            '                                    <span class="font-weight-bold"> ' + data[i].fields.description + '</span>\n' +
                                             '                                </div>\n' +
-                                            '                            </a>'+html1;
+                                            '                            </a>' + html1;
 
                                     }
                                 }
-                                console.log(unread);
                                 if (unread > 0) {
                                     html = unread;
                                     $('#unread_notifications').html(html);
