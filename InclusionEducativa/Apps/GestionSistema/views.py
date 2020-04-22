@@ -59,6 +59,20 @@ def crearUsuario(request):
     return render(request, 'registro.html', {'form': form, 'instituciones': instituciones})
 
 
+def activarUsuario(request, id_usuario):
+    usuario = Usuario.objects.get(id=id_usuario)
+    usuario.is_active = True
+    usuario.save()
+    return redirect('gestionsistema:base')
+
+
+def desactivarUsuario(request, id_usuario):
+    usuario = Usuario.objects.get(id=id_usuario)
+    usuario.is_active = False
+    usuario.save()
+    return redirect('gestionsistema:base')
+
+
 def cambiarPassword(request):
     if request.method == 'POST':
         usuario = Usuario.objects.get(id=request.user.id)

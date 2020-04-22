@@ -338,6 +338,7 @@
                                         <td><b>Estado</b></td>
                                         <td><b>Nombres</b></td>
                                         <td><b>Apellidos</b></td>
+                                        <td><b>Correo</b></td>
                                         <td><b>Rol</b></td>
                                         <td><b>Cedula</b></td>
                                         <td><b>Perfil</b></td>
@@ -348,18 +349,19 @@
                                         {% for usuario in usuarios %}
                                             <tr>
                                                 {% if usuario.is_active == True %}
-                                                    <td><a class="btn btn-danger"
-                                                           href="{% url 'gestionsistema:institucion_editar' usuario.id %}">Deshabilitar
+                                                    <td class="text-center"><a class="btn btn-danger"
+                                                                               href="{% url 'gestionsistema:desactivarUsuario' usuario.id %}">Desactivar
                                                     </a>
                                                     </td>
                                                 {% else %}
-                                                    <td><a class="btn btn-success"
-                                                           href="{% url 'gestionsistema:institucion_editar' usuario.id %}">Habilitar
+                                                    <td class="text-center"><a class="btn btn-success"
+                                                                               href="{% url 'gestionsistema:activarUsuario' usuario.id %}">Activar
                                                     </a>
                                                     </td>
                                                 {% endif %}
                                                 <td>{{ usuario.nombres }}</td>
                                                 <td>{{ usuario.apellidos }}</td>
+                                                <td>{{ usuario.username }}</td>
                                                 <td>{{ usuario.tipo_usuario }}</td>
                                                 <td>{{ usuario.cedula }}</td>
 
@@ -448,7 +450,6 @@
             $('#dataTable').dataTable({
                 paging: true,
                 searching: true,
-                "order": [[0, "desc"]],
                 language: {
                     search: "Buscar:",
                     lengthMenu: "Mostrar _MENU_ registros",
