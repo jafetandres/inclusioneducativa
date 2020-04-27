@@ -68,7 +68,32 @@ Header
                 <li><a href="#team">Equipo</a></li>
                 <li><a href="#services">Servicios</a></li>
                 <li><a href="#footer">Contáctanos</a></li>
-                <li class="text-lowercase"><a href="{% url 'login' %}"><i class="fa fa-user"></i> Iniciar Sesion</a></li>
+                {% if usuario_logueado.is_authenticated %}
+                    {% if usuario_logueado.tipo_usuario == 'EXPERTO' %}
+                        <li class="text-lowercase"><a href="{% url 'appexperto:base' %}"><i class="fa fa-user"></i> Mi
+                            cuenta</a>
+                        </li>
+                    {% endif %}
+                    {% if usuario_logueado.tipo_usuario == 'ADMINISTRADOR' %}
+                        <li class="text-lowercase"><a href="{% url 'gestionsistema:base' %}"><i class="fa fa-user"></i>
+                            Mi cuenta</a>
+                        </li>
+                    {% endif %}
+                    {% if usuario_logueado.tipo_usuario == 'DOCENTE' %}
+                        <li class="text-lowercase"><a href="{% url 'appdocente:base' %}"><i class="fa fa-user"></i>
+                            Mi cuenta</a>
+                        </li>
+                    {% endif %}
+                    {% if usuario_logueado.tipo_usuario == 'REPRESENTANTE' %}
+                        <li class="text-lowercase"><a href="{% url 'apprepresentante:base' %}"><i
+                                class="fa fa-user"></i>
+                            Mi cuenta</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="text-lowercase"><a href="{% url 'login' %}"><i class="fa fa-user"></i> Iniciar Sesion</a>
+                    </li>
+                {% endif %}
             </ul>
 
 
@@ -87,7 +112,22 @@ Header
             <div class="col-md-6 intro-info order-md-first order-last">
                 <h2 align="center">Plataforma de Inclusión<span>Educativa</span></h2>
                 <div>
-                    <a href="{% url 'crearUsuario' %}" class="btn-get-started scrollto">Quiero ser parte</a>
+                    {% if usuario_logueado.is_authenticated %}
+                        {% if usuario_logueado.tipo_usuario == 'EXPERTO' %}
+                            <a href="{% url 'appexperto:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
+                        {% endif %}
+                        {% if usuario_logueado.tipo_usuario == 'ADMINISTRADOR' %}
+                            <a href="{% url 'gestionsistema:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
+                        {% endif %}
+                        {% if usuario_logueado.tipo_usuario == 'DOCENTE' %}
+                            <a href="{% url 'appdocente:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
+                        {% endif %}
+                        {% if usuario_logueado.tipo_usuario == 'REPRESENTANTE' %}
+                            <a href="{% url 'apprepresentante:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'crearUsuario' %}" class="btn-get-started scrollto">Quiero ser parte</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-md-6 intro-img order-md-last order-first text-center">

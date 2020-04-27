@@ -19,8 +19,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def index(request):
-    return render(request, 'index.html')
-
+    usuario_logueado = None
+    if request.user.is_authenticated:
+        usuario_logueado = Usuario.objects.get(id=request.user.id)
+    return render(request, 'index.html', {'usuario_logueado': usuario_logueado})
 
 def base(request):
     usuario_logueado = request.user
@@ -44,16 +46,17 @@ def crearUsuario(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
         if form.is_valid():
-            usuario = form.save()
-            usuario.is_active = False
-            usuario.set_password(form.cleaned_data.get('password'))
-            usuario.save()
-            administradores = Usuario.objects.filter(tipo_usuario='Administrador')
-            sistema = Usuario.objects.get(username='jafetandres@hotmail.com')
-            notify.send(sistema, recipient=administradores, verb="/", description="Nuevo usuario registrado")
-            return redirect('index')
-        else:
-            print(form.errors)
+            if request.POST['password'] == request.POST['password2']:
+                usuario = form.save()
+                usuario.is_active = False
+                usuario.set_password(form.cleaned_data.get('password'))
+                usuario.save()
+                administradores = Usuario.objects.filter(tipo_usuario='Administrador')
+                sistema = Usuario.objects.get(username='jafetandres@hotmail.com')
+                notify.send(sistema, recipient=administradores, verb="/", description="Nuevo usuario registrado")
+                return redirect('index')
+            else:
+                messages.error(request, 'Verifique que todos los campos esten correctos')
     else:
         form = UsuarioForm()
     return render(request, 'registro.html', {'form': form, 'instituciones': instituciones})

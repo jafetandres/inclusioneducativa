@@ -25,6 +25,35 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
 
+    <style>
+        #aviso_contrasena {
+            display: none;
+            position: relative;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        .valid {
+            color: green;
+        }
+
+        .valid:before {
+            position: relative;
+            left: -35px;
+            content: "✔";
+        }
+
+        .invalid {
+            color: red;
+        }
+
+        .invalid:before {
+            position: relative;
+            left: -35px;
+            content: "✖";
+        }
+    </style>
+
 
 </head>
 
@@ -42,6 +71,11 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Registrate!</h1>
                         </div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="alert alert-info">{{ message }}</p>
+                            {% endfor %}
+                        {% endif %}
                         <form class="user" method="post">
                             {% csrf_token %}
                             <div class="form-group row">
@@ -79,15 +113,24 @@
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="password" class="form-control form-control-user"
                                            name="password" id="password"
-                                           placeholder="Contraseña" required>
+                                           placeholder="Contraseña"
+                                           required>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="password" class="form-control form-control-user"
                                            name="password2" id="password2"
                                            placeholder="Repita la contraseña" required>
+                                    <span id="span_contrasena"></span>
                                 </div>
                             </div>
-                            <div id="aviso_contrasena"></div>
+                            <div id="aviso_contrasena">
+                                <h6>La contraseña debe cumplir lo siguiente:</h6>
+                                <p id="letter" class="invalid">Una <b>letra</b> minuscula</p>
+                                <p id="capital" class="invalid">Una <b>letra</b> mayuscula</p>
+                                <p id="number" class="invalid">Un <b>numero</b></p>
+                                <p id="length" class="invalid">Minimo debe contener <b>8 caracteres</b>
+                                </p>
+                            </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label class="text-md-center font-weight-bold text-primary">INSTITUCION &nbsp
@@ -153,7 +196,6 @@
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
 <script src="{% static 'js/i18n/defaults-es_ES.min.js' %}"></script>
 
-
 <script>
 
     $('#fechaNacimiento').datepicker({
@@ -209,44 +251,61 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        //variables
-        var pass1 = $('[name=password]');
-        var pass2 = $('[name=password2]');
-        var confirmacion = "Las contraseñas coinciden";
-        var longitud = "La contraseña debe estar formada entre 6-10 carácteres";
-        var negacion = "No coinciden las contraseñas";
-        var vacio = "La contraseña no puede estar vacía";
-        //oculto por defecto el elemento span
-        var span = $('<span></span>').insertAfter(pass2);
-        span.hide();
-
-        //función que comprueba las dos contraseñas
-        function coincidePassword() {
-            var valor1 = pass1.val();
-            var valor2 = pass2.val();
-            //muestro el span
-            span.show().removeClass();
-            //condiciones dentro de la función
-            if (valor1 != valor2) {
-                span.text(negacion).addClass('negacion');
-            }
-            if (valor1.length == 0 || valor1 == "") {
-                span.text(vacio).addClass('negacion');
-            }
-            if (valor1.length < 6 || valor1.length > 10) {
-                span.text(longitud).addClass('negacion');
-            }
-            if (valor1.length != 0 && valor1 == valor2) {
-                span.text(confirmacion).removeClass("negacion").addClass('confirmacion');
-            }
+    var myInput = document.getElementById("password");
+    var myInput2 = document.getElementById("password2");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+    myInput.onfocus = function () {
+        document.getElementById("aviso_contrasena").style.display = "block";
+    }
+    myInput.onblur = function () {
+        document.getElementById("aviso_contrasena").style.display = "none";
+    }
+    myInput.onkeyup = function () {
+        var lowerCaseLetters = /[a-z]/g;
+        if (myInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+        var upperCaseLetters = /[A-Z]/g;
+        if (myInput.value.match(upperCaseLetters)) {
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+        } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+        }
+        var numbers = /[0-9]/g;
+        if (myInput.value.match(numbers)) {
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+        if (myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
         }
 
-        //ejecuto la función al soltar la tecla
-        pass2.keyup(function () {
-            coincidePassword();
-        });
-    });
+    }
+    myInput2.onkeyup = function () {
+        if (myInput.value == myInput2.value && myInput2.value.length >=8) {
+            document.getElementById("span_contrasena").innerHTML = '<span class="text-success">Las contraseñas coinciden</span>';
+
+        } else {
+            document.getElementById("span_contrasena").innerHTML = '<span class="text-danger">Las contraseñas no coinciden</span>';
+        }
+
+    }
 </script>
 
 <script>
