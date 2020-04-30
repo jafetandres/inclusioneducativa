@@ -8,57 +8,47 @@
             <div class="container-fluid">
                 <form method="post" class="user">
                     {% csrf_token %}
-
-                    <div class="container">
-
-                        {#                        <a target="_blank" href="{% url 'django_chatter:index' %}">CHAT CASO</a>#}
+                    <div class="container-fluid">
                         <br>
                         <br>
-
-                        <h1 class="h3 mb-2 text-gray-800" align="center">Datos Personales</h1>
+                        <h1 class="h3 mb-2 text-gray-800 text-center">Datos Personales</h1>
                         <br>
                         <br>
-
-
-                        <div class="">
-
-                            <div class="form-group row">
-                                <div class="col-sm-6">
-                                    <label><b>Nombres:</b>
-                                        <p>
-                                            {{ estudianteDocenteFicha.nombres }}
-                                        </p>
-                                    </label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label><b>Apellidos:</b>
-                                        <p>
-                                            {{ estudianteDocenteFicha.apellidos }}
-                                        </p>
-                                    </label>
-                                </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <label><b>Nombres:</b>
+                                    <p>
+                                        {{ estudianteDocenteFicha.nombres }}
+                                    </p>
+                                </label>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6">
-                                    <label><b>Cedula:</b>
-                                        <p>
-                                            {{ estudianteDocenteFicha.cedula }}
-                                        </p>
-                                    </label>
-                                </div>
-                                <div class="col-sm-6">
-
-                                    <label><b>Fecha de Nacimiento:</b>
-                                        <p>
-                                            {{ estudianteDocenteFicha.fechaNacimiento }}
-                                        </p>
-                                    </label>
-                                </div>
+                            <div class="col-sm-6">
+                                <label><b>Apellidos:</b>
+                                    <p>
+                                        {{ estudianteDocenteFicha.apellidos }}
+                                    </p>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <label><b>Cedula:</b>
+                                    <p>
+                                        {{ estudianteDocenteFicha.cedula }}
+                                    </p>
+                                </label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label><b>Fecha de Nacimiento:</b>
+                                    <p>
+                                        {{ estudianteDocenteFicha.fechaNacimiento }}
+                                    </p>
+                                </label>
                             </div>
                         </div>
                         <h1 class="h3 mb-2 text-gray-800" align="center">Ficha Informativa realizada por el Docente</h1>
                         <hr class="sidebar-divider my-0">
-                        <br>
+
                         {% if estudianteDocenteFicha %}
                             <label><b>Nivel que cursa:</b>
                                 <p>
@@ -201,7 +191,66 @@
         </div>
     </div>
 
-
+    {##}
+    {#    <div class="container">#}
+    {#        <h2 class="text-center">Comentarios</h2>#}
+    {#        <div class="card">#}
+    {#            <form method="post" class="user" id="formulario">#}
+    {#                {% csrf_token %}#}
+    {#                <div class="card-body">#}
+    {#                    <div class="row">#}
+    {#                        <div class="col-md-2">#}
+    {#                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>#}
+    {#                        </div>#}
+    {#                        <div class="col-md-10">#}
+    {#                            <p>#}
+    {#                                <a class="float-left"#}
+    {#                                   href="#"><strong>{{ usuarioLogueado.nombres }} {{ usuarioLogueado.apellidos }}</strong></a>#}
+    {#                            </p>#}
+    {#                            <div class="clearfix"></div>#}
+    {#                            <textarea id="contenidoComentario" name="contenidoComentario"></textarea>#}
+    {#            </form>#}
+    {#            <div class="container-fluid">#}
+    {#                <p>#}
+    {#                    <button  id="comentar" class="float-right btn btn-outline-primary ml-2">Comentar#}
+    {#                    </button>#}
+    {#                </p>#}
+    {#            </div>#}
+    {#            <br>#}
+    {#            <br>#}
+    {#            <div id="comentariosHechos" name="comentariosHechos">#}
+    {#                {% if comentarios %}#}
+    {#                    {% for comentario in comentarios %}#}
+    {#                        <div class="card card-inner">#}
+    {#                            <div class="card-body">#}
+    {#                                <div class="row">#}
+    {#                                    <div class="col-md-2">#}
+    {#                                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg"#}
+    {#                                             class="img img-rounded img-fluid"/>#}
+    {#                                        <p class="text-secondary text-center">{{ comentario.fechaCreacion }}</p>#}
+    {#                                    </div>#}
+    {#                                    <div class="col-md-10">#}
+    {#                                        <p>#}
+    {#                                            <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{ comentario.emisor.nombres }} {{ comentario.emisor.apellidos }}</strong></a>#}
+    {#                                        </p>#}
+    {#                                        {{ comentario.contenido }}#}
+    {#                                    </div>#}
+    {#                                </div>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                        <br>#}
+    {#                        <br>#}
+    {#                    {% endfor %}#}
+    {#                {% endif %}#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+    {#    </div>#}
+    {#    </div>#}
+    {#    </div>#}
+    {##}
+    {##}
+    {##}
 
 
 
@@ -213,8 +262,6 @@
                       id="formulario" class="user">
                     {% csrf_token %}
                     <div class="card-body">
-
-
                         <div class="row">
                             <div class="col-md-2">
                                 <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
@@ -222,81 +269,52 @@
                             </div>
                             <div class="col-md-10">
                                 <p>
-                                    <a class="float-left"
-                                    ><strong>{{ usuarioLogueado.username }}</strong></a>
-
+                                    <a class="float-left"><strong>{{ usuarioLogueado.nombres }} {{ usuarioLogueado.apellidos }}</strong></a>
                                 </p>
+                                <br>
                                 <div class="clearfix">
-
-                                    {#                                    <textarea placeholder="Comentar..." name="contenidoComentario"#}
-                                    {#                                              id="contenidoComentario" class="form-control"#}
-                                    {#                                              rows="5"></textarea>#}
-
-
-{#                                    <form method="post">#}
-                                        <textarea id="contenidoComentario" name="contenidoComentario"></textarea>
-{#                                    </form>#}
-
+                                    <textarea id="contenidoComentario" name="contenidoComentario"></textarea>
                                 </div>
-
                                 <br>
                             </div>
                         </div>
                     </div>
-
-
-
-
-
                 </form>
                 <div>
-                    <button type="submit" id="comentar" class="float-right btn btn-outline-primary ml-2">Comentar
+                    <button id="comentar" class="float-right btn btn-outline-primary ml-2">Comentar
                     </button>
                 </div>
-
                 <br>
                 <br>
-
                 <div id="comentariosHechos" name="comentariosHechos">
-
                     {% if comentarios %}
                         {% for comentario in comentarios %}
                             <div class="card card-inner">
-
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-2">
                                             <img src="https://image.ibb.co/jw55Ex/def_face.jpg"
                                                  class="img img-rounded img-fluid"/>
-                                            <p class="text-secondary text-center">15 Minutes Ago</p>
+                                            <p class="text-secondary text-center">{{ comentario.fechaCreacion }}</p>
                                         </div>
                                         <div class="col-md-10">
                                             <p>
-                                                <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{ comentario.emisor }}</strong></a>
+                                                <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{ comentario.emisor.nombres }} {{ comentario.emisor.apellidos }}</strong></a>
                                             </p>
-                                            <p>{{ comentario.contenido }}</p>
+                                           {{ comentario.contenido | safe}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-
                             <br>
                             <br>
                         {% endfor %}
                     {% endif %}
-
                 </div>
-
-
             </div>
-
         </div>
     </div>
-    </div>
+
 
 
 

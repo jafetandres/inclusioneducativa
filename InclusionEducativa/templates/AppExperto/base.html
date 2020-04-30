@@ -1,38 +1,41 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/html">
-{% block head %}
-    <head>
-        <!-- Favicons -->
-        <link href="{% static 'img/favicon.png' %}" rel="icon">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
+<head>
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        <title>Portal Experto</title>
+    <title>Portal Experto</title>
 
-        <!-- SummerNote for this template-->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
-        <!-- Custom fonts for this template-->
-        <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-              rel="stylesheet">
-        <!-- Custom styles for this template-->
-        <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- SummerNote for this template-->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
 
 
-    </head>
-{% endblock %}
+    <!-- Custom styles for this page -->
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
 
-<body id="page-top" class="table_body">
+</head>
+
+<body id="page-top">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
-    {% block sidebar %}
 
+    {% block sidebar %}
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -55,31 +58,6 @@
                     <span>Inicio</span></a>
             </li>
 
-            {#            <!-- Divider -->#}
-            {#            <hr class="sidebar-divider">#}
-            {##}
-            {#            <!-- Heading -->#}
-            {#            <div class="sidebar-heading">#}
-            {#                Administracion#}
-            {#            </div>#}
-            {##}
-            {#            <!-- Nav Item - Pages Collapse Menu -->#}
-            {#            <li class="nav-item">#}
-            {#                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"#}
-            {#                   aria-expanded="true" aria-controls="collapseTwo">#}
-            {#                    <i class="fas fa-fw fa-cog"></i>#}
-            {#                    <span>Mi hijo</span>#}
-            {#                </a>#}
-            {#                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">#}
-            {#                    <div class="bg-white py-2 collapse-inner rounded">#}
-            {#                        <a class="collapse-item" href="{% url 'gestionsistema:experto_listar' %}">Expertos</a>#}
-            {#                        <a class="collapse-item" href="{% url 'gestionsistema:docente_listar' %}">Docentes</a>#}
-            {#                        <a class="collapse-item" href="cards.html">Representantes</a>#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            </li>#}
-
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -91,7 +69,6 @@
         </ul>
 
         <!-- End of Sidebar -->
-
     {% endblock %}
 
 
@@ -103,7 +80,6 @@
         <div id="content">
 
             {% block Topbar %}
-
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -116,68 +92,60 @@
                     <!-- Topbar Navbar -->
                     <div class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                 aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                               placeholder="Search for..." aria-label="Search"
-                                               aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-
-
-                        <li class="nav-item dropdown no-arrow mx-1" id="notificaciones">
-
-                            <a href="#" class="nav-link dropdown-toggle" id="alertsDropdown" role="button"
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
-                                <span class="badge badge-danger badge-counter">{{ notificaciones.count }}</span>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter" id="unread_notifications"></span>
                             </a>
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in">
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
-                                    CASOS NUEVOS
+                                    Notificaciones
                                 </h6>
-                                {% if notificaciones %}
-                                    {% for notificacion in notificaciones %}
-
-                                        <ul type="" class="dropdown-item d-flex align-items-center" id="notice-link">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-primary">
-                                                    <i class="fas fa-file-alt text-white"></i>
-                                                </div>
+                                <div id="unread_notification">
+                                    <a class="dropdown-item d-flex align-items-center"
+                                       href="URL DE LA NOTIFICAION">
+                                        <div class="mr-3">
+                                            <div class="icon-circle bg-primary">
+                                                <i class="fas fa-file-alt text-white"></i>
                                             </div>
-
-
-                                            {#                                        <a class="font-weight-bold"#}
-                                            {#                                           href="{% url 'appexperto:visualizarCaso' notificacion.target %}">#}
-                                            {##}
-                                            {##}
-                                            {#                                            {{ notificacion.descripcion }}#}
-                                            {##}
-                                            {##}
-                                            {#                                        </a>#}
-
-                                        </ul>
-                                    {% endfor %}
-                                {% endif %}
+                                        </div>
+                                        <div>
+                                            <div class="small text-gray-500">FECHA NOTIFICAION</div>
+                                            <span class="font-weight-bold"> DETALLE DE LA NOTIFICAION</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 7, 2019</div>
+                                        $290.29 has been deposited into your account!
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2019</div>
+                                        Spending Alert: We've noticed unusually high spending for your account.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Ver todas las
+                                    notificaciones</a>
                             </div>
                         </li>
-
 
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" target="_blank" href="{% url 'django_chatter:index' %}"
@@ -188,9 +156,7 @@
                             </a>
 
                         </li>
-
                         <div class="topbar-divider d-none d-sm-block"></div>
-
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -199,9 +165,19 @@
                                 {% block usuario %}
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
                                 {% endblock %}
-
-                                <img class="img-profile rounded-circle"
-                                     src="http://pngimages.net/sites/default/files/user-png-image-79267.png">
+                                {% if usuario_logueado.foto %}
+                                    <img class="img-profile rounded-circle" src="{{ usuario_logueado.foto.url }}">
+                                {% else %}
+                                    <svg class="bi bi-people-circle" width="2em" height="2em" viewBox="0 0 16 16"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 008 15a6.987 6.987 0 005.468-2.63z"/>
+                                        <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6z"
+                                              clip-rule="evenodd"/>
+                                        <path fill-rule="evenodd"
+                                              d="M8 1a7 7 0 100 14A7 7 0 008 1zM0 8a8 8 0 1116 0A8 8 0 010 8z"
+                                              clip-rule="evenodd"/>
+                                    </svg>
+                                {% endif %}
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -210,8 +186,6 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
-
-
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal"
                                    data-target="#logoutModal">
@@ -248,12 +222,10 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                     <tr>
-                                        <td>Código</td>
                                         <td>Nombres</td>
                                         <td>Apellidos</td>
                                         <td>Cedula</td>
                                         <td>Institucion</td>
-                                        <td>Comentarios</td>
                                         <td>Acciones</td>
                                     </tr>
                                     </thead>
@@ -261,20 +233,17 @@
                                     {% if fichas_estudiantes %}
                                         {% for ficha_estudiante in fichas_estudiantes %}
                                             <tr>
-                                                <td>{{ ficha_estudiante.ficha.id }}</td>
                                                 <td>{{ ficha_estudiante.ficha.nombres }}</td>
                                                 <td>{{ ficha_estudiante.ficha.apellidos }}</td>
                                                 <td>{{ ficha_estudiante.ficha.cedula }}</td>
                                                 <td>{{ ficha_estudiante.ficha.institucion }}</td>
-                                                <td></td>
-                                                <td>
+                                                <td class="text-center">
                                                     <a class="btn btn-primary"
-                                                       href="{% url 'appexperto:visualizarCaso' ficha_estudiante.ficha.cedula %}">Ver</a>
+                                                       href="{% url 'appexperto:visualizarCaso' ficha_estudiante.ficha.cedula %}">Ver
+                                                        Ficha</a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
-                                    {% else %}
-                                        <h4>No se han agregado fichas</h4>
                                     {% endif %}
                                     </tbody>
                                 </table>
@@ -298,127 +267,183 @@
                     <!-- End of Footer -->
                 {% endblock %}
             </div>
-            <!-- End of Content Wrapper -->
-
         </div>
-        <!-- End of Page Wrapper -->
+    </div>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
 
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
 
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Seguro que desea cerrar sesión?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Selecione Cerrar sesión para salir o Cancelar para volver</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        <a class="btn btn-primary" href="{% url 'logout' %}">Cerrar sesión</a>
-                    </div>
-                </div>
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seguro que desea cerrar sesión?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Selecione Cerrar sesión para salir o Cancelar para volver</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" href="{% url 'logout' %}">Cerrar sesión</a>
             </div>
         </div>
-        {% block js %}
+    </div>
+</div>
+{% block js %}
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+    <script src="{% static 'dist/datepicker.js' %}"></script>
+    <script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
+    <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+    <!-- Summernotes Java scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
 
-            <!-- Bootstrap core JavaScript-->
-            <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-            <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-            <!-- Core plugin JavaScript-->
-            <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-            <!-- Custom scripts for all pages-->
-            <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-            <!-- Page level plugins -->
-            <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
-            <!-- Page level custom scripts -->
-            <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
-            <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
-            <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
-            <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+    <script>
+        $('#dataTable').dataTable({
+            paging: true,
+            searching: true,
+            language: {
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros",
+                info: "Se muestra de _START_ a _END_ registros de _TOTAL_ registros en total",
+                infoEmpty: "Se muestra 0 registros de 0 ",
+                infoFiltered: "(Hay _MAX_ registros en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No existen registros",
+                paginate: {
+                    first: "Primero",
+                    previous: "Previo",
+                    next: "Siguiente",
+                    last: "Anterior"
+                },
+            }
 
+        });
+    </script>
 
+    <script>
+        $(document).ready(function () {
+            $('#contenidoComentario').summernote();
+        });
+    </script>
 
+    <script>
+        $('#comentar').on('click', inicio);
 
-            <script>
-                $(document).ready(function () {
-                    $('#contenidoComentario').summernote();
-                });
-            </script>
-            <script>
+        function inicio() {
+            var contenidoComentario = $('#contenidoComentario').val();
+            $.ajax({
+                url: "{% url 'appexperto:crearComentario' %}",
+                type: "post", // or "get"
+                data: {
+                    'contenidoComentario': contenidoComentario,
+                    'id': {{ estudianteDocenteFicha.id }}
+                },
+                success: function (data) {
+                    console.log(data);
+                    var html = "";
 
+                    for (var i = 0; i < data.length; i++) {
 
-                $('#comentar').on('click', inicio);
+                        html += '    <div class="card card-inner">\n' +
+                            '\n' +
+                            '                                <div class="card-body">\n' +
+                            '                                    <div class="row">\n' +
+                            '                                        <div class="col-md-2">\n' +
+                            '                                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg"\n' +
+                            '                                                 class="img img-rounded img-fluid"/>\n' +
+                            '                                            <p class="text-secondary text-center">15 Minutes Ago</p>\n' +
+                            '                                        </div>\n' +
+                            '                                        <div class="col-md-10">\n' +
+                            '                                            <p>\n' +
+                            '                                                <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>' + data[i].fields.usernameEmisor + '</strong></a>\n' +
+                            '                                            </p>\n' +
+                            '                                            <p>' + data[i].fields.contenido + '</p>\n' +
+                            '                                        </div>\n' +
+                            '                                    </div>\n' +
+                            '                                </div>\n' +
+                            '                            </div>\n  <br>\n' +
+                            '                            <br>';
 
-
-                function inicio() {
-
-
-                    var contenidoComentario = $('#contenidoComentario').val();
-
-
-                    $.ajax({
-                        url: "{% url 'appexperto:crearComentario' %}",
-                        type: "post", // or "get"
-                        data: {
-
-                            'contenidoComentario': contenidoComentario,
-                            'id': {{ estudianteDocenteFicha.id }}
-                        },
-                        success: function (data) {
-
-                            console.log(data);
-                            var html = "";
-
-                            for (var i = 0; i < data.length; i++) {
-
-                                html += '    <div class="card card-inner">\n' +
-                                    '\n' +
-                                    '                                <div class="card-body">\n' +
-                                    '                                    <div class="row">\n' +
-                                    '                                        <div class="col-md-2">\n' +
-                                    '                                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg"\n' +
-                                    '                                                 class="img img-rounded img-fluid"/>\n' +
-                                    '                                            <p class="text-secondary text-center">15 Minutes Ago</p>\n' +
-                                    '                                        </div>\n' +
-                                    '                                        <div class="col-md-10">\n' +
-                                    '                                            <p>\n' +
-                                    '                                                <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>' + data[i].fields.usernameEmisor + '</strong></a>\n' +
-                                    '                                            </p>\n' +
-                                    '                                            <p>' + data[i].fields.contenido + '</p>\n' +
-                                    '                                        </div>\n' +
-                                    '                                    </div>\n' +
-                                    '                                </div>\n' +
-                                    '                            </div>\n  <br>\n' +
-                                    '                            <br>';
-
-                            }
-                            $('#comentariosHechos').html(html);
-
-                        },
-                        error: function () {
-                            alert('There was some error performing the AJAX call!');
-                        }
-                    });
-
+                    }
+                    $('#comentariosHechos').html(html);
+                },
+                error: function () {
+                    alert('There was some error performing the AJAX call!');
                 }
-            </script>
+            });
+        }
+    </script>
 
+    <script>
+        $(document).ready(function () {
+            function cargarNotificaciones() {
+                $.ajax({
+                    url: "{% url 'notificaciones' %}",
+                    success: function (data) {
+                        if (data.length > 0) {
+                            var html = "";
+                            var html1 = "";
+                            console.log(data[0]);
+                            var unread = 0;
+                            for (var i = 0; i < data.length; i++) {
+                                console.log("status: " + data[i].fields.unread);
+                                if (data[i].fields.unread == true) {
+                                    unread++;
+                                    html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +
+                                        '                                <div class="mr-3">\n' +
+                                        '                                    <div class="icon-circle bg-primary">\n' +
+                                        '                                        <i class="fas fa-file-alt text-white"></i>\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>\n' +
+                                        '                                <div>\n' +
+                                        '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +
+                                        '                                    <span class="font-weight-bold"> ' + data[i].fields.description + '</span>\n' +
+                                        '                                </div>\n' +
+                                        '                            </a>' + html1;
 
+                                }
+                            }
+                            if (unread > 0) {
+                                html = unread;
+                                $('#unread_notifications').html(html);
 
-        {% endblock %}
+                                $('#unread_notification').html(html1);
 
+                            } else {
+                                $('#unread_notifications').html('');
+                            }
 
+                        } else {
+                            console.log('menor que 0');
+                            $('#unread_notifications').html('');
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+
+            setInterval(cargarNotificaciones, 500);
+        });
+    </script>
+{% endblock %}
 </body>
-
 </html>

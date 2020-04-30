@@ -153,25 +153,22 @@ def perfil(request, id_usuario):
 
         return redirect('appdocente:base')
     return render(request, 'AppDocente/perfil.html', {'usuario': usuario,
-                                                          'usuario_logueado': usuario_logueado})
+                                                      'usuario_logueado': usuario_logueado})
+
 
 
 def fichaEstudianteCrear(request):
     usuario_logueado = request.user
-
     docente = Docente.objects.get(usuario_id=request.user.id)
-
     if request.method == 'POST':
         form_estudiante = fichaEstudianteForm(request.POST)
         form_dificultad = DificultadForm(request.POST)
         form_diagnosticoMedico = DiagnosticoMedicoForm(request.POST)
         form_diagnosticoSindromico = DiagnosticoSindromicoForm(request.POST)
-
         if request.POST['antecedentesFPatologicos'] == 'Si':
             request.POST._mutable = True
             form_estudiante.antecedentesFPatologicos = 'Si:  ' + request.POST['descripcionAntecedentesFPatologicos']
             request.POST._mutable = False
-
         if form_estudiante.is_valid() and form_dificultad.is_valid() and form_diagnosticoMedico.is_valid() and form_diagnosticoSindromico.is_valid():
             form_dificultad.save()
             form_diagnosticoMedico.save()
@@ -182,9 +179,7 @@ def fichaEstudianteCrear(request):
             estudiante.diagnosticoSindromico = form_diagnosticoSindromico.instance
             estudiante.docente = docente
             estudiante.institucion = docente.institucion
-
             form_estudiante.save()
-
             if (request.POST['todos'] == 'todos'):
                 expertos = Experto.objects.all()
                 # chatusuarios=[]
@@ -193,10 +188,8 @@ def fichaEstudianteCrear(request):
                     expertoFicha.ficha = estudiante
                     expertoFicha.experto = experto
                     expertoFicha.save()
-
             elif (request.POST['psicologo'] == 'psicologo'):
                 experto = Experto.objects.get(tituloUniversitario='PSICOLOGO')
-
                 expertoFicha = ExpertoFicha()
                 expertoFicha.ficha = estudiante
                 expertoFicha.experto = experto
@@ -204,36 +197,28 @@ def fichaEstudianteCrear(request):
 
             elif (request.POST['terapistaLenguaje'] == 'terapistaLenguaje'):
                 experto = Experto.objects.get(tituloUniversitario='TERAPISTA DE LENGUAJE')
-
                 expertoFicha = ExpertoFicha()
                 expertoFicha.ficha = estudiante
                 expertoFicha.experto = experto
                 expertoFicha.save()
-
             elif (request.POST['terapistaFisico'] == 'terapistaFisico'):
                 experto = Experto.objects.get(tituloUniversitario='TERAPISTA FISICO')
-
                 expertoFicha = ExpertoFicha()
                 expertoFicha.ficha = estudiante
                 expertoFicha.experto = experto
                 expertoFicha.save()
-
             elif (request.POST['educador'] == 'educador'):
                 experto = Experto.objects.get(tituloUniversitario='EDUCADOR')
-
                 expertoFicha = ExpertoFicha()
                 expertoFicha.ficha = estudiante
                 expertoFicha.experto = experto
                 expertoFicha.save()
-
             elif (request.POST['estimulador'] == 'estimulador'):
                 experto = Experto.objects.get(tituloUniversitario='ESTIMULADOR TEMPRANO')
-
                 expertoFicha = ExpertoFicha()
                 expertoFicha.ficha = estudiante
                 expertoFicha.experto = experto
                 expertoFicha.save()
-
                 # chatusuarios.append(Usuario.objects.get(id=expertoFicha.experto.usuario.id))
 
                 # notificaion = Notificacion()
@@ -299,7 +284,6 @@ def EstudianteEditar(request, id_estudiante):
 
 def fichaEstudianteListar(request):
     fichasEstudiantes = EstudianteDocente.objects.all()
-
     return render(request, 'AppDocente/fichaEstudianteListar.html', {'fichasEstudiantes': fichasEstudiantes})
 
 
@@ -309,6 +293,3 @@ def EstudianteEliminar(request, id_estudiante):
         estudiante.delete()
         return redirect('appdocente:estudiante_listar')
     return render(request, 'AppDocente/estudiante_eliminar.html', {'estudiante': estudiante})
-
-# def EstudianteTest(request):
-#     return render(request, 'AppDocente/estudiante_test.html')

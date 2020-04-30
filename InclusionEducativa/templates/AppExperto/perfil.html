@@ -1,6 +1,7 @@
 {% extends 'AppExperto/base.html' %}
 {% block usuario %}
-    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+          xmlns="http://www.w3.org/1999/html">{{ usuario_logueado }}</span>
 {% endblock %}
 {% block contenido %}
     <h1 class="h3 mb-2 text-gray-800" align="center">Mi perfil</h1>
@@ -17,13 +18,32 @@
                                 <br>
                                 <br>
                                 <div class="form-group">
-
-                                    <br>
+                                    <div class=" form-group text-center">
+                                        {% if usuario_logueado.foto %}
+                                            <img src="{{ usuario_logueado.foto.url }}"
+                                                 class="img-profile rounded-circle" alt="avatar" width="200"
+                                                 height="200" id="img">
+                                            <br>
+                                            <br>
+                                        {% else %}
+                                            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                                                 class="img-profile rounded-circle" alt="avatar">
+                                            <br>
+                                            <br>
+                                        {% endif %}
+                                        <div class="btn btn-primary btn-icon-split">
+                                            <span class="btn btn-primary   btn-file">
+                                                <i class="fas fa-upload"></i>
+                                                    <input type="file" id="file">
+                                            <span class="text">Actualizar foto</span>
+                                            </span>
+                                        </div>
+                                    </div>
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                             <label for="nombres">Nombres: <input type="text"
                                                                                  class="form-control form-control-user"
-                                                                                 value='{{ experto.usuario.nombres}}'
+                                                                                 value='{{ usuario.nombres }}'
                                                                                  id="nombres" name="nombres" size="1000"
                                                                                  onkeyup="javascript:this.value=this.value.toUpperCase();"
                                                                                  required></label>
@@ -33,7 +53,7 @@
                                         <div class="col-sm-6">
                                             <label for="apellidos">Apellidos: <input type="text"
                                                                                      class="form-control form-control-user"
-                                                                                     value="{{ experto.usuario.apellidos }}"
+                                                                                     value="{{ usuario.apellidos }}"
                                                                                      id="apellidos" name="apellidos"
                                                                                      size="1000"
                                                                                      onkeyup="javascript:this.value=this.value.toUpperCase();"
@@ -44,7 +64,7 @@
                                         <div class="col-sm-6">
                                             <label for="cedula">Cedula:<input type="text"
                                                                               class="form-control form-control-user"
-                                                                              value="{{ experto.usuario.cedula }}"
+                                                                              value="{{ usuario.cedula }}"
                                                                               id="cedula" name="cedula" size="1000"
                                                                               maxlength="10"
                                                                               onkeypress="return soloNumeros(event)"
@@ -55,32 +75,29 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="username">Correo: <input type="email"
-                                                                               class="form-control form-control-user"
-                                                                               value="{{ experto.usuario.username }}"
-                                                                               id="username" name="username" size="1000"
-                                                                               required></label>
+                                                                                 class="form-control form-control-user"
+                                                                                 value="{{ usuario.username }}"
+                                                                                 id="username" name="username"
+                                                                                 size="1000"
+                                                                                 required></label>
                                         </div>
                                     </div>
-
-                                    <div class="col-sm-6">
-                                        <label for="fechaNacimiento">Fecha de Nacimiento:<input type="date"
-                                                                                                class="form-control form-control-user datepicker"
-                                                                                                value="{{ experto.usuario.fechaNacimiento }}"
-                                                                                                data-date-format="yyyy/mm/dd"
-                                                                                                id="fechaNacimiento"
-                                                                                                name="fechaNacimiento"
-                                                                                                required></label>
+                                    <div class="form-group">
+                                        <label for="fechaNacimiento">Fecha de Nacimiento:
+                                            <input class="form-control" id="fechaNacimiento"
+                                                   value="{{ usuario.fechaNacimiento }}" name="fechaNacimiento"
+                                                   placeholder="Seleccionar fecha" data-toggle="datepicker"
+                                                   autocomplete="off">
+                                        </label>
                                     </div>
-
+                                    <div align="center">
+                                        <button type="submit" class="btn btn btn-primary btn-user">Guardar Cambios
+                                        </button>
+                                        <a class="btn btn btn-danger btn-user"
+                                           href="{% url 'gestionsistema:base' %}">Cancelar</a>
+                                    </div>
+                                    <br>
                                 </div>
-
-                                <div align="center">
-                                    <button type="submit" class="btn btn btn-primary btn-user">Guardar Cambios
-                                    </button>
-                                    <a class="btn btn btn-danger btn-user"
-                                       href="{% url 'gestionsistema:base' %}">Cancelar</a>
-                                </div>
-                                <br>
                             </div>
                         </div>
                     </form>
@@ -88,5 +105,5 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
+

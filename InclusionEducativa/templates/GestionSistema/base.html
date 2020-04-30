@@ -2,34 +2,38 @@
 {% load notifications_tags %}
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/html">
-{% block head %}
-    <head>
-        <!-- Favicons -->
-        <link href="{% static 'img/favicon.png' %}" rel="icon">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
 
-        <title>Portal Administrador</title>
+<head>
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        <!-- Custom fonts for this template-->
-        <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-              rel="stylesheet">
+    <title>Portal Administrador</title>
 
-        <!-- Custom styles for this template-->
-        <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
 
-
-        <!-- Custom styles for this page -->
-        <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
-        <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
 
 
-    </head>
-{% endblock %}
+    <!-- Custom styles for this page -->
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+    <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
+    <style>
+        .card-inner {
+            margin-left: 4rem;
+        }
+    </style>
+
+</head>
+
 {% block sidebar %}
     <body id="page-top">
 
@@ -93,6 +97,7 @@
     </ul>
     <!-- End of Sidebar -->
 {% endblock %}
+
 <!-- Content Wrapper -->
 
 <div id="content-wrapper" class="d-flex flex-column">
@@ -428,10 +433,6 @@
     </div>
 
     {% block js %}
-
-
-
-
         <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
         <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
@@ -523,8 +524,8 @@
                 setInterval(changeNumber, 500);
             });
         </script>
-        <script>
 
+        <script>
             $('[data-toggle="datepicker"]').datepicker({
                 language: 'es-ES',
                 format: 'yyyy-mm-dd',
@@ -650,7 +651,6 @@
         </script>
 
         <script>
-
             function readImage(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
@@ -688,12 +688,6 @@
                 };
             }
         </script>
-
-
-
-
-
-
     {% endblock %}
 
 </body>

@@ -71,22 +71,10 @@ class Experto(models.Model):
     experienciaInvestigativa = models.CharField(max_length=50)
 
 
-class Notificacion(models.Model):
-    emisor = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True, blank=True, related_name='emisor')
-    receptor = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True, blank=True, related_name='receptor')
-    tipo = models.CharField(max_length=50, null=True, blank=True)
-    descripcion = models.CharField(max_length=50, null=True, blank=True)
-    target = models.IntegerField(null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    estado = models.BooleanField(null=True, blank=True)
-
-    def __str__(self):
-        return "{0}".format(self.descripcion)
-
-# class Comentario(models.Model):
-#     emisor = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True, blank=True)
-#     # receptor1= models.ForeignKey(EstudianteDocente,on_delete=models.CASCADE, null=True, blank=True)
-#     # receptor2= models.ForeignKey(EstudianteRepresentante,on_delete=models.CASCADE, null=True, blank=True)
-#     contenido = models.CharField(max_length=500, null=True, blank=True)
-# #
-# #
+class Estudiante(models.Model):
+    nombres = models.CharField(max_length=50)
+    apellidos = models.CharField(max_length=50)
+    cedula = models.CharField(unique=True, max_length=50, null=True, blank=True)
+    fechaNacimiento = models.DateField()
+    nivel = models.CharField(max_length=50)
+    institucion = models.ForeignKey(Institucion, on_delete=models.CASCADE, null=True, blank=True)

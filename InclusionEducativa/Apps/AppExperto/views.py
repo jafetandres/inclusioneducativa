@@ -5,27 +5,26 @@ from django.shortcuts import render_to_response, redirect
 from django.shortcuts import render
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
-
 from InclusionEducativa.Apps.AppExperto.models import Comentario
 from InclusionEducativa.Apps.AppRepresentante.models import *
 from InclusionEducativa.Apps.AppDocente.models import EstudianteDocente, ExpertoFicha
 from InclusionEducativa.Apps.GestionSistema.models import *
+from InclusionEducativa.Apps.GestionSistema.forms import *
 
 notificaciones = None
 
 
 def perfil(request):
     usuario_logueado = request.user
-    experto = Experto.objects.get(usuario_id=request.user.id)
-    # form_usuario = UsuarioForm(request.POST, instance=experto)
-    # if request.method == 'POST':
-    #     if form_usuario.is_valid():
-    #         form_usuario.save()
-    #
-    #     return redirect('gestionsistema:base')
-    return render(request, 'AppExperto/perfil.html', {'experto': experto,
-                                                          'usuario_logueado': usuario_logueado})
+    usuario = Usuario.objects.get(id=request.user.id)
+    form_usuario = UsuarioForm(request.POST, instance=usuario)
+    if request.method == 'POST':
+        if form_usuario.is_valid():
+            form_usuario.save()
 
+        return redirect('gestionsistema:base')
+    return render(request, 'AppExperto/perfil.html', {'usuario': usuario,
+                                                      'usuario_logueado': usuario_logueado})
 
 
 def base(request):
@@ -76,7 +75,6 @@ def visualizarCaso(request, cedula):
     estudianteDocenteFicha = None
     estudianteRepresentanteFicha = None
 
-
     if EstudianteRepresentante.objects.filter(cedula=cedula).exists():
         estudianteRepresentanteFicha = EstudianteRepresentante.objects.get(cedula=cedula)
 
@@ -106,32 +104,16 @@ def vizualizarCasoActualizar(request):
 @csrf_exempt
 def crearComentario(request):
     comentarios = Comentario.objects.filter(fichaEstudiante_id=request.POST['id']).order_by('-id')
-
-    print(request.POST['contenidoComentario'])
-
-    # if request.is_ajax():
     if request.method == 'POST':
-        # response_data = {}
-
         comentario = Comentario()
         comentario.contenido = request.POST['contenidoComentario']
         comentario.emisor = request.user
         fichaEstudiante = EstudianteDocente.objects.get(id=request.POST['id'])
         comentario.fichaEstudiante = fichaEstudiante
         comentario.usernameEmisor = request.user.username
-
         comentario.save()
-
-        # response_data['contenido'] = request.POST['contenidoComentario']
-
-        # for comenta in comentarios:
-        #     comenta.emisor.username
         data = serializers.serialize('json', comentarios)
-        print(data)
-
         return HttpResponse(data, content_type='application/json')
-
-    # return render(request, 'AppExperto/verFichaEstudiante.html',{'comentarios':comentarios})
 
 
 def actualizarComentarios(request, id_estudiante):
