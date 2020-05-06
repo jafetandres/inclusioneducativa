@@ -148,9 +148,9 @@
                                     <label class="text-md-center font-weight-bold text-primary">ROL &nbsp
                                         <select class="selectpicker" name="tipo_usuario" required>
                                             <option value="" disabled selected>Escoger una opción</option>
-                                            <option value="Experto">Experto</option>
-                                            <option value="Docente">Docente</option>
-                                            <option value="Representante">Representante</option>
+                                            <option value="EXPERTO">Experto</option>
+                                            <option value="DOCENTE">Docente</option>
+                                            <option value="REPRESENTANTE">Representante</option>
                                         </select>
                                     </label>
                                 </div>
@@ -197,7 +197,6 @@
 <script src="{% static 'js/i18n/defaults-es_ES.min.js' %}"></script>
 
 <script>
-
     $('#fechaNacimiento').datepicker({
         language: 'es-ES',
         format: 'yyyy-mm-dd',
@@ -298,7 +297,7 @@
 
     }
     myInput2.onkeyup = function () {
-        if (myInput.value == myInput2.value && myInput2.value.length >=8) {
+        if (myInput.value == myInput2.value && myInput2.value.length >= 8) {
             document.getElementById("span_contrasena").innerHTML = '<span class="text-success">Las contraseñas coinciden</span>';
 
         } else {

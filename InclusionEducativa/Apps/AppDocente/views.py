@@ -1,14 +1,41 @@
 from random import choice
+from urllib import request
 
+from django.contrib import messages
+from django.core import serializers
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from experta import *
+
 from InclusionEducativa.Apps.AppDocente.forms import *
-from InclusionEducativa.Apps.AppDocente.models import EstudianteDocente
+from InclusionEducativa.Apps.AppDocente.models import *
 from InclusionEducativa.Apps.GestionSistema.models import *
 from InclusionEducativa.Apps.GestionSistema.forms import *
 from django_chatter.utils import create_room
 
 contador = 0
+
+
+def buscarEstudiante(request):
+    docente = Docente.objects.get(usuario_id=request.user.id)
+    usuario_logueado = request.user
+    if request.method == 'POST':
+        ced = request.POST['cedula']
+        valores = [int(ced[x]) * (2 - x % 2) for x in range(9)]
+        suma = sum(map(lambda x: x > 9 and x - 9 or x, valores))
+        if int(ced[9]) == 10 - int(str(suma)[-1:]):
+            if Estudiante.objects.filter(cedula=request.POST['cedula']).exists():
+                estudiante = Estudiante.objects.get(cedula=request.POST['cedula'])
+                return render(request, 'AppDocente/crearFichaInformativa.html',
+                              {'usuario_logueado': usuario_logueado, 'estudiante': estudiante})
+                if FichaInformativa.objects.filter(docente_id=docente.id, estudiante_id=estudiante.id).exists():
+                    messages.error(request, 'Ya ha ingresado la ficha del estudiante')
+            else:
+                return render(request, 'AppDocente/crearFichaInformativa.html',
+                              {'usuario_logueado': usuario_logueado})
+        else:
+            messages.error(request, "La cédula introducida no es válida")
+    return render(request, 'AppDocente/buscarEstudiante.html', {'usuario_logueado': usuario_logueado})
 
 
 class Pregunta1(Fact):
@@ -156,6 +183,130 @@ def perfil(request, id_usuario):
                                                       'usuario_logueado': usuario_logueado})
 
 
+def crearEstudiante(request, cedula):
+    if request.method == 'POST':
+        if Estudiante.objects.filter(cedula=cedula).exists():
+            estudiante = Estudiante.objects.get(cedula=cedula)
+            return estudiante
+        else:
+            form_estudiante = EstudianteForm(request.POST)
+            if form_estudiante.is_valid():
+                estudiante = form_estudiante.save()
+                return estudiante
+
+
+def crearFichaInformativa(request):
+    usuario_logueado = request.user
+    docente = Docente.objects.get(usuario_id=request.user.id)
+    if request.method == 'POST':
+        form_fichaInformativa = FichaInformativaForm(request.POST)
+        form_dificultad = DificultadForm(request.POST)
+        form_diagnosticoMedico = DiagnosticoMedicoForm(request.POST)
+        form_diagnosticoSindromico = DiagnosticoSindromicoForm(request.POST)
+        if form_fichaInformativa.is_valid() and form_dificultad.is_valid() and form_diagnosticoMedico.is_valid() and form_diagnosticoSindromico.is_valid():
+            form_dificultad.save()
+            form_diagnosticoMedico.save()
+            form_diagnosticoSindromico.save()
+            fichaInformativa = form_fichaInformativa.save(commit=False)
+            fichaInformativa.dificultad = form_dificultad.instance
+            fichaInformativa.diagnosticoMedico = form_diagnosticoMedico.instance
+            fichaInformativa.diagnosticoSindromico = form_diagnosticoSindromico.instance
+            fichaInformativa.docente = docente
+            fichaInformativa.estudiante = crearEstudiante()
+            fichaInformativa.save()
+            if (request.POST['todos'] == 'todos'):
+                expertos = Experto.objects.all()
+                # chatusuarios=[]
+                for experto in expertos:
+                    expertoFicha = ExpertoFicha()
+                    expertoFicha.ficha = fichaInformativa
+                    expertoFicha.experto = experto
+                    expertoFicha.save()
+            elif (request.POST['psicologo'] == 'psicologo'):
+                experto = Experto.objects.get(tituloUniversitario='PSICOLOGO')
+                expertoFicha = ExpertoFicha()
+                expertoFicha.ficha = fichaInformativa
+                expertoFicha.experto = experto
+                expertoFicha.save()
+
+            elif (request.POST['terapistaLenguaje'] == 'terapistaLenguaje'):
+                experto = Experto.objects.get(tituloUniversitario='TERAPISTA DE LENGUAJE')
+                expertoFicha = ExpertoFicha()
+                expertoFicha.ficha = fichaInformativa
+                expertoFicha.experto = experto
+                expertoFicha.save()
+            elif (request.POST['terapistaFisico'] == 'terapistaFisico'):
+                experto = Experto.objects.get(tituloUniversitario='TERAPISTA FISICO')
+                expertoFicha = ExpertoFicha()
+                expertoFicha.ficha = fichaInformativa
+                expertoFicha.experto = experto
+                expertoFicha.save()
+            elif (request.POST['educador'] == 'educador'):
+                experto = Experto.objects.get(tituloUniversitario='EDUCADOR')
+                expertoFicha = ExpertoFicha()
+                expertoFicha.ficha = fichaInformativa
+                expertoFicha.experto = experto
+                expertoFicha.save()
+            elif (request.POST['estimulador'] == 'estimulador'):
+                experto = Experto.objects.get(tituloUniversitario='ESTIMULADOR TEMPRANO')
+                expertoFicha = ExpertoFicha()
+                expertoFicha.ficha = fichaInformativa
+                expertoFicha.experto = experto
+                expertoFicha.save()
+                # chatusuarios.append(Usuario.objects.get(id=expertoFicha.experto.usuario.id))
+
+                # notificaion = Notificacion()
+                # notificaion.receptor = usuario
+                # notificaion.emisor = request.user
+                #
+                # notificaion.visto = False
+                # notificaion.target = estudiante.id
+                # notificaion.descripcion = 'NUEVO CASO'
+                #
+                # notificaion.save()
+                #
+                #
+
+            # create_room(chatusuarios)
+
+            #
+            # elif (request.POST['psicologo'] == 'psicologo'):
+            #
+            # # experto = Experto.objects.filter(tituloUniversitario='PSICOLOGO')
+            # # notificaion.receptor = experto
+            #
+            # elif (request.POST['terapistaLenguaje'] == 'terapistaLenguaje'):
+            #
+            # # experto = Experto.objects.filter(tituloUniversitario='TERAPISTA DE LENGUAJE')
+            # # notificaion.receptor = experto
+            #
+            # elif (request.POST['docente'] == 'docente'):
+            #
+            # # experto = Experto.objects.filter(tituloUniversitario='DOCENTE')
+            # # notificaion.receptor = experto
+            #
+            # elif (request.POST['fonoaudiologo'] == 'fonoaudiologo'):
+
+        # experto = Experto.objects.filter(tituloUniversitario='FONOAUDIOLOGO')
+        # notificaion.receptor = experto
+
+        # notify.send(request.user, recipient_list=expertos.usuario, verb='Un nuevo caso llego.', target=estudiante)
+
+        return redirect('appdocente:base')
+    else:
+        form_estudiante = fichaEstudianteForm()
+        form_dificultad = DificultadForm()
+        form_diagnosticoMedico = DiagnosticoMedicoForm()
+        form_diagnosticoSindromico = DiagnosticoSindromicoForm()
+        instituciones = Institucion.objects.all()
+
+    return render(request, 'AppDocente/crearFichaInformativa.html',
+                  {'form_estudiante': form_estudiante, 'form_dificultad': form_dificultad,
+                   'form_diagnosticoMedico': form_diagnosticoMedico,
+                   'form_diagnosticoSindromico': form_diagnosticoSindromico, 'usuario_logueado': usuario_logueado,
+                   'instituciones': instituciones
+                   })
+
 
 def fichaEstudianteCrear(request):
     usuario_logueado = request.user
@@ -264,11 +415,13 @@ def fichaEstudianteCrear(request):
         form_dificultad = DificultadForm()
         form_diagnosticoMedico = DiagnosticoMedicoForm()
         form_diagnosticoSindromico = DiagnosticoSindromicoForm()
+        instituciones = Institucion.objects.all()
 
     return render(request, 'AppDocente/fichaEstudianteCrear.html',
                   {'form_estudiante': form_estudiante, 'form_dificultad': form_dificultad,
                    'form_diagnosticoMedico': form_diagnosticoMedico,
-                   'form_diagnosticoSindromico': form_diagnosticoSindromico, 'usuario_logueado': usuario_logueado
+                   'form_diagnosticoSindromico': form_diagnosticoSindromico, 'usuario_logueado': usuario_logueado,
+                   'instituciones': instituciones
                    })
 
 

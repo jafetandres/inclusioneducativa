@@ -541,18 +541,13 @@
             {#function validarCorreo(evt) {#}
             $("#username").on('input', function () {
                 var username = document.getElementById("username").value;
-
-
                 $.ajax({
                     url: "{% url 'gestionsistema:buscarUsuario'  %}",
                     type: "get", // or "get"
                     data: {
                         'username': username
-
                     },
                     success: function (data) {
-
-
                         if (data != null) {
                             document.getElementById("salidaCorreo").innerHTML = ("El username ya existe");
                             console.log('no sale');

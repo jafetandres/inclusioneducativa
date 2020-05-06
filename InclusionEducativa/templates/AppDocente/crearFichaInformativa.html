@@ -13,25 +13,8 @@
                             <p class="alert alert-info">{{ message }}</p>
                         {% endfor %}
                     {% endif %}
-                    <div class="form-row align-items-center">
-                        <div class="col-auto">
-                            <div class="form-check mb-2">
-                                <label class="form-check-label" for="cedula">
-                                    Ingrese el numero de cedula del estudiante:
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <input type="text" maxlength="10" minlength="10" class="form-control mb-2"
-                                   id="cedula" name="cedula">
-                        </div>
-                        <div class="col-auto">
-                            <button onclick="buscarEstudiante()" class="btn btn-primary mb-2">Empezar</button>
-                        </div>
-                    </div>
-
                     <form method="post" class="user ">
-                        <div id="datosPersonales" hidden>
+                        <div id="datosPersonales">
                             <hr>
                             <div class="p-5">
                                 <div class="text-center">
@@ -41,13 +24,13 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-6 mb-sm-0">
                                         <label>Nombres:<input type="text" class="form-control form-control-user"
-                                                              name="nombres" size="100" id="nombres"
+                                                              name="nombres" size="100" id="nombres" value="{{ estudiante.nombres }}"
                                                               onkeyup="javascript:this.value=this.value.toUpperCase();"
                                                               required></label>
                                     </div>
                                     <div class="col-sm-6">
                                         <label>Apellidos:<input type="text" class="form-control form-control-user"
-                                                                name="apellidos" size="100" id="apellidos"
+                                                                name="apellidos" size="100" id="apellidos" value="{{ estudiante.apellidos }}"
                                                                 onkeyup="javascript:this.value=this.value.toUpperCase();"
                                                                 required></label>
                                     </div>
@@ -93,7 +76,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="fichaInformativa" hidden>
+                        <div id="fichaInformativa">
                             <hr>
                             <div class="p-5">
                                 <div class="text-center">

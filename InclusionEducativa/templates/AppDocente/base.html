@@ -3,10 +3,7 @@
 <html lang="es">
 {% block head %}
     <head>
-
         <meta charset="utf-8">
-
-
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
@@ -21,6 +18,9 @@
         <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+
+        <!-- Datepicker styles for this template-->
+        <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
 
     </head>
 {% endblock %}
@@ -138,7 +138,7 @@
         <div class="container-fluid">
             {% block contenido %}
 
-                <a class="btn btn-success" href="{% url 'appdocente:fichaEstudianteCrear' %}">Crear nueva Ficha</a>
+                <a class="btn btn-success" href="{% url 'appdocente:buscarEstudiante' %}">Crear nueva Ficha</a>
 
                 <hr>
                 <div class="card shadow mb-4">
@@ -255,220 +255,20 @@
         <!-- (Optional) Latest compiled and minified JavaScript translation files -->
         <script src="{% static 'js/i18n/defaults-es_ES.min.js' %}"></script>
 
+        <!-- DatePicker core JavaScript-->
+        <script src="{% static 'dist/datepicker.js' %}"></script>
+        <script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
 
         <script>
-            $('select').selectpicker();
+            $('#fechaNacimiento').datepicker({
+                language: 'es-ES',
+                format: 'yyyy-mm-dd',
+                autoHide: true
+            });
         </script>
 
-        <script>
-            function habilitarP2L1(value) {
-                if (value == "Si") {
-                    // habilitamos
-                    document.getElementById("descripcion_prenatal").disabled = false;
-                } else if (value == "No") {
-                    // deshabilitamos
-                    document.getElementById("descripcion_prenatal").disabled = true;
-                } else if (value == "Desconozco") {
-                    // deshabilitamos
-                    document.getElementById("descripcion_prenatal").disabled = true;
-                }
-            }
-
-            function habilitarP2L2(value) {
-                if (value == "Si") {
-                    // habilitamos
-                    document.getElementById("descripcion_perinatal").disabled = false;
-                } else if (value == "No") {
-                    // deshabilitamos
-                    document.getElementById("descripcion_perinatal").disabled = true;
-                } else if (value == "Desconozco") {
-                    // deshabilitamos
-                    document.getElementById("descripcion_perinatal").disabled = true;
-                }
-            }
-
-            function habilitarP2L3(value) {
-                if (value == "Si") {
-                    // habilitamos
-                    document.getElementById("descripcion_postnatal").disabled = false;
-                } else if (value == "No") {
-                    // deshabilitamos
-                    document.getElementById("descripcion_postnatal").disabled = true;
-                } else if (value == "Desconozco") {
-                    // deshabilitamos
-                    document.getElementById("descripcion_postnatal").disabled = true;
-                }
-            }
-
-            function habilitarP3(value) {
-                if (value == "Otro") {
-                    // habilitamos
-                    document.getElementById("descripcion_tipoFamilia").disabled = false;
-                } else {
-                    // deshabilitamos
-                    document.getElementById("descripcion_tipoFamilia").disabled = true;
-                }
-            }
-
-            function habilitarP5(value) {
-                if (value == "Si") {
-                    // habilitamos
-                    document.getElementById("descripcionAntecedentesFPatologicos").disabled = false;
-                } else if (value == "No") {
-                    // deshabilitamos
-                    document.getElementById("descripcionAntecedentesFPatologicos").disabled = true;
-                } else if (value == "Desconozco") {
-                    // deshabilitamos
-                    document.getElementById("descripcionAntecedentesFPatologicos").disabled = true;
-                }
-            }
 
 
-            function habilitarP6(value) {
-                if (value == "No") {
-                    document.getElementById("diagnosticoMedicoDescripcion").disabled = true;
-                    document.getElementById("diagnosticoMedicoOpcion").disabled = true;
-
-                } else if (value == "Si") {
-                    document.getElementById("diagnosticoMedicoOpcion").disabled = false;
-                }
-                if (value == "Sindrome") {
-
-                    document.getElementById("diagnosticoMedicoDescripcion").disabled = false;
-                } else if (value != "Sindrome") {
-                    document.getElementById("diagnosticoMedicoDescripcion").disabled = true;
-
-                }
-            }
-
-            function habilitarP7(value) {
-                if (value == "No") {
-                    document.getElementById("diagnosticoSindromicoDescripcion").disabled = true;
-                    document.getElementById("diagnosticoSindromicoOpcion").disabled = true;
-
-                } else if (value == "Si") {
-                    document.getElementById("diagnosticoSindromicoOpcion").disabled = false;
-                }
-
-                if (value == "Trastorno") {
-
-                    document.getElementById("diagnosticoSindromicoDescripcion").disabled = false;
-                } else if (value != "Trastorno") {
-                    document.getElementById("diagnosticoSindromicoDescripcion").disabled = true;
-
-                }
-            }
-
-            function habilitarP8(value) {
-
-
-                if (value == "Otro") {
-
-                    document.getElementById("detalleDiagnosticoSindromico").disabled = false;
-                } else if (value != "Otro") {
-                    document.getElementById("detalleDiagnosticoSindromico").disabled = true;
-
-                }
-            }
-
-
-            function habilitaP7() {
-
-
-                if (document.getElementById("p5r2").checked) {
-
-                    document.getElementById("p7r11").disabled = false;
-                    document.getElementById("p7r21").disabled = false;
-                    document.getElementById("p7r31").disabled = false;
-                    document.getElementById("p7r41").disabled = false;
-                    document.getElementById("p7r51").disabled = false;
-                    document.getElementById("p7r61").disabled = false;
-                    document.getElementById("p7r71").disabled = false;
-                    document.getElementById("p7r81").disabled = false;
-                    document.getElementById("p7r91").disabled = false;
-                    document.getElementById("p7r101").disabled = false;
-                    document.getElementById("p7r111").disabled = false;
-                    document.getElementById("p7r121").disabled = false;
-                    document.getElementById("p7r131").disabled = false;
-                    document.getElementById("p7r141").disabled = false;
-                    document.getElementById("p7r151").disabled = false;
-
-
-                } else {
-
-                    document.getElementById("p7r11").disabled = true;
-                    document.getElementById("p7r21").disabled = true;
-                    document.getElementById("p7r31").disabled = true;
-                    document.getElementById("p7r41").disabled = true;
-                    document.getElementById("p7r51").disabled = true;
-                    document.getElementById("p7r61").disabled = true;
-                    document.getElementById("p7r71").disabled = true;
-                    document.getElementById("p7r81").disabled = true;
-                    document.getElementById("p7r91").disabled = true;
-                    document.getElementById("p7r101").disabled = true;
-                    document.getElementById("p7r111").disabled = true;
-                    document.getElementById("p7r121").disabled = true;
-                    document.getElementById("p7r131").disabled = true;
-                    document.getElementById("p7r141").disabled = true;
-                    document.getElementById("p7r151").disabled = true;
-                }
-            }
-        </script>
-
-        <script>
-
-
-            function soloNumeros(evt) {
-                var charCode = (evt.which) ? evt.which : event.keyCode;
-
-                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                    console.log('entro aqui')
-                    return false;
-                } else
-                    {#var cedula = document.getElementById("cedula").value.trim();#}
-                    var cad = "";
-                $("#cedula").on('input', function () {
-
-                    document.getElementById("salida").innerHTML = ("La cedula no existe");
-                    cad = $(this).val();
-
-
-                    var total = 0;
-                    var longitud = cad.length;
-                    var longcheck = longitud - 1;
-                    console.log("tamano = " + longitud);
-
-                    if (cad !== "") {
-                        for (i = 0; i < longcheck; i++) {
-                            if (i % 2 === 0) {
-                                var aux = cad.charAt(i) * 2;
-                                if (aux > 9) aux -= 9;
-                                total += aux;
-                            } else {
-                                total += parseInt(cad.charAt(i)); // parseInt o concatenará en lugar de sumar
-                            }
-                        }
-
-                        total = total % 10 ? 10 - total % 10 : 0;
-
-                        if (cad.charAt(longitud - 1) == total) {
-                            console.log("entro");
-                            document.getElementById("salida").innerHTML = ("Cedula correcta");
-
-                        } else {
-                            document.getElementById("salida").innerHTML = ("La cedula no existe");
-
-                        }
-                    }
-                });
-
-
-                return true;
-
-
-            }
-
-        </script>
 
     {% endblock %}
 </div>

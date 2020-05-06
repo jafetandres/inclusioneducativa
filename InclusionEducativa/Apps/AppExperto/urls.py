@@ -6,7 +6,6 @@ from InclusionEducativa.Apps.AppExperto.views import *
 urlpatterns = [
     url(r'^$', base, name='base'),
     url(r'^visualizarCaso/(?P<cedula>\d+)/$', visualizarCaso, name='visualizarCaso'),
-    url(r'^refrescanotificacion$', vizualizarCasoActualizar, name='refrescanotificacion'),
     url(r'^crearComentario/$', crearComentario, name='crearComentario'),
     url(r'^perfil/$', perfil, name='perfil'),
 

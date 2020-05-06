@@ -5,8 +5,10 @@ from InclusionEducativa.Apps.AppDocente.views import *
 
 urlpatterns = [
     url(r'^$', base, name='base'),
+    url(r'^buscarEstudiante$', buscarEstudiante, name='buscarEstudiante'),
     url(r'^perfil/(?P<id_usuario>\d+)/$', login_required(perfil), name='perfil'),
     url(r'^fichaEstudianteCrear$', fichaEstudianteCrear, name='fichaEstudianteCrear'),
+    url(r'^crearFichaInformativa$', crearFichaInformativa, name='crearFichaInformativa'),
     url(r'^estudiante_test$', EstudianteTest, name='estudiante_test'),
     url(r'^resultado_test$', ResultadoTest, name='resultado_test'),
     url(r'^fichaEstudianteListar$', fichaEstudianteListar, name='fichaEstudianteListar'),

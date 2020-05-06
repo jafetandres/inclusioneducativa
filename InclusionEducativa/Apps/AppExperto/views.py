@@ -11,6 +11,7 @@ from InclusionEducativa.Apps.AppDocente.models import EstudianteDocente, Experto
 from InclusionEducativa.Apps.GestionSistema.models import *
 from InclusionEducativa.Apps.GestionSistema.forms import *
 
+
 notificaciones = None
 
 
@@ -24,7 +25,7 @@ def perfil(request):
 
         return redirect('gestionsistema:base')
     return render(request, 'AppExperto/perfil.html', {'usuario': usuario,
-                                                      'usuario_logueado': usuario_logueado})
+                                                          'usuario_logueado': usuario_logueado})
 
 
 def base(request):
@@ -96,24 +97,38 @@ def visualizarCaso(request, cedula):
                    'usuarioLogueado': usuarioLogueado, 'comentarios': comentarios})
 
 
-def vizualizarCasoActualizar(request):
-    notificaciones = Notificacion.objects.filter(receptor_id=request.user.id)
-    return HttpResponse(request, 'AppExperto/base.html', {'notificaciones': notificaciones})
+
 
 
 @csrf_exempt
 def crearComentario(request):
     comentarios = Comentario.objects.filter(fichaEstudiante_id=request.POST['id']).order_by('-id')
+
+    print(request.POST['contenidoComentario'])
+
+    # if request.is_ajax():
     if request.method == 'POST':
+        # response_data = {}
+
         comentario = Comentario()
         comentario.contenido = request.POST['contenidoComentario']
         comentario.emisor = request.user
         fichaEstudiante = EstudianteDocente.objects.get(id=request.POST['id'])
         comentario.fichaEstudiante = fichaEstudiante
         comentario.usernameEmisor = request.user.username
+
         comentario.save()
+
+        # response_data['contenido'] = request.POST['contenidoComentario']
+
+        # for comenta in comentarios:
+        #     comenta.emisor.username
         data = serializers.serialize('json', comentarios)
+        print(data)
+
         return HttpResponse(data, content_type='application/json')
+
+    # return render(request, 'AppExperto/verFichaEstudiante.html',{'comentarios':comentarios})
 
 
 def actualizarComentarios(request, id_estudiante):

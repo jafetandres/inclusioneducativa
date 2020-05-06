@@ -72,9 +72,9 @@ class Experto(models.Model):
 
 
 class Estudiante(models.Model):
-    nombres = models.CharField(max_length=50)
-    apellidos = models.CharField(max_length=50)
+    nombres = models.CharField(max_length=50, null=True, blank=True)
+    apellidos = models.CharField(max_length=50, null=True, blank=True)
     cedula = models.CharField(unique=True, max_length=50, null=True, blank=True)
-    fechaNacimiento = models.DateField()
+    fechaNacimiento = models.DateField(null=True, blank=True)
     nivel = models.CharField(max_length=50)
     institucion = models.ForeignKey(Institucion, on_delete=models.CASCADE, null=True, blank=True)
