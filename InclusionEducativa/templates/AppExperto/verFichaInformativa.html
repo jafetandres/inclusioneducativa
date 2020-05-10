@@ -18,14 +18,14 @@
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <label><b>Nombres:</b>
                                     <p>
-                                        {{ estudianteDocenteFicha.nombres }}
+                                        {{ estudiante.nombres }}
                                     </p>
                                 </label>
                             </div>
                             <div class="col-sm-6">
                                 <label><b>Apellidos:</b>
                                     <p>
-                                        {{ estudianteDocenteFicha.apellidos }}
+                                        {{ estudiante.apellidos }}
                                     </p>
                                 </label>
                             </div>
@@ -34,14 +34,14 @@
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <label><b>Cedula:</b>
                                     <p>
-                                        {{ estudianteDocenteFicha.cedula }}
+                                        {{ estudiante.cedula }}
                                     </p>
                                 </label>
                             </div>
                             <div class="col-sm-6">
                                 <label><b>Fecha de Nacimiento:</b>
                                     <p>
-                                        {{ estudianteDocenteFicha.fechaNacimiento }}
+                                        {{ estudiante.fechaNacimiento }}
                                     </p>
                                 </label>
                             </div>
@@ -49,43 +49,37 @@
                         <h1 class="h3 mb-2 text-gray-800" align="center">Ficha Informativa realizada por el Docente</h1>
                         <hr class="sidebar-divider my-0">
 
-                        {% if estudianteDocenteFicha %}
-                            <label><b>Nivel que cursa:</b>
-                                <p>
-                                    {{ estudianteDocenteFicha.nivelCursa }}
-                                </p>
-                            </label>
-                            <br/>
+                        {% if fichaInformativaDocente %}
                             <label><b>Dificultad Prenatal:</b>
                                 <p>
-                                    Respuesta: {{ estudianteDocenteFicha.dificultad.respuesta_prenatal }} <br/>
-                                    Descripcion: {{ estudianteDocenteFicha.dificultad.descripcion_prenatal }}
+                                    Respuesta: {{ fichaInformativaDocente.dificultad.respuesta_prenatal }} <br/>
+                                    Descripcion: {{ fichaInformativaDocente.dificultad.descripcion_prenatal }}
                                 </p>
                             </label>
                             <br>
                             <label><b>Dificultad Perinatal:</b>
                                 <p>
-                                    Respuesta: {{ estudianteDocenteFicha.dificultad.respuesta_perinatal }} <br/>
-                                    Descripcion: {{ estudianteDocenteFicha.dificultad.descripcion_perinatal }}
+                                    Respuesta: {{ fichaInformativaDocente.dificultad.respuesta_perinatal }} <br/>
+                                    Descripcion: {{ fichaInformativaDocente.dificultad.descripcion_perinatal }}
                                 </p>
                             </label>
                             <br>
                             <label><b>Dificultad Postnatal:</b>
                                 <p>
-                                    Respuesta: {{ estudianteDocenteFicha.dificultad.respuesta_postnatal }} <br/>
-                                    Descripcion: {{ estudianteDocenteFicha.dificultad.descripcion_postnatal }}
+                                    Respuesta: {{ fichaInformativaDocente.dificultad.respuesta_postnatal }} <br/>
+                                    Descripcion: {{ fichaInformativaDocente.dificultad.descripcion_postnatal }}
                                 </p>
                             </label>
                             <br>
                             <label><b>Tipo de Familia:</b>
                                 <p>
-                                    {{ estudianteDocenteFicha.tipoFamilia }}
+                                    {{ fichaInformativaDocente.tipoFamilia }}
                                 </p>
                             </label>
                             <br>
                             <label><b>Dinamica Familiar:</b>
                                 <p>
-                                    {{ estudianteDocenteFicha.dinamicaFamiliar }}
+                                    {{ fichaInformativaDocente.dinamicaFamiliar }}
                                 </p>
                             </label>
                             <br>
@@ -97,9 +91,9 @@
                             <br>
                             <label><b>Diagnóstico médico:</b>
                                 <p>
-                                    Respuesta: {{ estudianteDocenteFicha.diagnosticoMedico.diagnosticoMedicoRespuesta }}<br/>
-                                    Opcion: {{ estudianteDocenteFicha.diagnosticoMedico.diagnosticoMedicoOpcion }}<br/>
-                                    Descripcion: {{ estudianteDocenteFicha.diagnosticoMedico.diagnosticoMedicoDescripcion }}
+                                    Respuesta: {{ fichaInformativaDocente.diagnosticoMedico.diagnosticoMedicoRespuesta }}<br/>
+                                    Opcion: {{ fichaInformativaDocente.diagnosticoMedico.diagnosticoMedicoOpcion }}<br/>
+                                    Descripcion: {{ fichaInformativaDocente.diagnosticoMedico.diagnosticoMedicoDescripcion }}
 
                                 </p>
                             </label>
@@ -107,9 +101,9 @@
 
                             <label><b>Diagnóstico sindrómico:</b>
                                 <p>
-                                    Respuesta: {{ estudianteDocenteFicha.diagnosticoSindromico.diagnosticoSindromicoRespuesta }}<br/>
-                                    Opcion: {{ estudianteDocenteFicha.diagnosticoSindromico.diagnosticoSindromicoOpcion }}<br/>
-                                    Descripcion: {{ estudianteDocenteFicha.diagnosticoSindromico.diagnosticoSindromicoDescripcion }}
+                                    Respuesta: {{ fichaInformativaDocente.diagnosticoSindromico.diagnosticoSindromicoRespuesta }}<br/>
+                                    Opcion: {{ fichaInformativaDocente.diagnosticoSindromico.diagnosticoSindromicoOpcion }}<br/>
+                                    Descripcion: {{ fichaInformativaDocente.diagnosticoSindromico.diagnosticoSindromicoDescripcion }}
 
                                 </p>
                             </label>
@@ -117,7 +111,7 @@
 
                             <label><b>Detalle de Dificultades:</b>
                                 <p>
-                                    {{ estudianteDocenteFicha.detalleDificultades }}<br/>
+                                    {{ fichaInformativaDocente.detalleDificultades }}<br/>
 
 
                                 </p>
@@ -129,57 +123,51 @@
                             Representante</h1>
                         <hr class="sidebar-divider my-0">
                         <br>
-                        {% if estudianteRepresentanteFicha %}
-                            <label><b>Nivel que cursa:</b>
-                                <p>
-                                    {{ estudianteRepresentanteFicha.nivelCursa }}
-                                </p>
-                            </label>
-                            <br/>
+                        {% if fichaInformativaRepresentante %}
                             <label><b>Dificultad Prenatal:</b>
                                 <p>
-                                    Respuesta: {{ estudianteRepresentanteFicha.dificultad.respuesta_prenatal }} <br/>
-                                    Descripcion: {{ estudianteRepresentanteFicha.dificultad.descripcion_prenatal }}
+                                    Respuesta: {{ fichaInformativaRepresentante.dificultad.respuesta_prenatal }} <br/>
+                                    Descripcion: {{ fichaInformativaRepresentante.dificultad.descripcion_prenatal }}
                                 </p>
                             </label>
                             <br>
                             <label><b>Dificultad Perinatal:</b>
                                 <p>
-                                    Respuesta: {{ estudianteRepresentanteFicha.dificultad.respuesta_perinatal }} <br/>
-                                    Descripcion: {{ estudianteRepresentanteFicha.dificultad.descripcion_perinatal }}
+                                    Respuesta: {{ fichaInformativaRepresentante.dificultad.respuesta_perinatal }} <br/>
+                                    Descripcion: {{ fichaInformativaRepresentante.dificultad.descripcion_perinatal }}
                                 </p>
                             </label>
                             <br>
                             <label><b>Dificultad Postnatal:</b>
                                 <p>
-                                    Respuesta: {{ estudianteRepresentanteFicha.dificultad.respuesta_postnatal }} <br/>
-                                    Descripcion: {{ estudianteRepresentanteFicha.dificultad.descripcion_postnatal }}
+                                    Respuesta: {{ fichaInformativaRepresentante.dificultad.respuesta_postnatal }} <br/>
+                                    Descripcion: {{ fichaInformativaRepresentante.dificultad.descripcion_postnatal }}
                                 </p>
                             </label>
                             <br>
                             <label><b>Tipo de Familia:</b>
                                 <p>
-                                    {{ estudianteRepresentanteFicha.tipoFamilia }}
+                                    {{ fichaInformativaRepresentante.tipoFamilia }}
                                 </p>
                             </label>
                             <br>
                             <label><b>Dinamica Familiar:</b>
                                 <p>
-                                    {{ estudianteRepresentanteFicha.dinamicaFamiliar }}
+                                    {{ fichaInformativaRepresentante.dinamicaFamiliar }}
                                 </p>
                             </label>
                             <br>
                             <label><b>Antecedentes familiares patológicos significativos:</b>
                                 <p>
-                                    {{ estudianteRepresentanteFicha.antecedentesFPatologicos }}
+                                    {{ fichaInformativaRepresentante.antecedentesFPatologicos }}
                                 </p>
                             </label>
                             <br>
                             <label><b>Diagnóstico médicos:</b>
                                 <p>
-                                    Respuesta: {{ estudianteRepresentanteFicha.diagnosticoMedico.diagnosticoMedicoRespuesta }}<br/>
-                                    Opcion: {{ estudianteRepresentanteFicha.diagnosticoMedico.diagnosticoMedicoOpcion }}<br/>
-                                    Descripcion: {{ estudianteRepresentanteFicha.diagnosticoMedico.diagnosticoMedicoDescripcion }}
+                                    Respuesta: {{ fichaInformativaRepresentante.diagnosticoMedico.diagnosticoMedicoRespuesta }}<br/>
+                                    Opcion: {{ fichaInformativaRepresentante.diagnosticoMedico.diagnosticoMedicoOpcion }}<br/>
+                                    Descripcion: {{ fichaInformativaRepresentante.diagnosticoMedico.diagnosticoMedicoDescripcion }}
 
                                 </p>
                             </label>
@@ -190,71 +178,6 @@
             </div>
         </div>
     </div>
-
-    {##}
-    {#    <div class="container">#}
-    {#        <h2 class="text-center">Comentarios</h2>#}
-    {#        <div class="card">#}
-    {#            <form method="post" class="user" id="formulario">#}
-    {#                {% csrf_token %}#}
-    {#                <div class="card-body">#}
-    {#                    <div class="row">#}
-    {#                        <div class="col-md-2">#}
-    {#                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>#}
-    {#                        </div>#}
-    {#                        <div class="col-md-10">#}
-    {#                            <p>#}
-    {#                                <a class="float-left"#}
-    {#                                   href="#"><strong>{{ usuarioLogueado.nombres }} {{ usuarioLogueado.apellidos }}</strong></a>#}
-    {#                            </p>#}
-    {#                            <div class="clearfix"></div>#}
-    {#                            <textarea id="contenidoComentario" name="contenidoComentario"></textarea>#}
-    {#            </form>#}
-    {#            <div class="container-fluid">#}
-    {#                <p>#}
-    {#                    <button  id="comentar" class="float-right btn btn-outline-primary ml-2">Comentar#}
-    {#                    </button>#}
-    {#                </p>#}
-    {#            </div>#}
-    {#            <br>#}
-    {#            <br>#}
-    {#            <div id="comentariosHechos" name="comentariosHechos">#}
-    {#                {% if comentarios %}#}
-    {#                    {% for comentario in comentarios %}#}
-    {#                        <div class="card card-inner">#}
-    {#                            <div class="card-body">#}
-    {#                                <div class="row">#}
-    {#                                    <div class="col-md-2">#}
-    {#                                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg"#}
-    {#                                             class="img img-rounded img-fluid"/>#}
-    {#                                        <p class="text-secondary text-center">{{ comentario.fechaCreacion }}</p>#}
-    {#                                    </div>#}
-    {#                                    <div class="col-md-10">#}
-    {#                                        <p>#}
-    {#                                            <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{ comentario.emisor.nombres }} {{ comentario.emisor.apellidos }}</strong></a>#}
-    {#                                        </p>#}
-    {#                                        {{ comentario.contenido }}#}
-    {#                                    </div>#}
-    {#                                </div>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                        <br>#}
-    {#                        <br>#}
-    {#                    {% endfor %}#}
-    {#                {% endif %}#}
-    {#            </div>#}
-    {#        </div>#}
-    {#    </div>#}
-    {#    </div>#}
-    {#    </div>#}
-    {#    </div>#}
-    {##}
-    {##}
-    {##}
-
-
-
-
     <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
             <div class="container-fluid">
@@ -269,7 +192,7 @@
                             </div>
                             <div class="col-md-10">
                                 <p>
-                                    <a class="float-left"><strong>{{ usuarioLogueado.nombres }} {{ usuarioLogueado.apellidos }}</strong></a>
+                                    <a class="float-left"><strong>{{ usuario_logueado.username }}</strong></a>
                                 </p>
                                 <br>
                                 <div class="clearfix">
@@ -301,7 +224,7 @@
                                             <p>
                                                 <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{ comentario.emisor.nombres }} {{ comentario.emisor.apellidos }}</strong></a>
                                             </p>
-                                           {{ comentario.contenido | safe}}
+                                            {{ comentario.contenido | safe }}
                                         </div>
                                     </div>
                                 </div>
@@ -318,6 +241,76 @@
 
 
 
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script>
+        $(document).ready(function () {
+            function cargarComentarios() {
+                $.ajax({
+                    url: "{% url 'appdocente:comentarios' %}",
+                    type: "get",
+                    data: {
+                        'id': {{ estudiante.id }}
+                    },
+                    success: function (data) {
+                        if (data.length > 0) {
+                            var html = "";
+                            for (var i = 0; i < data.length; i++) {
+                                html += '    <div class="card card-inner">\n' +
+                                    '\n' +
+                                    '                                <div class="card-body">\n' +
+                                    '                                    <div class="row">\n' +
+                                    '                                        <div class="col-md-2">\n' +
+                                    '                                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg"\n' +
+                                    '                                                 class="img img-rounded img-fluid"/>\n' +
+                                    '                                            <p class="text-secondary text-center">' + data[i].fields.fechaCreacion + '</p>\n' +
+                                    '                                        </div>\n' +
+                                    '                                        <div class="col-md-10">\n' +
+                                    '                                            <p>\n' +
+                                    '                                                <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>' + data[i].fields.usernameEmisor + '</strong></a>\n' +
+                                    '                                            </p>\n' +
+                                    '                                            <p>' + data[i].fields.contenido + '</p>\n' +
+                                    '                                        </div>\n' +
+                                    '                                    </div>\n' +
+                                    '                                </div>\n' +
+                                    '                            </div>\n  <br>\n' +
+                                    '                            <br>';
+                            }
+                            $('#comentariosHechos').html(html);
+                        } else {
+                            $('#comentariosHechos').html('<h4 class="text-center p-5">No existen comentarios.</h4>');
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+
+            setInterval(cargarComentarios, 500);
+        });
+    </script>
+    <script>
+        $('#comentar').on('click', inicio);
+
+        function inicio() {
+            var contenidoComentario = $('#contenidoComentario').val();
+            $.ajax({
+                url: "{% url 'appexperto:crearComentario' %}",
+                type: "post", // or "get"
+                data: {
+                    'contenidoComentario': contenidoComentario,
+                    'id': {{ estudiante.id }}
+                },
+                success: function () {
+
+                },
+                error: function () {
+                    $('#contenidoComentario').summernote('reset');
+                }
+            });
+        }
+    </script>
 {% endblock %}
 
 

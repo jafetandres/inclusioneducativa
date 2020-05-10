@@ -226,20 +226,20 @@
                                         <td>Apellidos</td>
                                         <td>Cedula</td>
                                         <td>Institucion</td>
-                                        <td>Acciones</td>
+                                        <td>Ficha</td>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% if fichas_estudiantes %}
-                                        {% for ficha_estudiante in fichas_estudiantes %}
+                                    {% if estudiantes %}
+                                        {% for estudiante in estudiantes %}
                                             <tr>
-                                                <td>{{ ficha_estudiante.ficha.nombres }}</td>
-                                                <td>{{ ficha_estudiante.ficha.apellidos }}</td>
-                                                <td>{{ ficha_estudiante.ficha.cedula }}</td>
-                                                <td>{{ ficha_estudiante.ficha.institucion }}</td>
+                                                <td>{{ estudiante.nombres }}</td>
+                                                <td>{{ estudiante.apellidos }}</td>
+                                                <td>{{ estudiante.cedula }}</td>
+                                                <td>{{ estudiante.institucion }}</td>
                                                 <td class="text-center">
                                                     <a class="btn btn-primary"
-                                                       href="{% url 'appexperto:visualizarCaso' ficha_estudiante.ficha.cedula %}">Ver
+                                                       href="{% url 'appexperto:verFicha' estudiante.cedula %}">Ver
                                                         Ficha</a>
                                                 </td>
                                             </tr>
@@ -343,55 +343,6 @@
             $('#contenidoComentario').summernote();
         });
     </script>
-
-    <script>
-        $('#comentar').on('click', inicio);
-
-        function inicio() {
-            var contenidoComentario = $('#contenidoComentario').val();
-            $.ajax({
-                url: "{% url 'appexperto:crearComentario' %}",
-                type: "post", // or "get"
-                data: {
-                    'contenidoComentario': contenidoComentario,
-                    'id': {{ estudianteDocenteFicha.id }}
-                },
-                success: function (data) {
-                    console.log(data);
-                    var html = "";
-
-                    for (var i = 0; i < data.length; i++) {
-
-                        html += '    <div class="card card-inner">\n' +
-                            '\n' +
-                            '                                <div class="card-body">\n' +
-                            '                                    <div class="row">\n' +
-                            '                                        <div class="col-md-2">\n' +
-                            '                                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg"\n' +
-                            '                                                 class="img img-rounded img-fluid"/>\n' +
-                            '                                            <p class="text-secondary text-center">15 Minutes Ago</p>\n' +
-                            '                                        </div>\n' +
-                            '                                        <div class="col-md-10">\n' +
-                            '                                            <p>\n' +
-                            '                                                <a href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>' + data[i].fields.usernameEmisor + '</strong></a>\n' +
-                            '                                            </p>\n' +
-                            '                                            <p>' + data[i].fields.contenido + '</p>\n' +
-                            '                                        </div>\n' +
-                            '                                    </div>\n' +
-                            '                                </div>\n' +
-                            '                            </div>\n  <br>\n' +
-                            '                            <br>';
-
-                    }
-                    $('#comentariosHechos').html(html);
-                },
-                error: function () {
-                    alert('There was some error performing the AJAX call!');
-                }
-            });
-        }
-    </script>
-
     <script>
         $(document).ready(function () {
             function cargarNotificaciones() {

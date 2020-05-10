@@ -5,12 +5,14 @@ from django.shortcuts import render_to_response, redirect
 from django.shortcuts import render
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
-from InclusionEducativa.Apps.AppExperto.models import Comentario
+from notifications.models import Notification
+from notifications.signals import notify
+
+from InclusionEducativa.Apps.AppExperto.models import Comentario, ExpertoFichaInformativa
 from InclusionEducativa.Apps.AppRepresentante.models import *
-from InclusionEducativa.Apps.AppDocente.models import EstudianteDocente, ExpertoFicha
+from InclusionEducativa.Apps.AppDocente.models import *
 from InclusionEducativa.Apps.GestionSistema.models import *
 from InclusionEducativa.Apps.GestionSistema.forms import *
-
 
 notificaciones = None
 
@@ -25,39 +27,30 @@ def perfil(request):
 
         return redirect('gestionsistema:base')
     return render(request, 'AppExperto/perfil.html', {'usuario': usuario,
-                                                          'usuario_logueado': usuario_logueado})
+                                                      'usuario_logueado': usuario_logueado})
 
 
 def base(request):
-    global notificaciones
     usuario_logueado = request.user
-    # fichas_estudiantes=None
-
-    experto = Experto.objects.get(usuario_id=request.user
-                                  .id)
-
-    fichas_estudiantes = ExpertoFicha.objects.filter(experto_id=experto.id)
-    # esttudianteDocente = EstudianteDocente()
-    # fichas_estudiantes=expertoFichas.ficha
-    #
-
-    # for expertoFicha in expertoFichas:
-    #     esttudianteDocente=EstudianteDocente()
-    #     esttudianteDocente=EstudianteDocente.objects.filter(id=expertoFicha.ficha.id)
-    #     fichas_estudiantes.append(EstudianteDocente(esttudianteDocente))
-    #
-
+    experto = Experto.objects.get(usuario_id=request.user.id)
+    estudiantes = []
+    if ExpertoFichaInformativa.objects.filter(experto_id=experto.id).exists():
+        expertoFichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id)
+        for expertoFichaInformativa in expertoFichasInformativas:
+            if expertoFichaInformativa.fichaInformativaDocente and expertoFichaInformativa.fichaInformativaRepresentante:
+                estudiantes.append(
+                    Estudiante.objects.get(cedula=expertoFichaInformativa.fichaInformativaDocente.estudiante.cedula))
+            elif expertoFichaInformativa.fichaInformativaDocente and not expertoFichaInformativa.fichaInformativaRepresentante:
+                estudiantes.append(
+                    Estudiante.objects.get(cedula=expertoFichaInformativa.fichaInformativaDocente.estudiante.cedula))
+            elif not expertoFichaInformativa.fichaInformativaDocente and expertoFichaInformativa.fichaInformativaRepresentante:
+                estudiantes.append(
+                    Estudiante.objects.get(
+                        cedula=expertoFichaInformativa.fichaInformativaRepresentante.estudiante.cedula))
     return render(request, 'AppExperto/base.html',
-                  {'notificaciones': notificaciones, 'fichas_estudiantes': fichas_estudiantes,
+                  {'estudiantes': estudiantes,
                    'usuario_logueado': usuario_logueado
                    })
-
-
-# def estudianteFicha(request,cedula):
-#     estudianteDocente= Estudian
-#     estudianteRepresentante= EstudianteRepresentante.objects.get(cedula=cedula)
-#
-#     return render(request, 'AppExperto/verFichaEstudiante.html')
 
 
 @login_required
@@ -70,66 +63,47 @@ def onesignal_register(request):
     return HttpResponse('Something went wrong')
 
 
-def visualizarCaso(request, cedula):
-    global notificaciones
-    usuarioLogueado = request.user
-    estudianteDocenteFicha = None
-    estudianteRepresentanteFicha = None
-
-    if EstudianteRepresentante.objects.filter(cedula=cedula).exists():
-        estudianteRepresentanteFicha = EstudianteRepresentante.objects.get(cedula=cedula)
-
-    elif EstudianteDocente.objects.filter(cedula=cedula):
-        estudianteDocenteFicha = EstudianteDocente.objects.get(cedula=cedula)
-
-    comentarios = Comentario.objects.filter(fichaEstudiante_id=estudianteDocenteFicha.id).order_by('-id')
-
-    # if request.method == 'POST':
-    # comentario = Comentario()
-    # comentario.contenido = request.POST['contenido']
-    # comentario.emisor = request.user
-    # comentario.receptor1 = request.POST['docenteReceptor']
-    # comentario.receptor2 = request.POST['representanteReceptor']
-    # comentario.save()
-    return render(request, 'AppExperto/verFichaEstudiante.html',
-                  {'estudianteDocenteFicha': estudianteDocenteFicha,
-                   'estudianteRepresentanteFicha': estudianteRepresentanteFicha, 'notificaciones': notificaciones,
-                   'usuarioLogueado': usuarioLogueado, 'comentarios': comentarios})
-
-
-
+def verFicha(request, cedula):
+    usuario_logueado = request.user
+    estudiante = Estudiante.objects.get(cedula=cedula)
+    obj=Notification.objects.get(target_object_id=estudiante.id)
+    obj.mark_as_read()
+    if FichaInformativaDocente.objects.filter(estudiante_id=estudiante.id).exists():
+        fichaInformativaDocente = FichaInformativaDocente.objects.get(estudiante_id=estudiante.id)
+    else:
+        fichaInformativaDocente = None
+    if FichaInformativaRepresentante.objects.filter(estudiante_id=estudiante.id).exists():
+        fichaInformativaRepresentante = FichaInformativaRepresentante.objects.get(estudiante_id=estudiante.id)
+    else:
+        fichaInformativaRepresentante = None
+    return render(request, 'AppExperto/verFichaInformativa.html',
+                  {'estudiante': estudiante,
+                   'fichaInformativaDocente': fichaInformativaDocente,
+                   'fichaInformativaRepresentante': fichaInformativaRepresentante,
+                   'usuario_logueado': usuario_logueado})
 
 
 @csrf_exempt
 def crearComentario(request):
-    comentarios = Comentario.objects.filter(fichaEstudiante_id=request.POST['id']).order_by('-id')
-
-    print(request.POST['contenidoComentario'])
-
-    # if request.is_ajax():
     if request.method == 'POST':
-        # response_data = {}
-
         comentario = Comentario()
         comentario.contenido = request.POST['contenidoComentario']
         comentario.emisor = request.user
-        fichaEstudiante = EstudianteDocente.objects.get(id=request.POST['id'])
-        comentario.fichaEstudiante = fichaEstudiante
+        estudiante = Estudiante.objects.get(id=request.POST['id'])
+        comentario.estudiante = estudiante
         comentario.usernameEmisor = request.user.username
-
         comentario.save()
-
-        # response_data['contenido'] = request.POST['contenidoComentario']
-
-        # for comenta in comentarios:
-        #     comenta.emisor.username
-        data = serializers.serialize('json', comentarios)
-        print(data)
-
-        return HttpResponse(data, content_type='application/json')
-
-    # return render(request, 'AppExperto/verFichaEstudiante.html',{'comentarios':comentarios})
-
-
-def actualizarComentarios(request, id_estudiante):
-    print(request.GET['fichaEstudianteId'])
+        receptores = []
+        representante = FichaInformativaRepresentante.objects.get(estudiante_id=estudiante.id).representante.usuario
+        receptores.append(representante)
+        docente = FichaInformativaDocente.objects.get(estudiante_id=estudiante.id).docente.usuario
+        receptores.append(docente)
+        verbDocente = "appdocente/verFichaInformativa/" + estudiante.cedula
+        descripcion = "Nuevo comentario de " + request.user.nombres
+        verbRepresente = "apprepresentante/verFichaInformativa/" + estudiante.cedula
+        notify.send(request.user, recipient=docente, actor=request.user,
+                    verb=verbDocente,
+                    description=descripcion,target=estudiante)
+        notify.send(request.user, recipient=representante, actor=request.user,
+                    verb=verbRepresente + estudiante.cedula,
+                    description=descripcion,target=estudiante)

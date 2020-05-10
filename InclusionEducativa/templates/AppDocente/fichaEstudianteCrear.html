@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="fichaInformativa" hidden>
+                        <div id="fichaInformativaDocente" hidden>
                             <hr>
                             <div class="p-5">
                                 <div class="text-center">
@@ -344,14 +344,14 @@
                     var apellidos = document.getElementById("apellidos");
                     var fechaNacimiento = document.getElementById("fechaNacimiento");
                     var datosPersonales = document.getElementById("datosPersonales");
-                    var fichaInformativa = document.getElementById("fichaInformativa");
+                    var fichaInformativaDocente = document.getElementById("fichaInformativaDocente");
                     var institucion = document.getElementById("institucion");
                     var nivelCursa = document.getElementById("nivelCursa");
 
 
                     if (data != null) {
                         datosPersonales.hidden = false;
-                        fichaInformativa.hidden = false;
+                        fichaInformativaDocente.hidden = false;
                         nombres.disabled = true;
                         apellidos.disabled = true;
                         nivelCursa.disabled = true;
@@ -369,15 +369,15 @@
                 },
                 error: function (data) {
                     var datosPersonales = document.getElementById("datosPersonales");
-                    var fichaInformativa = document.getElementById("fichaInformativa");
+                    var fichaInformativaDocente = document.getElementById("fichaInformativaDocente");
 
                     if ($("#cedula").val().length > 0) {
                         datosPersonales.hidden = false;
-                        fichaInformativa.hidden = false;
+                        fichaInformativaDocente.hidden = false;
                     } else {
                         console.log('Error no existen coicidencias');
                         datosPersonales.hidden = true;
-                        fichaInformativa.hidden = true;
+                        fichaInformativaDocente.hidden = true;
                     }
 
 

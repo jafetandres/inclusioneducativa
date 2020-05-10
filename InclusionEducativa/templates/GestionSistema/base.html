@@ -104,7 +104,6 @@
     <!-- Main Content -->
     <div id="content">
         {% block Topbar %}
-
             <!-- Topbar -->
             <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                 <!-- Sidebar Toggle (Topbar) -->
@@ -311,11 +310,8 @@
                             </a>
                         </div>
                     </li>
-
                 </ul>
-
             </nav>
-
             <!-- End of Topbar -->
         {% endblock %}
         <!-- Begin Page Content -->
@@ -474,7 +470,7 @@
 
         <script>
             $(document).ready(function () {
-                function changeNumber() {
+                function cargarNotificaciones() {
                     $.ajax({
                         url: "{% url 'notificaciones' %}",
                         success: function (data) {
@@ -521,7 +517,7 @@
                     });
                 }
 
-                setInterval(changeNumber, 500);
+                setInterval(cargarNotificaciones, 500);
             });
         </script>
 

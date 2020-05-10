@@ -22,6 +22,9 @@
         <!-- Datepicker styles for this template-->
         <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
 
+        <!-- Css DataTables -->
+        <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
     </head>
 {% endblock %}
 {% block sidebar %}
@@ -71,44 +74,63 @@
                 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                     <i class="fa fa-bars"></i>
                 </button>
-
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
-                    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                    <li class="nav-item dropdown no-arrow d-sm-none">
-                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                    <!-- Nav Item - Alerts -->
+                    <li class="nav-item dropdown no-arrow mx-1">
+                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-search fa-fw"></i>
+                            <i class="fas fa-bell fa-fw"></i>
+                            <!-- Counter - Alerts -->
+                            <span class="badge badge-danger badge-counter" id="unread_notifications"></span>
                         </a>
-                        <!-- Dropdown - Messages -->
-                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                             aria-labelledby="searchDropdown">
-                            <form class="form-inline mr-auto w-100 navbar-search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small"
-                                           placeholder="Search for..." aria-label="Search"
-                                           aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
+                        <!-- Dropdown - Alerts -->
+                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                             aria-labelledby="alertsDropdown">
+                            <h6 class="dropdown-header">
+                                Notificaciones
+                            </h6>
+
+                            <div id="unread_notification">
+                                <a class="dropdown-item d-flex align-items-center"
+                                   href="URL DE LA NOTIFICAION">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                    <div>
+                                        <div class="small text-gray-500">FECHA NOTIFICAION</div>
+                                        <span class="font-weight-bold"> DETALLE DE LA NOTIFICAION</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <a class="dropdown-item text-center small text-gray-500" href="#">Ver todas las
+                                notificaciones</a>
                         </div>
                     </li>
-
-
+                    <div class="topbar-divider d-none d-sm-block"></div>
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {% block usuario %}
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
-
                             {% endblock %}
-                            <img class="img-profile rounded-circle"
-                                 src="http://pngimages.net/sites/default/files/user-png-image-79267.png">
+                            {% if usuario_logueado.foto %}
+                                <img class="img-profile rounded-circle" src="{{ usuario_logueado.foto.url }}">
+                            {% else %}
+                                <svg class="bi bi-people-circle" width="2em" height="2em" viewBox="0 0 16 16"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 008 15a6.987 6.987 0 005.468-2.63z"/>
+                                    <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+                                    <path fill-rule="evenodd"
+                                          d="M8 1a7 7 0 100 14A7 7 0 008 1zM0 8a8 8 0 1116 0A8 8 0 010 8z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            {% endif %}
+
+
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -127,59 +149,51 @@
                             </a>
                         </div>
                     </li>
-
-
                 </ul>
-
             </nav>
-
             <!-- End of Topbar -->
         {% endblock %}
         <div class="container-fluid">
             {% block contenido %}
-
-                <a class="btn btn-success" href="{% url 'appdocente:buscarEstudiante' %}">Crear nueva Ficha</a>
-
-                <hr>
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Fichas de Estudiantes</h6>
+                <div class="table-responsive">
+                    <div class="p-2">
+                        <a class="btn btn-success" href="{% url 'appdocente:buscarEstudiante' %}">Crear nueva ficha</a>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <td><b>Código</b></td>
-                                    <td><b>Nombres</b></td>
-                                    <td><b>Apellidos</b></td>
-                                    <td><b>Cédula</b></td>
-                                    <td><b>Institución</b></td>
-                                    <td><b>Comentarios</b></td>
-                                    <td><b>Acciones</b></td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% if fichas_estudiantes %}
-                                    {% for ficha_estudiante in fichas_estudiantes %}
-                                        <tr>
-                                            <td>{{ ficha_estudiante.id }}</td>
-                                            <td>{{ ficha_estudiante.nombres }}</td>
-                                            <td>{{ ficha_estudiante.apellidos }}</td>
-                                            <td>{{ ficha_estudiante.cedula }}</td>
-                                            <td>{{ ficha_estudiante.institucion }}</td>
-                                            <td></td>
-                                            <td>
-                                                <a class="btn btn-primary" href="#">Ver</a>
-                                                {#                                                <a class="btn btn-danger" href="#">Eliminar</a>#}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                {% else %}
-                                    <h4>No se han agregado fichas</h4>
-                                {% endif %}
-                                </tbody>
-                            </table>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Fichas de Estudiantes</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <td><b>Nombres</b></td>
+                                        <td><b>Apellidos</b></td>
+                                        <td><b>Cédula</b></td>
+                                        <td><b>Institución</b></td>
+                                        <td><b>Acciones</b></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if estudiantes %}
+                                        {% for estudiante in estudiantes %}
+                                            <tr>
+                                                <td>{{ estudiante.nombres }}</td>
+                                                <td>{{ estudiante.apellidos }}</td>
+                                                <td>{{ estudiante.cedula }}</td>
+                                                <td>{{ estudiante.institucion }}</td>
+                                                <td class="text-center">
+                                                    <a class="btn btn-primary"
+                                                       href="{% url 'appdocente:verFichaInformativa' estudiante.cedula %}">Ver
+                                                        ficha</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -258,6 +272,86 @@
         <!-- DatePicker core JavaScript-->
         <script src="{% static 'dist/datepicker.js' %}"></script>
         <script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
+
+        <!-- Js DataTables -->
+        <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+
+
+        <script>
+            $(document).ready(function () {
+                function cargarNotificaciones() {
+                    $.ajax({
+                        url: "{% url 'notificaciones' %}",
+                        success: function (data) {
+                            if (data.length > 0) {
+                                var html = "";
+                                var html1 = "";
+                                var unread = 0;
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i].fields.unread == true) {
+                                        unread++;
+                                        html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +
+                                            '                                <div class="mr-3">\n' +
+                                            '                                    <div class="icon-circle bg-primary">\n' +
+                                            '                                        <i class="fas fa-file-alt text-white"></i>\n' +
+                                            '                                    </div>\n' +
+                                            '                                </div>\n' +
+                                            '                                <div>\n' +
+                                            '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +
+                                            '                                    <span class="font-weight-bold"> ' + data[i].fields.description + '</span>\n' +
+                                            '                                </div>\n' +
+                                            '                            </a>' + html1;
+
+                                    }
+                                }
+                                if (unread > 0) {
+                                    html = unread;
+                                    $('#unread_notifications').html(html);
+                                    $('#unread_notification').html(html1);
+
+                                } else {
+                                    $('#unread_notifications').html('');
+                                }
+
+                            } else {
+                                $('#unread_notification').html('<p class="text-center p-3">No hay notificaciones</p>');
+                            }
+                        },
+                        error: function () {
+                            console.log('no hay notificaciones');
+                        }
+                    });
+                }
+
+                setInterval(cargarNotificaciones, 500);
+            });
+        </script>
+        <script>
+            $('#dataTable').dataTable({
+                paging: true,
+                searching: true,
+                language: {
+                    search: "Buscar:",
+                    lengthMenu: "Mostrar _MENU_ registros",
+                    info: "Se muestra de _START_ a _END_ registros de _TOTAL_ registros en total",
+                    infoEmpty: "Se muestra 0 registros de 0 ",
+                    infoFiltered: "(Hay _MAX_ registros en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No existen registros",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Previo",
+                        next: "Siguiente",
+                        last: "Anterior"
+                    },
+                }
+
+            });
+
+        </script>
 
         <script>
             $('#fechaNacimiento').datepicker({

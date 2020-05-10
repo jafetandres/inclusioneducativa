@@ -24,6 +24,7 @@ def index(request):
         usuario_logueado = Usuario.objects.get(id=request.user.id)
     return render(request, 'index.html', {'usuario_logueado': usuario_logueado})
 
+
 def base(request):
     usuario_logueado = request.user
     usuarios = Usuario.objects.all().order_by('is_active', '-is_active')
@@ -36,7 +37,7 @@ def curriculum(request):
 
 
 def notificaciones(request):
-    notificaciones = Notification.objects.filter(recipient_id=request.user.id)
+    notificaciones = Notification.objects.filter(recipient_id=request.user.id).order_by('unread')
     data1 = serializers.serialize('json', notificaciones)
     return HttpResponse(data1, content_type='application/json')
 
@@ -393,7 +394,6 @@ def perfil(request, id_usuario):
     if request.method == 'POST':
         if form_usuario.is_valid():
             form_usuario.save()
-
         return redirect('gestionsistema:base')
     return render(request, 'GestionSistema/perfil.html', {'usuario': usuario,
                                                           'usuario_logueado': usuario_logueado})

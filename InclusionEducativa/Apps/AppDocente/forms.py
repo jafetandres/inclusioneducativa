@@ -5,19 +5,13 @@ from InclusionEducativa.Apps.AppDocente.models import *
 
 class FichaInformativaForm(forms.ModelForm):
     class Meta:
-        model = FichaInformativa
+        model = FichaInformativaDocente
         fields = "__all__"
 
 
 class EstudianteForm(forms.ModelForm):
     class Meta:
         model = Estudiante
-        fields = "__all__"
-
-
-class fichaEstudianteForm(forms.ModelForm):
-    class Meta:
-        model = EstudianteDocente
         fields = "__all__"
 
 

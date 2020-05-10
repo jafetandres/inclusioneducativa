@@ -23,25 +23,7 @@ class DiagnosticoSindromico(models.Model):
     diagnosticoSindromicoDescripcion = models.CharField(max_length=500, null=True, blank=True)
 
 
-class EstudianteDocente(models.Model):
-    docente = models.ForeignKey(Docente, on_delete=models.CASCADE, null=True, blank=True)
-    nombres = models.CharField(max_length=50)
-    apellidos = models.CharField(max_length=50)
-    cedula = models.CharField(unique=True, max_length=50, null=True, blank=True)
-    fechaNacimiento = models.DateField()
-    institucion = models.ForeignKey(Institucion, on_delete=models.CASCADE, null=True, blank=True)
-    nivelCursa = models.CharField(max_length=50)
-    dificultad = models.ForeignKey(Dificultad, on_delete=models.CASCADE, null=True, blank=True)
-    tipoFamilia = models.CharField(max_length=50, null=True, blank=True)
-    dinamicaFamiliar = models.CharField(max_length=50, null=True, blank=True)
-    antecedentesFPatologicos = models.CharField(max_length=50, null=True, blank=True)
-    diagnosticoMedico = models.ForeignKey(DiagnosticoMedico, on_delete=models.CASCADE, null=True, blank=True)
-    diagnosticoSindromico = models.ForeignKey(DiagnosticoSindromico, on_delete=models.CASCADE, null=True, blank=True)
-    emisionDiagnosticoSindromico = models.CharField(max_length=50, null=True, blank=True)
-    detalleDificultades = models.CharField(max_length=1024, null=True, blank=True)
-
-
-class FichaInformativa(models.Model):
+class FichaInformativaDocente(models.Model):
     estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, null=True, blank=True)
     docente = models.ForeignKey(Docente, on_delete=models.CASCADE, null=True, blank=True)
     dificultad = models.ForeignKey(Dificultad, on_delete=models.CASCADE, null=True, blank=True)
@@ -52,11 +34,6 @@ class FichaInformativa(models.Model):
     diagnosticoSindromico = models.ForeignKey(DiagnosticoSindromico, on_delete=models.CASCADE, null=True, blank=True)
     emisionDiagnosticoSindromico = models.CharField(max_length=50, null=True, blank=True)
     detalleDificultades = models.CharField(max_length=1024, null=True, blank=True)
-
-
-class ExpertoFicha(models.Model):
-    ficha = models.ForeignKey(EstudianteDocente, on_delete=models.CASCADE, null=True, blank=True)
-    experto = models.ForeignKey(Experto, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class EstudianteTest(models.Model):

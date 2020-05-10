@@ -7,7 +7,7 @@ def base(request):
     usuario_logueado = request.user
     representante = Representante.objects.get(usuario_id=usuario_logueado.id)
 
-    fichas_estudiantes = EstudianteRepresentante.objects.filter(representante_id=representante.id)
+    fichas_estudianteshas_estudiantes = EstudianteRepresentante.objects.filter(representante_id=representante.id)
     return render(request, 'AppRepresentante/base.html',
                   {'usuario_logueado': usuario_logueado, 'fichas_estudiantes': fichas_estudiantes})
 
