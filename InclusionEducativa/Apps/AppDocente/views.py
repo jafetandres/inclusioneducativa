@@ -21,8 +21,10 @@ def verFichaInformativa(request, cedula):
     usuario_logueado = request.user
     if Estudiante.objects.filter(cedula=cedula).exists():
         estudiante = Estudiante.objects.get(cedula=cedula)
-        obj = Notification.objects.get(target_object_id=estudiante.id,recipient_id=request.user.id)
-        obj.mark_as_read()
+        if Notification.objects.filter(target_object_id=estudiante.id, recipient_id=request.user.id).exists():
+            notificaciones = Notification.objects.filter(target_object_id=estudiante.id, recipient_id=request.user.id)
+            for notificacion in notificaciones:
+                notificacion.mark_as_read()
         fichaInformativaDocente = FichaInformativaDocente.objects.get(estudiante_id=estudiante.id)
     # comentarios = Comentario.objects.filter(estudiante_id=estudiante.id).order_by('-id')
     return render(request, 'AppDocente/verFichaInformativa.html',

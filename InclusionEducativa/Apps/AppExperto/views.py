@@ -66,8 +66,10 @@ def onesignal_register(request):
 def verFicha(request, cedula):
     usuario_logueado = request.user
     estudiante = Estudiante.objects.get(cedula=cedula)
-    obj=Notification.objects.get(target_object_id=estudiante.id)
-    obj.mark_as_read()
+    if Notification.objects.filter(target_object_id=estudiante.id).exists():
+        notificaciones = Notification.objects.filter(target_object_id=estudiante.id)
+        for notificacion in notificaciones:
+            notificacion.mark_as_read()
     if FichaInformativaDocente.objects.filter(estudiante_id=estudiante.id).exists():
         fichaInformativaDocente = FichaInformativaDocente.objects.get(estudiante_id=estudiante.id)
     else:
@@ -98,12 +100,12 @@ def crearComentario(request):
         receptores.append(representante)
         docente = FichaInformativaDocente.objects.get(estudiante_id=estudiante.id).docente.usuario
         receptores.append(docente)
-        verbDocente = "appdocente/verFichaInformativa/" + estudiante.cedula
+        verbDocente = "/appdocente/verFichaInformativa/" + estudiante.cedula
         descripcion = "Nuevo comentario de " + request.user.nombres
         verbRepresente = "apprepresentante/verFichaInformativa/" + estudiante.cedula
         notify.send(request.user, recipient=docente, actor=request.user,
                     verb=verbDocente,
-                    description=descripcion,target=estudiante)
+                    description=descripcion, target=estudiante)
         notify.send(request.user, recipient=representante, actor=request.user,
                     verb=verbRepresente + estudiante.cedula,
-                    description=descripcion,target=estudiante)
+                    description=descripcion, target=estudiante)

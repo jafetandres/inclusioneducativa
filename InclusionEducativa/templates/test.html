@@ -1,0 +1,556 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Test Presuntivo</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+    <!-- Datepicker styles for this template-->
+    <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+
+    <style>
+        #aviso_contrasena {
+            display: none;
+            position: relative;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        .valid {
+            color: green;
+        }
+
+        .valid:before {
+            position: relative;
+            left: -35px;
+            content: "✔";
+        }
+
+        .invalid {
+            color: red;
+        }
+
+        .invalid:before {
+            position: relative;
+            left: -35px;
+            content: "✖";
+        }
+    </style>
+
+
+</head>
+
+<body class="bg-gradient-primary">
+
+<div class="container">
+
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="container">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Test Presuntivo para Padres</h1>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="alert alert-info">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    <form class="user" method="post">
+                        {% csrf_token %}
+                        <div class="p-5">
+                            <ol>
+                                <li>Come solo:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p1" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p1"> No
+                                </dd>
+                                <li>Utiliza cubiertos para alimentarse (cuchara, vaso):</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p2" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p2"> No
+                                </dd>
+                                <li>Mastica todo tipo de alimentos:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p3" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p3"> No
+                                </dd>
+                                <li>Bebe diferentes líquidos:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p4" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p4"> No
+                                </dd>
+                                <li>Controla el cierre bucal para evitar la salivación y/o retener los alimentos sin
+                                    derramarlos:
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p5" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p5"> No
+                                </dd>
+                                <li>Disfruta de una variedad de texturas y bebidas:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p6" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p6"> No
+                                </dd>
+                                <li>Conoce para qué sirven los objetos:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p7" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p7"> No
+                                </dd>
+                                <li>Aparenta entender cuando usted le habla:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p8" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p8"> No
+                                </dd>
+                                <li>Presta atención ante conversaciones:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p9" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p9"> No
+                                </dd>
+                                <li>Utiliza juguetes de acuerdo a su edad correctamente:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p10" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p10"> No
+                                </dd>
+                                <li>Identifica contenidos pedagógicos que trabajan en su nivel escolar como cantidad,
+                                    tamaño, colores, etc.:
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p11" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p11"> No
+                                </dd>
+                                <li>Identifica objetos, personajes y acciones de un cuento:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p12" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p12"> No
+                                </dd>
+                                <li>Responde a preguntas sencillas con lógica:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p13" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p13"> No
+                                </dd>
+                                <li>Identifica verbos en acción (correr, saltar, dar, etc.):</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p14" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p14"> No
+                                </dd>
+                                <li>Comprende cuando usted le hace preguntas de ¿qué, quién?:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p15" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p15"> No
+                                </dd>
+                                <li>Ejecuta órdenes de comandos simples (ej. guarda):</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p16" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p16"> No
+                                </dd>
+                                <li>Ejecuta órdenes de comando más complejos (ej. toma las llaves y colócalas en la caja
+                                    de mi habitación):
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p17" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p17"> No
+                                </dd>
+                                <li>Puede deducir situaciones (ej. qué pasaría si me como muchos dulces) niños a partir
+                                    de 4 años:
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p18" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p18"> No
+                                </dd>
+                                <li>Interpreta situaciones (ej. la mamá toma su cartera y se pone un suéter ¿A dónde
+                                    va?) niños a partir de 4 años:
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p19" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p19"> No
+                                </dd>
+                                <li>Solicita deseos y necesidades (puede ser de manera oral, gestos, señas, etc.):</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p20" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p20"> No
+                                </dd>
+                                <li>Utiliza gestos, señas, etc. claros y con significado para mencionar a objetos (en
+                                    caso de no utilizar leng. Oral):
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p21" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p21"> No
+                                </dd>
+                                <li>Utiliza un vocabulario espontáneo superior a:
+                                    <br>
+                                    100 palabras niños a partir de 2 años
+                                    <br>
+                                    900 palabras niños a partir de 3 años
+                                    <br>
+                                    1500 palabras niños a partir de 4 años
+                                    <br>
+                                    2500 palabras niños a partir de 5 años
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p22" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p22"> No
+                                </dd>
+                                <li>Utiliza pronombres personales y posesivos (yo, tú, mío, tuyo) niños a partir de 3
+                                    años:
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p23" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p23"> No
+                                </dd>
+                                <li>Estructura oraciones en su conversación :
+                                    <br>
+                                    (ej. mamá dame agua) niños a partir de los 2 años
+                                    <br>
+                                    (ej. quiero ir al parque) niños a partir de 3 años
+                                    <br>
+                                    (ej. mamá, comí un helado en la escuela) niños a partir de 4 años
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p24" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p24"> No
+                                </dd>
+                                <li>Se comunica con todos los miembros de la familia:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p25" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p25"> No
+                                </dd>
+                                <li>Se comunica con compañeros y amigos de la escuela o barrio:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p26" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p26"> No
+                                </dd>
+                                <li>Se comunica con docentes, terapeutas y otros de su entorno:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p27" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p27"> No
+                                </dd>
+                                <li>Expresa sus sentimientos, ideas y/o emociones:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p28" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p28"> No
+                                </dd>
+                                <li>Hace preguntas:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p29" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p29"> No
+                                </dd>
+                                <li>Mantiene conversaciones dentro de un tema:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p30" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p30"> No
+                                </dd>
+                                <li>Respeta turnos en la conversación:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p31" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p31"> No
+                                </dd>
+                                <li>Utiliza tiempos verbales (pasado, presente) niños a partir de 3 años:</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p32" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p32"> No
+                                </dd>
+                                <li>Su niño/a pronuncia correctamente estas letras cuando habla:
+                                    <br>
+                                    m-p-b- t- d- k- n (partir los 2 años ½)
+                                    <br>
+                                    m-p-b- t- d- k- g-j-n-l- y- ll-ch (partir los 3 años)
+                                    <br>
+                                    m-p-b- t- d- k-g-j- n-l- y- ll-ch- r-s) sínfones con l ej. plato, globo,etc.
+                                    (apartir de los 4 años ½)
+                                    <br>
+                                    Pronuncia todas las letras correctamente (partir los 5 años)
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p33" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p33"> No
+                                </dd>
+                                <li>Conversa de manera fluida (tiempo adecuado y continuo):</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p34" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p34"> No
+                                </dd>
+                                <li>Conversa de manera fluida (sin repetir sílabas, palabras ni frases):</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p35" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p35"> No
+                                </dd>
+                                <li>Cuando habla, su voz suena clara y relajada ( NO nasalizada o tensa):</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p36" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p36"> No
+                                </dd>
+                                <li>Realiza cambios en la entonación al usar exclamaciones, frases, etc. acordes a la
+                                    situación:
+                                </li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p37" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p37"> No
+                                </dd>
+                                <li>Puede realizar modificaciones de intensidad (susurrada, normal, alto):</li>
+                                <dd>
+                                    <input type="radio" value="Si" name="p38" required> Si
+                                    <br>
+                                    <input type="radio" value="No" name="p38"> No
+                                </dd>
+                            </ol>
+                        </div>
+                        <div align="center">
+                            <button type="submit" class="btn btn-primary btn-user">
+                                Finalizar
+                            </button>
+                            <a class="btn btn btn-danger btn-user"
+                               href="{% url 'index' %}">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+<!-- DatePicker core JavaScript-->
+<script src="{% static 'dist/datepicker.js' %}"></script>
+<script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="{% static 'js/i18n/defaults-es_ES.min.js' %}"></script>
+
+<script>
+    $('#fechaNacimiento').datepicker({
+        language: 'es-ES',
+        format: 'yyyy-mm-dd',
+        autoHide: true
+    });
+</script>
+
+<script>
+    $('select').selectpicker();
+</script>
+
+<script>
+    function habilitarFormulario(value) {
+        var html = "        <div class=\"form-group row\">\n" +
+            "                                    <div class=\"col-sm-6 mb-3 mb-sm-0\">\n" +
+            "                                        <input type=\"text\"\n" +
+            "                                               class=\"form-control form-control-user\"\n" +
+            "                                               id=\"tituloUniversitario\" name=\"tituloUniversitario\"\n" +
+            "                                               placeholder=\"Titulo Universitario\"\n" +
+            "                                               required>\n" +
+            "                                    </div>\n" +
+            "                                    <div class=\"col-sm-6\">\n" +
+            "                                        <input type=\"text\" class=\"form-control form-control-user\"\n" +
+            "                                               id=\"experienciaProfesional\" name=\"experienciaProfesional\"\n" +
+            "                                               placeholder=\"Experiencia Profesional\"\n" +
+            "                                               required>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "                                <div class=\"form-group row\">\n" +
+            "                                    <div class=\"col-sm-6 mb-3 mb-sm-0\">\n" +
+            "                                        <input type=\"text\"\n" +
+            "                                               class=\"form-control form-control-user\"\n" +
+            "                                               id=\"experienciaAcademica\" name=\"experienciaAcademica\"\n" +
+            "                                               placeholder=\"Experiencia Académica\"\n" +
+            "                                               required>\n" +
+            "                                    </div>\n" +
+            "                                    <div class=\"col-sm-6\">\n" +
+            "                                        <input type=\"text\" class=\"form-control form-control-user\"\n" +
+            "                                               id=\"experienciaInvestigativa\" name=\"experienciaInvestigativa\"\n" +
+            "                                               placeholder=\"Experiencia Investigativa\"\n" +
+            "                                               required>\n" +
+            "                                    </div>\n" +
+            "                                </div>";
+
+        if (value == "1") {
+            document.getElementById("form2").innerHTML = html;
+        } else {
+            document.getElementById("form2").innerHTML = ("");
+        }
+    }
+</script>
+
+<script>
+    var myInput = document.getElementById("password");
+    var myInput2 = document.getElementById("password2");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+    myInput.onfocus = function () {
+        document.getElementById("aviso_contrasena").style.display = "block";
+    }
+    myInput.onblur = function () {
+        document.getElementById("aviso_contrasena").style.display = "none";
+    }
+    myInput.onkeyup = function () {
+        var lowerCaseLetters = /[a-z]/g;
+        if (myInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+        var upperCaseLetters = /[A-Z]/g;
+        if (myInput.value.match(upperCaseLetters)) {
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+        } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+        }
+        var numbers = /[0-9]/g;
+        if (myInput.value.match(numbers)) {
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+        if (myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+
+    }
+    myInput2.onkeyup = function () {
+        if (myInput.value == myInput2.value && myInput2.value.length >= 8) {
+            document.getElementById("span_contrasena").innerHTML = '<span class="text-success">Las contraseñas coinciden</span>';
+
+        } else {
+            document.getElementById("span_contrasena").innerHTML = '<span class="text-danger">Las contraseñas no coinciden</span>';
+        }
+
+    }
+</script>
+
+<script>
+    function validarCedula(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        } else {
+            var cedula = "";
+            $("#cedula").on('input', function () {
+                document.getElementById("spanCedula").innerHTML = ('<span class="text-danger">La cedula es incorrecta</span>');
+                cedula = $(this).val();
+                var total = 0;
+                var longitud = cedula.length;
+                var longcheck = longitud - 1;
+                if (cedula !== "") {
+                    for (i = 0; i < longcheck; i++) {
+                        if (i % 2 === 0) {
+                            var aux = cedula.charAt(i) * 2;
+                            if (aux > 9) aux -= 9;
+                            total += aux;
+                        } else {
+                            total += parseInt(cedula.charAt(i)); // parseInt o concatenará en lugar de sumar
+                        }
+                    }
+                    total = total % 10 ? 10 - total % 10 : 0;
+                    if (cedula.charAt(longitud - 1) == total) {
+                        $.ajax({
+                            url: "{% url 'gestionsistema:buscarUsuario'  %}",
+                            type: "get",
+                            data: {
+                                'cedula': cedula,
+                            },
+                            success: function (data) {
+                                if (data != null) {
+                                    document.getElementById("spanCedula").innerHTML = ('<span class="text-danger">La cedula ya existe</span>');
+                                }
+                            },
+                            error: function () {
+                                console.log('No se encontraron coicidencias');
+                            }
+                        });
+                        document.getElementById("spanCedula").innerHTML = ('<span class="text-success">Cedula correcta</span>');
+                    } else {
+                        document.getElementById("spanCedula").innerHTML = ('<span class="text-danger">La cedula es incorrecta</span>');
+                    }
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+    function mayus(e) {
+        e.value = e.value.toUpperCase();
+    }
+</script>
+
+</body>
+
+</html>

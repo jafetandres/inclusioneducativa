@@ -28,6 +28,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', index, name='index'),
+    url(r'^test/$', realizarTest, name='test'),
     url(r'^notificaciones/$', notificaciones, name='notificaciones'),
     url(r'^curriculum/$', curriculum, name='curriculum'),
     url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),

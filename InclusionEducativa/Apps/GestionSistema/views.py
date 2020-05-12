@@ -18,6 +18,9 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 
 
+def realizarTest(request):
+    return render(request, 'test.html')
+
 def index(request):
     usuario_logueado = None
     if request.user.is_authenticated:

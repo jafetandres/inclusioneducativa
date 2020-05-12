@@ -92,18 +92,6 @@
                             </h6>
 
                             <div id="unread_notification">
-                                <a class="dropdown-item d-flex align-items-center"
-                                   href="URL DE LA NOTIFICAION">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">FECHA NOTIFICAION</div>
-                                        <span class="font-weight-bold"> DETALLE DE LA NOTIFICAION</span>
-                                    </div>
-                                </a>
                             </div>
                             <a class="dropdown-item text-center small text-gray-500" href="#">Ver todas las
                                 notificaciones</a>
@@ -304,15 +292,28 @@
                                             '                                </div>\n' +
                                             '                            </a>' + html1;
 
+                                    } else {
+                                        html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +
+                                            '                                <div class="mr-3">\n' +
+                                            '                                    <div class="icon-circle bg-primary">\n' +
+                                            '                                        <i class="fas fa-file-alt text-white"></i>\n' +
+                                            '                                    </div>\n' +
+                                            '                                </div>\n' +
+                                            '                                <div>\n' +
+                                            '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +
+                                            '                                    ' + data[i].fields.description + '\n' +
+                                            '                                </div>\n' +
+                                            '                            </a>' + html1;
+
                                     }
                                 }
                                 if (unread > 0) {
-                                    html = unread;
-                                    $('#unread_notifications').html(html);
+                                    $('#unread_notifications').html(unread);
                                     $('#unread_notification').html(html1);
 
                                 } else {
                                     $('#unread_notifications').html('');
+                                    $('#unread_notification').html(html1);
                                 }
 
                             } else {
