@@ -19,6 +19,7 @@ class UsuarioForm(forms.ModelForm):
             raise forms.ValidationError("La fecha de nacimiento es incorrecta")
         return fechaNacimiento
 
+
     class Meta:
         model = Usuario
         fields = "__all__"

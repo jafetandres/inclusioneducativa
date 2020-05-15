@@ -11778,13 +11778,13 @@ a:focus {
 }
 
 .bg-register-image {
-    background: url("../img/img-registro.jpg");
+    background: url(../img/img-registro.jpg);
     background-position: center;
     background-size: cover
 }
 
 .bg-password-image {
-    background: url(https://source.unsplash.com/oWTW-jNGl9I/600x800);
+    background: url(../img/img-reset.jpg);
     background-position: center;
     background-size: cover
 }

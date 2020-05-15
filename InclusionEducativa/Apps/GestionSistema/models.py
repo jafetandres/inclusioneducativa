@@ -35,6 +35,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     apellidos = models.CharField(max_length=50)
     cedula = models.CharField(max_length=50)
     username = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, null=True, blank=True)
     fechaNacimiento = models.DateField()
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

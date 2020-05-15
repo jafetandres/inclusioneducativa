@@ -123,7 +123,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -164,12 +163,12 @@ STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'InclusionEducativa/static/')), ]
 
 
 AUTH_USER_MODEL = 'GestionSistema.Usuario'
-
+EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'jafetgalvez1@gmail.com'
 EMAIL_HOST_PASSWORD = 'kgelhlrlozgcpoum'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'InclusionEducativa/media')

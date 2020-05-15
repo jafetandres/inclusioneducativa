@@ -15,18 +15,19 @@ Including another URLconf
 """
 import notifications.urls
 from django.contrib import admin
-
-from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.conf.urls import url, include
 from django.views.generic import TemplateView
-
 from InclusionEducativa.Apps.GestionSistema.views import *
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url('^', include('django.contrib.auth.urls')),
+    # url(r'^password_reset/$', auth_views.password_reset, {'template_name': 'password_reset_form.html'},
+    #     name='password_reset'),
     url(r'^$', index, name='index'),
     url(r'^test/$', realizarTest, name='test'),
     url(r'^notificaciones/$', notificaciones, name='notificaciones'),

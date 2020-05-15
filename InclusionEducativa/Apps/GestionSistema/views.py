@@ -21,6 +21,7 @@ from django.views.decorators.csrf import csrf_exempt
 def realizarTest(request):
     return render(request, 'test.html')
 
+
 def index(request):
     usuario_logueado = None
     if request.user.is_authenticated:
@@ -54,6 +55,7 @@ def crearUsuario(request):
                 usuario = form.save()
                 usuario.is_active = False
                 usuario.set_password(form.cleaned_data.get('password'))
+                usuario.email = request.POST['username']
                 usuario.save()
                 administradores = Usuario.objects.filter(tipo_usuario='Administrador')
                 sistema = Usuario.objects.get(username='jafetandres@hotmail.com')
