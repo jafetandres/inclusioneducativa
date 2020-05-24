@@ -1,7 +1,7 @@
 import datetime
 
 from django import forms
-from InclusionEducativa.Apps.GestionSistema.models import Experto, Docente, Representante, Institucion, Usuario
+from InclusionEducativa.Apps.GestionSistema.models import *
 
 
 class UsuarioForm(forms.ModelForm):
@@ -49,6 +49,10 @@ class InstitucionForm(forms.ModelForm):
 
         fields = "__all__"
 
+class EstudianteForm(forms.ModelForm):
+    class Meta:
+        model = Estudiante
+        fields = "__all__"
 
 class LoginForm(forms.Form):
     username = forms.CharField()

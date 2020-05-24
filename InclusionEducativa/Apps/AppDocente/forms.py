@@ -3,15 +3,9 @@ from django import forms
 from InclusionEducativa.Apps.AppDocente.models import *
 
 
-class FichaInformativaForm(forms.ModelForm):
+class FichaInformativaDocenteForm(forms.ModelForm):
     class Meta:
         model = FichaInformativaDocente
-        fields = "__all__"
-
-
-class EstudianteForm(forms.ModelForm):
-    class Meta:
-        model = Estudiante
         fields = "__all__"
 
 

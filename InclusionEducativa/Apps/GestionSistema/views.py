@@ -1,7 +1,13 @@
+import json
+
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, views
+from django.contrib.auth import authenticate, login, logout, views, password_validation
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.password_validation import get_password_validators, get_default_password_validators, \
+    validate_password
 
 from django.core.mail import send_mail
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
@@ -16,6 +22,32 @@ from datetime import datetime
 from notifications.signals import notify
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
+
+
+@csrf_exempt
+def perfil(request):
+    usuario = Usuario.objects.get(id=request.user.id)
+    if request.method == 'POST':
+        try:
+            usuario.nombres = request.POST['nombres']
+            usuario.apellidos = request.POST['apellidos']
+            usuario.username = request.POST['username']
+            if bool(request.FILES.get('file', False)) == True:
+                usuario.foto = request.FILES['file']
+            usuario.email = usuario.username
+            usuario.fechaNacimiento = request.POST['fechaNacimiento']
+            usuario.save()
+        except IntegrityError as e:
+            messages.error(request, 'El correo electronico ya esta en uso')
+
+        return redirect('gestionsistema:perfil')
+    return render(request, 'GestionSistema/perfil.html')
+
+
+def verCurriculum(request, usuario_id):
+    usuario = Usuario.objects.get(id=usuario_id)
+
+    return render(request, 'GestionSistema/verCurriculum.html', {'usuario': usuario})
 
 
 def realizarTest(request):
@@ -53,7 +85,7 @@ def crearUsuario(request):
         if form.is_valid():
             if request.POST['password'] == request.POST['password2']:
                 usuario = form.save()
-                usuario.is_active = False
+                usuario.is_active = True
                 usuario.set_password(form.cleaned_data.get('password'))
                 usuario.email = request.POST['username']
                 usuario.save()
@@ -62,7 +94,7 @@ def crearUsuario(request):
                 notify.send(sistema, recipient=administradores, verb="/", description="Nuevo usuario registrado")
                 return redirect('index')
             else:
-                messages.error(request, 'Verifique que todos los campos esten correctos')
+                messages.error(request, 'Verifique que todos los campos esten correctos.')
     else:
         form = UsuarioForm()
     return render(request, 'registro.html', {'form': form, 'instituciones': instituciones})
@@ -82,19 +114,58 @@ def desactivarUsuario(request, id_usuario):
     return redirect('gestionsistema:base')
 
 
-def cambiarPassword(request):
+def cambiarContrasena(request):
+    errores = []
+    bandera = False
     if request.method == 'POST':
-        usuario = Usuario.objects.get(id=request.user.id)
-        nuevo_password = request.POST['password']
-        usuario.set_password(nuevo_password)
-        usuario.save()
-        logout(request.user)
-        return redirect('login')
-    return render(request, "cambiar_password.html")
+        if request.user.check_password(request.POST['old_password']) is False:
+            errores.append("La contraseña anterior es incorrecta")
+            bandera = False
+        else:
+            bandera = True
+        if len(request.POST['new_password2']) < 8:
+            errores.append("La nueva contraseña debe tener minimo 8 caracteres")
+            bandera = False
+        else:
+            bandera = True
+        indice = 0
+        mayusculas = 0
+        minusculas = 0
+        while indice < len(request.POST['new_password2']):
+            letra = request.POST['new_password2'][indice]
+            if letra.isupper() == True:
+                mayusculas += 1
+            else:
+                minusculas += 1
+            indice += 1
+        if mayusculas < 1:
+            errores.append("La nueva contraseña debe tener minimo una letra en mayuscula")
+            bandera = False
+        else:
+            bandera = True
+        if minusculas < 1:
+            errores.append("La nueva contraseña debe tener minimo una letra en minuscula")
+            bandera = False
+        else:
+            bandera = True
+        if request.POST['new_password1'] != request.POST['new_password2']:
+            errores.append("La nueva contraseña no coicide con la confirmacion")
+            bandera = False
+        else:
+            bandera = True
+        if bandera is True:
+            usuario = Usuario.objects.get(id=request.user.id)
+            usuario.set_password(request.POST['new_password2'])
+            usuario.save()
+            login(request, usuario)
+
+    json_dump = json.dumps(errores)
+    return HttpResponse(json_dump, content_type='application/json')
 
 
 def InstitucionCrear(request):
     usuario_logueado = request.user
+    password_validators = get_default_password_validators()
     if request.method == 'POST':
         form = InstitucionForm(request.POST)
         if form.is_valid():
@@ -371,13 +442,16 @@ def login_view(request):
             if usuario.is_active:
                 if user is not None:
                     login(request, user)
-                    if user.tipo_usuario == 'DOCENTE':
+                    usuario.is_online = True
+                    usuario.save()
+                    if user.tipo_usuario == 'docente':
                         return redirect('appdocente:base')
-                    elif user.tipo_usuario == 'EXPERTO':
+                    elif user.tipo_usuario == 'experto':
                         return redirect('appexperto:base')
-                    elif user.tipo_usuario == 'REPRESENTANTE':
+                    elif user.tipo_usuario == 'representante':
                         return redirect('apprepresentante:base')
-                    return redirect('gestionsistema:base')
+                    else:
+                        return redirect('gestionsistema:base')
                 else:
                     messages.error(request, 'Correo electronico o contraseña incorrectos')
             else:
@@ -388,20 +462,11 @@ def login_view(request):
 
 
 def logout_view(request):
+    usuario = Usuario.objects.get(id=request.user.id)
+    usuario.is_online = False
+    usuario.save()
     logout(request)
     return redirect('index')
-
-
-def perfil(request, id_usuario):
-    usuario_logueado = request.user
-    usuario = Usuario.objects.get(id=request.user.id)
-    form_usuario = UsuarioForm(request.POST, instance=usuario)
-    if request.method == 'POST':
-        if form_usuario.is_valid():
-            form_usuario.save()
-        return redirect('gestionsistema:base')
-    return render(request, 'GestionSistema/perfil.html', {'usuario': usuario,
-                                                          'usuario_logueado': usuario_logueado})
 
 
 def buscarUsuario(request):

@@ -73,7 +73,7 @@
                         </div>
                         {% if messages %}
                             {% for message in messages %}
-                                <p class="alert alert-info">{{ message }}</p>
+                                <div class="alert alert-info">{{ message }}</div>
                             {% endfor %}
                         {% endif %}
                         <form class="user" method="post">
@@ -148,9 +148,10 @@
                                     <label class="text-md-center font-weight-bold text-primary">ROL &nbsp
                                         <select class="selectpicker" name="tipo_usuario" required>
                                             <option value="" disabled selected>Escoger una opción</option>
-                                            <option value="EXPERTO">Experto</option>
-                                            <option value="DOCENTE">Docente</option>
-                                            <option value="REPRESENTANTE">Representante</option>
+                                            <option value="experto">Experto</option>
+                                            <option value="docente">Docente</option>
+                                            <option value="representante">Representante</option>
+                                            <option value="administrador">Administrador</option>
                                         </select>
                                     </label>
                                 </div>

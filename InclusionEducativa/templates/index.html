@@ -69,22 +69,22 @@ Header
                 <li><a href="#services">Servicios</a></li>
                 <li><a href="#footer">Contáctanos</a></li>
                 {% if usuario_logueado.is_authenticated %}
-                    {% if usuario_logueado.tipo_usuario == 'EXPERTO' %}
+                    {% if usuario_logueado.tipo_usuario == 'experto' %}
                         <li class="text-lowercase"><a href="{% url 'appexperto:base' %}"><i class="fa fa-user"></i> Mi
                             cuenta</a>
                         </li>
                     {% endif %}
-                    {% if usuario_logueado.tipo_usuario == 'ADMINISTRADOR' %}
+                    {% if usuario_logueado.tipo_usuario == 'administrador' %}
                         <li class="text-lowercase"><a href="{% url 'gestionsistema:base' %}"><i class="fa fa-user"></i>
                             Mi cuenta</a>
                         </li>
                     {% endif %}
-                    {% if usuario_logueado.tipo_usuario == 'DOCENTE' %}
+                    {% if usuario_logueado.tipo_usuario == 'docente' %}
                         <li class="text-lowercase"><a href="{% url 'appdocente:base' %}"><i class="fa fa-user"></i>
                             Mi cuenta</a>
                         </li>
                     {% endif %}
-                    {% if usuario_logueado.tipo_usuario == 'REPRESENTANTE' %}
+                    {% if usuario_logueado.tipo_usuario == 'representante' %}
                         <li class="text-lowercase"><a href="{% url 'apprepresentante:base' %}"><i
                                 class="fa fa-user"></i>
                             Mi cuenta</a>
@@ -113,16 +113,16 @@ Header
                 <h2 align="center">Plataforma de Inclusión<span>Educativa</span></h2>
                 <div>
                     {% if usuario_logueado.is_authenticated %}
-                        {% if usuario_logueado.tipo_usuario == 'EXPERTO' %}
+                        {% if usuario_logueado.tipo_usuario == 'experto' %}
                             <a href="{% url 'appexperto:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
                         {% endif %}
-                        {% if usuario_logueado.tipo_usuario == 'ADMINISTRADOR' %}
+                        {% if usuario_logueado.tipo_usuario == 'administrador' %}
                             <a href="{% url 'gestionsistema:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
                         {% endif %}
-                        {% if usuario_logueado.tipo_usuario == 'DOCENTE' %}
+                        {% if usuario_logueado.tipo_usuario == 'docente' %}
                             <a href="{% url 'appdocente:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
                         {% endif %}
-                        {% if usuario_logueado.tipo_usuario == 'REPRESENTANTE' %}
+                        {% if usuario_logueado.tipo_usuario == 'representante' %}
                             <a href="{% url 'apprepresentante:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
                         {% endif %}
                     {% else %}
@@ -318,7 +318,7 @@ Header
                         <div class="icon" style="background: #e6fdfc;"><i class="ion-ios-paper-outline"
                                                                           style="color: #3fcdc7;"></i></div>
                         <h4 class="title"><a href="{% url 'test' %}" target="_blank">Test Presuntivo</a></h4>
-                        <p class="description">DETALLES DEL SERVICIO EN ESTE CASO EL TEST </p>
+                        <p class="description">Este test te ayudar a conocer un poco del estado del estudiante</p>
                     </div>
                 </div>
 {#                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">#}

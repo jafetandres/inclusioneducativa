@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'^crearUsuario$', crearUsuario, name='crearUsuario'),
     url(r'^accounts/login/$', login_view, name='login'),
     url(r'^accounts/logout/$', logout_view, name='logout'),
-    url(r'^cambiar_password/', cambiarPassword, name='cambiar_password'),
+    url(r'^cambiarContrasena/', cambiarContrasena, name='cambiarContrasena'),
 
     url(r'^appexperto/', include(('InclusionEducativa.Apps.AppExperto.urls', 'appexperto'), namespace='appexperto')),
     url(r'gestionsistema',
@@ -46,7 +46,7 @@ urlpatterns = [
     url(r'^apprepresentante/',
         include(('InclusionEducativa.Apps.AppRepresentante.urls', 'apprepresentante'), namespace='apprepresentante')),
 
-    path('chat/', include('django_chatter.urls')),
+    path('Chat/', include('django_chatter.urls')),
 
 ]
 

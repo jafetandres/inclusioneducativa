@@ -1,7 +1,4 @@
 {% extends 'AppExperto/base.html' %}
-{% block usuario %}
-    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
-{% endblock %}
 {% block contenido %}
     <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
@@ -172,6 +169,14 @@
                                 </p>
                             </label>
                             <br>
+
+                            <label><b>Detalle de Dificultades:</b>
+                                <p>
+                                    {{ fichaInformativaRepresentante.detalleDificultades }}<br/>
+
+
+                                </p>
+                            </label>
                         {% endif %}
                     </div>
                 </form>
@@ -192,7 +197,7 @@
                             </div>
                             <div class="col-md-10">
                                 <p>
-                                    <a class="float-left"><strong>{{ usuario_logueado.username }}</strong></a>
+                                    <a class="float-left"><strong>{{ request.user.username }}</strong></a>
                                 </p>
                                 <br>
                                 <div class="clearfix">

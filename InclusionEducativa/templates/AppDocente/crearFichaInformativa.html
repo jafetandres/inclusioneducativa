@@ -1,7 +1,4 @@
 {% extends 'AppDocente/base.html' %}
-{% block usuario %}
-    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
-{% endblock %}
 {% block contenido %}
     <div class="container">
         <div class="card o-hidden border-0 shadow-lg my-5">
@@ -91,14 +88,12 @@
                                         <div class="col-sm-6 mb-6 mb-sm-0">
                                             <label>Nombres:<input type="text" class="form-control form-control-user"
                                                                   name="nombres" size="100" id="nombres"
-                                                                  value="{{ estudiante.nombres }}"
                                                                   onkeyup="javascript:this.value=this.value.toUpperCase();"
                                                                   required></label>
                                         </div>
                                         <div class="col-sm-6">
                                             <label>Apellidos:<input type="text" class="form-control form-control-user"
                                                                     name="apellidos" size="100" id="apellidos"
-                                                                    value="{{ estudiante.apellidos }}"
                                                                     onkeyup="javascript:this.value=this.value.toUpperCase();"
                                                                     required></label>
                                         </div>
@@ -108,15 +103,16 @@
                                             <label>Fecha de Nacimiento: <input
                                                     pattern="(?:19|20)(?:(?:[13579][26]|[02468][048])-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))|(?:[0-9]{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31)))"
                                                     class="form-control form-control-user" name="fechaNacimiento"
-                                                    id="fechaNacimiento" value="{{ estudiante.fechaNacimiento }}"
+                                                    id="fechaNacimiento"
                                                     placeholder="yyyy-mm-dd" autocomplete="off"
                                                     required></label>
                                         </div>
                                         <div class="col-sm-6">
                                             <label>Cedula:<input type="text" class="form-control form-control-user"
                                                                  name="cedula" size="100" id="cedula"
+                                                                 value="{{ cedula }}"
                                                                  onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                                 required></label>
+                                                                 required disabled></label>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -357,20 +353,21 @@
                                     <h6>Enviar a:</h6>
                                     <div>
                                         <label><input type="checkbox" id="todos" name="todos" value="todos">
-                                            Todos</label><br>
-                                        <label><input type="checkbox" id="psicologo" value="psicologo">
-                                            Psicólogo/a</label><br>
-                                        <label><input type="checkbox" id="terapistaLenguaje"
+                                            Todos/a</label><br>
+                                        <label><input type="checkbox" id="psicologo" name="psicologo" value="psicologo">
+                                            Liliana Peñafiel (Psicóloga)</label><br>
+                                        <label><input type="checkbox" id="terapistaLenguaje" name="terapistaLenguaje"
                                                       value="terapistaLenguaje">
-                                            Terapista de Lenguaje</label><br>
-                                        <label><input type="checkbox" id="terapistaFisico" value="terapistaFisico">
-                                            Terapista de Físico</label><br>
-                                        <label><input type="checkbox" id="educador" value="educador">
-                                            Educador/a</label><br>
-                                        <label><input type="checkbox" id="fonoaudiologo" value="fonoaudiologo">
-                                            Fonoaudiologo/a</label><br>
-                                        <label><input type="checkbox" id="estimulador" value="estimulador">
-                                            Estimulador/a temprano/a</label><br>
+                                            Adriana Leon (Terapista de Lenguaje)</label><br>
+                                        <label><input type="checkbox" id="terapistaFisico" name="terapistaFisico"
+                                                      value="terapistaFisico">
+                                            Soledad Rivera (Terapista Física)</label><br>
+                                        <label><input type="checkbox" id="educador" name="educador" value="educador">
+                                            Jenny Vèlez (Educadora)</label><br>
+                                        <label><input type="checkbox" id="estimuladorTemprano"
+                                                      name="estimuladorTemprano"
+                                                      value="estimuladorTemprano">
+                                            Cayetana Palacios (Estimuladora temprana)</label><br>
                                     </div>
                                 </div>
                                 <div align="center">

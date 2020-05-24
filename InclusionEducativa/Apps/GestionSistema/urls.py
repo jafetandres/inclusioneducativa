@@ -25,9 +25,10 @@ urlpatterns = [
         name='representante_editar'),
     url(r'^representante_eliminar/(?P<id_representante>\d+)/$', login_required(RepresentanteEliminar),
         name='representante_eliminar'),
-    url(r'^perfil/(?P<id_usuario>\d+)/$', login_required(perfil),
-        name='perfil'),
+    url(r'^perfil', login_required(perfil), name='perfil'),
     url(r'^buscarUsuario$', buscarUsuario,
         name='buscarUsuario'),
+    url(r'^verCurriculum/(?P<usuario_id>\d+)/$', verCurriculum,
+        name='verCurriculum'),
 
 ]

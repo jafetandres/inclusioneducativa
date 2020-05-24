@@ -39,6 +39,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     fechaNacimiento = models.DateField()
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_online = models.BooleanField(default=False, null=True, blank=True)
     tipo_usuario = models.CharField(max_length=50, null=True, blank=True)
     USERNAME_FIELD = 'username'
     objects = PersonalizadoBaseUserManager()

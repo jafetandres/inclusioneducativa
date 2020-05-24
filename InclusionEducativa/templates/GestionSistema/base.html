@@ -80,9 +80,9 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{% url 'gestionsistema:institucion_listar' %}">Instituciones</a>
-                    <a class="collapse-item" href="{% url 'gestionsistema:experto_listar' %}">Expertos</a>
-                    <a class="collapse-item" href="{% url 'gestionsistema:docente_listar' %}">Docentes</a>
-                    <a class="collapse-item" href="{% url 'gestionsistema:representante_listar' %}">Representantes</a>
+                    {#                                <a class="collapse-item" href="{% url 'gestionsistema:experto_listar' %}">Expertos</a>#}
+                    {#                                <a class="collapse-item" href="{% url 'gestionsistema:docente_listar' %}">Docentes</a>#}
+                    {#                                <a class="collapse-item" href="{% url 'gestionsistema:representante_listar' %}">Representantes</a>#}
                 </div>
             </div>
         </li>
@@ -112,31 +112,6 @@
                 </button>
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
-                    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                    <li class="nav-item dropdown no-arrow d-sm-none">
-                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-search fa-fw"></i>
-                        </a>
-
-                        <!-- Dropdown - Messages -->
-                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                             aria-labelledby="searchDropdown">
-                            <form class="form-inline mr-auto w-100 navbar-search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-0 small"
-                                           placeholder="Search for..." aria-label="Search"
-                                           aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </li>
-
 
                     <!-- Nav Item - Alerts -->
                     <li class="nav-item dropdown no-arrow mx-1">
@@ -144,9 +119,7 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
-
                             <span class="badge badge-danger badge-counter" id="unread_notifications"></span>
-
                         </a>
                         <!-- Dropdown - Alerts -->
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -154,132 +127,22 @@
                             <h6 class="dropdown-header">
                                 Notificaciones
                             </h6>
-
-                            <div id="unread_notification">
-                                <a class="dropdown-item d-flex align-items-center"
-                                   href="URL DE LA NOTIFICAION">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">FECHA NOTIFICAION</div>
-                                        <span class="font-weight-bold"> DETALLE DE LA NOTIFICAION</span>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-success">
-                                        <i class="fas fa-donate text-white"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="small text-gray-500">December 7, 2019</div>
-                                    $290.29 has been deposited into your account!
-                                </div>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-warning">
-                                        <i class="fas fa-exclamation-triangle text-white"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="small text-gray-500">December 2, 2019</div>
-                                    Spending Alert: We've noticed unusually high spending for your account.
-                                </div>
-                            </a>
+                            <div id="unread_notification"></div>
                             <a class="dropdown-item text-center small text-gray-500" href="#">Ver todas las
                                 notificaciones</a>
                         </div>
                     </li>
 
-
-                    <!-- Nav Item - Messages -->
-                    <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-envelope fa-fw"></i>
-                            <!-- Counter - Messages -->
-                            <span class="badge badge-danger badge-counter">7</span>
-                        </a>
-                        <!-- Dropdown - Messages -->
-                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                             aria-labelledby="messagesDropdown">
-                            <h6 class="dropdown-header">
-                                Message Center
-                            </h6>
-                            {#                            <a class="dropdown-item d-flex align-items-center" href="#">#}
-                            {#                                <div class="dropdown-list-image mr-3">#}
-                            {#                                    <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60"#}
-                            {#                                         alt="">#}
-                            {#                                    <div class="status-indicator bg-success"></div>#}
-                            {#                                </div>#}
-                            {#                                <div class="font-weight-bold">#}
-                            {#                                    <div class="text-truncate">Hi there! I am wondering if you can help me with a#}
-                            {#                                        problem I've been having.#}
-                            {#                                    </div>#}
-                            {#                                    <div class="small text-gray-500">Emily Fowler · 58m</div>#}
-                            {#                                </div>#}
-                            {#                            </a>#}
-                            {#                            <a class="dropdown-item d-flex align-items-center" href="#">#}
-                            {#                                <div class="dropdown-list-image mr-3">#}
-                            {#                                    <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60"#}
-                            {#                                         alt="">#}
-                            {#                                    <div class="status-indicator"></div>#}
-                            {#                                </div>#}
-                            {#                                <div>#}
-                            {#                                    <div class="text-truncate">I have the photos that you ordered last month, how would#}
-                            {#                                        you like them sent to you?#}
-                            {#                                    </div>#}
-                            {#                                    <div class="small text-gray-500">Jae Chun · 1d</div>#}
-                            {#                                </div>#}
-                            {#                            </a>#}
-                            {#                            <a class="dropdown-item d-flex align-items-center" href="#">#}
-                            {#                                <div class="dropdown-list-image mr-3">#}
-                            {#                                    <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60"#}
-                            {#                                         alt="">#}
-                            {#                                    <div class="status-indicator bg-warning"></div>#}
-                            {#                                </div>#}
-                            {#                                <div>#}
-                            {#                                    <div class="text-truncate">Last month's report looks great, I am very happy with the#}
-                            {#                                        progress so far, keep up the good work!#}
-                            {#                                    </div>#}
-                            {#                                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>#}
-                            {#                                </div>#}
-                            {#                            </a>#}
-                            {#                            <a class="dropdown-item d-flex align-items-center" href="#">#}
-                            {#                                <div class="dropdown-list-image mr-3">#}
-                            {#                                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"#}
-                            {#                                         alt="">#}
-                            {#                                    <div class="status-indicator bg-success"></div>#}
-                            {#                                </div>#}
-                            {#                                <div>#}
-                            {#                                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told#}
-                            {#                                        me that people say this to all dogs, even if they aren't good...#}
-                            {#                                    </div>#}
-                            {#                                    <div class="small text-gray-500">Chicken the Dog · 2w</div>#}
-                            {#                                </div>#}
-                            {#                            </a>#}
-                            {#                            <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>#}
-                        </div>
-                    </li>
                     <div class="topbar-divider d-none d-sm-block"></div>
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {% block usuario %}
-
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
-
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ request.user }}</span>
                             {% endblock %}
-
-                            {% if usuario_logueado.foto %}
-                                <img class="img-profile rounded-circle" src="{{ usuario_logueado.foto.url }}">
+                            {% if request.user.foto %}
+                                <img class="img-profile rounded-circle" src="{{ request.user.foto.url }}">
                             {% else %}
                                 <svg class="bi bi-people-circle" width="2em" height="2em" viewBox="0 0 16 16"
                                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -290,17 +153,14 @@
                                           clip-rule="evenodd"/>
                                 </svg>
                             {% endif %}
-
-
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                              aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="{% url 'gestionsistema:perfil' usuario_logueado.id %}">
+                            <a class="dropdown-item" href="{% url 'gestionsistema:perfil' %}">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Perfil
                             </a>
-
 
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal"
@@ -314,15 +174,16 @@
             </nav>
             <!-- End of Topbar -->
         {% endblock %}
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
+        {% block contenido %}
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
 
-            <!-- Page Heading -->
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800"></h1>
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800"></h1>
 
-            </div>
-            {% block contenido %}
+                </div>
+
                 <div class="table-responsive">
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800" align="center">Usuarios</h1>
@@ -368,8 +229,8 @@
 
                                                 <td>
                                                     <a class="btn btn-primary"
-                                                       href="{% url 'gestionsistema:institucion_editar' usuario.id %}">Ver
-                                                        <i class="fa fa-search"></i></a>
+                                                       href="{% url 'gestionsistema:verCurriculum' usuario.id %}">Ver
+                                                    </a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -382,304 +243,296 @@
                         </div>
                     </div>
                 </div>
-
-
-
-            {% endblock %}
-            {% block footer %}
-                <!-- Footer -->
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Inclusion Educativa 2019</span>
-                        </div>
+            </div>
+        {% endblock %}
+        {% block footer %}
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Inclusion Educativa 2019</span>
                     </div>
-                </footer>
-                <!-- End of Footer -->
-            {% endblock %}
-        </div>
-        <!-- End of Content Wrapper -->
-
+                </div>
+            </footer>
+            <!-- End of Footer -->
+        {% endblock %}
     </div>
-    <!-- End of Page Wrapper -->
+    <!-- End of Content Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+</div>
+<!-- End of Page Wrapper -->
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Seguro que desea cerrar sesión?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Selecione Cerrar sesión para salir o Cancelar para volver</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="{% url 'logout' %}">Cerrar sesión</a>
-                </div>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seguro que desea cerrar sesión?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Selecione Cerrar sesión para salir o Cancelar para volver</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" href="{% url 'logout' %}">Cerrar sesión</a>
             </div>
         </div>
     </div>
+</div>
 
-    {% block js %}
-        <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-        <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-        <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-        <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
-        <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
-        <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
-        <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
-        <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
-        <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
-        <script src="{% static 'dist/datepicker.js' %}"></script>
-        <script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
-        <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+{% block js %}
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+    <script src="{% static 'dist/datepicker.js' %}"></script>
+    <script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
+    <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
 
-        <script>
-            $('#dataTable').dataTable({
-                paging: true,
-                searching: true,
-                language: {
-                    search: "Buscar:",
-                    lengthMenu: "Mostrar _MENU_ registros",
-                    info: "Se muestra de _START_ a _END_ registros de _TOTAL_ registros en total",
-                    infoEmpty: "Se muestra 0 registros de 0 ",
-                    infoFiltered: "(Hay _MAX_ registros en total)",
-                    infoPostFix: "",
-                    loadingRecords: "Cargando...",
-                    zeroRecords: "No existen registros",
-                    paginate: {
-                        first: "Primero",
-                        previous: "Previo",
-                        next: "Siguiente",
-                        last: "Anterior"
-                    },
-                }
+    <script>
+        $('#dataTable').dataTable({
+            paging: true,
+            searching: true,
+            language: {
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros",
+                info: "Se muestra de _START_ a _END_ registros de _TOTAL_ registros en total",
+                infoEmpty: "Se muestra 0 registros de 0 ",
+                infoFiltered: "(Hay _MAX_ registros en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No existen registros",
+                paginate: {
+                    first: "Primero",
+                    previous: "Previo",
+                    next: "Siguiente",
+                    last: "Anterior"
+                },
+            }
 
-            });
+        });
 
-        </script>
+    </script>
+    <script>
+        $(document).ready(function () {
+            function cargarNotificaciones() {
+                $.ajax({
+                    url: "{% url 'notificaciones' %}",
+                    success: function (data) {
+                        if (data.length > 0) {
+                            var html = "";
+                            var html1 = "";
+                            console.log(data[0]);
+                            var unread = 0;
+                            for (var i = 0; i < data.length; i++) {
+                                console.log("status: " + data[i].fields.unread);
+                                if (data[i].fields.unread == true) {
+                                    unread++;
+                                    html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +
+                                        '                                <div class="mr-3">\n' +
+                                        '                                    <div class="icon-circle bg-primary">\n' +
+                                        '                                        <i class="fas fa-file-alt text-white"></i>\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>\n' +
+                                        '                                <div>\n' +
+                                        '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +
+                                        '                                    <span class="font-weight-bold"> ' + data[i].fields.description + '</span>\n' +
+                                        '                                </div>\n' +
+                                        '                            </a>' + html1;
 
-        <script>
-            $(document).ready(function () {
-                function cargarNotificaciones() {
-                    $.ajax({
-                        url: "{% url 'notificaciones' %}",
-                        success: function (data) {
-                            if (data.length > 0) {
-                                var html = "";
-                                var html1 = "";
-                                console.log(data[0]);
-                                var unread = 0;
-                                for (var i = 0; i < data.length; i++) {
-                                    console.log("status: " + data[i].fields.unread);
-                                    if (data[i].fields.unread == true) {
-                                        unread++;
-                                        html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +
-                                            '                                <div class="mr-3">\n' +
-                                            '                                    <div class="icon-circle bg-primary">\n' +
-                                            '                                        <i class="fas fa-file-alt text-white"></i>\n' +
-                                            '                                    </div>\n' +
-                                            '                                </div>\n' +
-                                            '                                <div>\n' +
-                                            '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +
-                                            '                                    <span class="font-weight-bold"> ' + data[i].fields.description + '</span>\n' +
-                                            '                                </div>\n' +
-                                            '                            </a>' + html1;
-
-                                    }
                                 }
-                                if (unread > 0) {
-                                    html = unread;
-                                    $('#unread_notifications').html(html);
+                            }
+                            if (unread > 0) {
+                                html = unread;
+                                $('#unread_notifications').html(html);
 
-                                    $('#unread_notification').html(html1);
-
-                                } else {
-                                    $('#unread_notifications').html('');
-                                }
+                                $('#unread_notification').html(html1);
 
                             } else {
-                                console.log('menor que 0');
                                 $('#unread_notifications').html('');
                             }
-                        },
-                        error: function () {
-                        }
-                    });
-                }
-
-                setInterval(cargarNotificaciones, 500);
-            });
-        </script>
-
-        <script>
-            $('[data-toggle="datepicker"]').datepicker({
-                language: 'es-ES',
-                format: 'yyyy-mm-dd',
-                autoHide: true
-
-
-            });
-        </script>
-
-
-        <script>
-
-            {#function validarCorreo(evt) {#}
-            $("#username").on('input', function () {
-                var username = document.getElementById("username").value;
-                $.ajax({
-                    url: "{% url 'gestionsistema:buscarUsuario'  %}",
-                    type: "get", // or "get"
-                    data: {
-                        'username': username
-                    },
-                    success: function (data) {
-                        if (data != null) {
-                            document.getElementById("salidaCorreo").innerHTML = ("El username ya existe");
-                            console.log('no sale');
-                        }
-
-                    },
-                    error: function () {
-                        document.getElementById("salidaCorreo").innerHTML = ("");
-
-                    }
-                });
-
-
-            });
-
-
-        </script>
-
-        <script>
-
-
-            function soloNumeros(evt) {
-
-
-                var charCode = (evt.which) ? evt.which : event.keyCode;
-                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                    return false;
-                } else
-                    {#var cedula = document.getElementById("cedula").value.trim();#}
-                    var cad = "";
-                $("#cedula").on('input', function () {
-
-                    document.getElementById("salida").innerHTML = ("La cedula es incorrecta");
-                    cad = $(this).val();
-
-
-                    var total = 0;
-                    var longitud = cad.length;
-                    var longcheck = longitud - 1;
-                    console.log("tamano = " + longitud);
-
-                    if (cad !== "") {
-                        for (i = 0; i < longcheck; i++) {
-                            if (i % 2 === 0) {
-                                var aux = cad.charAt(i) * 2;
-                                if (aux > 9) aux -= 9;
-                                total += aux;
-                            } else {
-                                total += parseInt(cad.charAt(i)); // parseInt o concatenará en lugar de sumar
-                            }
-                        }
-
-                        total = total % 10 ? 10 - total % 10 : 0;
-
-                        if (cad.charAt(longitud - 1) == total) {
-
-
-                            document.getElementById("salida").innerHTML = ("Cedula correcta");
-
-                            $.ajax({
-                                url: "{% url 'gestionsistema:buscarUsuario'  %}",
-                                type: "get", // or "get"
-                                data: {
-                                    'cedula': cad,
-
-                                },
-                                success: function (data) {
-
-
-                                    if (data != null) {
-                                        document.getElementById("salida").innerHTML = ("Cedula ya existe");
-
-                                    }
-
-
-                                },
-                                error: function () {
-                                    console.log('error' + data.error())
-                                }
-                            });
-                            estadoCedula = true;
 
                         } else {
-                            document.getElementById("salida").innerHTML = ("La cedula es incorrecta");
-
+                            console.log('menor que 0');
+                            $('#unread_notifications').html('');
                         }
+                    },
+                    error: function () {
                     }
                 });
-
-
-                return true;
-
-
             }
 
-        </script>
+            setInterval(cargarNotificaciones, 500);
+        });
+    </script>
+    <script>
+        $('[data-toggle="datepicker"]').datepicker({
+            language: 'es-ES',
+            format: 'yyyy-mm-dd',
+            autoHide: true
 
-        <script>
-            function readImage(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#blah').attr('src', e.target.result); // Renderizamos la imagen
+
+        });
+    </script>
+    <script>
+        {#function validarCorreo(evt) {#}
+        $("#username").on('input', function () {
+            var username = document.getElementById("username").value;
+            $.ajax({
+                url: "{% url 'gestionsistema:buscarUsuario'  %}",
+                type: "get", // or "get"
+                data: {
+                    'username': username
+                },
+                success: function (data) {
+                    if (data != null) {
+                        document.getElementById("salidaCorreo").innerHTML = ("El username ya existe");
+                        console.log('no sale');
                     }
-                    reader.readAsDataURL(input.files[0]);
+
+                },
+                error: function () {
+                    document.getElementById("salidaCorreo").innerHTML = ("");
+
                 }
-            }
-
-            $("#imgInp").change(function () {
-                // Código a ejecutar cuando se detecta un cambio de archivO
-                readImage(this);
             });
-        </script>
 
-        <script>
 
-            document.getElementById("file").onchange = function (e) {
-                // Creamos el objeto de la clase FileReader
-                let reader = new FileReader();
+        });
 
-                // Leemos el archivo subido y se lo pasamos a nuestro fileReader
-                reader.readAsDataURL(e.target.files[0]);
 
-                // Le decimos que cuando este listo ejecute el código interno
-                reader.onload = function () {
-                    let preview = document.getElementById('preview'),
-                        image = document.getElementById('img');
+    </script>
 
-                    image.src = reader.result;
+    <script>
 
-                    preview.innerHTML = '';
-                    preview.append(image);
-                };
+
+        function soloNumeros(evt) {
+
+
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            } else
+                {#var cedula = document.getElementById("cedula").value.trim();#}
+                var cad = "";
+            $("#cedula").on('input', function () {
+
+                document.getElementById("salida").innerHTML = ("La cedula es incorrecta");
+                cad = $(this).val();
+
+
+                var total = 0;
+                var longitud = cad.length;
+                var longcheck = longitud - 1;
+                console.log("tamano = " + longitud);
+
+                if (cad !== "") {
+                    for (i = 0; i < longcheck; i++) {
+                        if (i % 2 === 0) {
+                            var aux = cad.charAt(i) * 2;
+                            if (aux > 9) aux -= 9;
+                            total += aux;
+                        } else {
+                            total += parseInt(cad.charAt(i)); // parseInt o concatenará en lugar de sumar
+                        }
+                    }
+
+                    total = total % 10 ? 10 - total % 10 : 0;
+
+                    if (cad.charAt(longitud - 1) == total) {
+
+
+                        document.getElementById("salida").innerHTML = ("Cedula correcta");
+
+                        $.ajax({
+                            url: "{% url 'gestionsistema:buscarUsuario'  %}",
+                            type: "get", // or "get"
+                            data: {
+                                'cedula': cad,
+
+                            },
+                            success: function (data) {
+
+
+                                if (data != null) {
+                                    document.getElementById("salida").innerHTML = ("Cedula ya existe");
+
+                                }
+
+
+                            },
+                            error: function () {
+                                console.log('error' + data.error())
+                            }
+                        });
+                        estadoCedula = true;
+
+                    } else {
+                        document.getElementById("salida").innerHTML = ("La cedula es incorrecta");
+
+                    }
+                }
+            });
+
+
+            return true;
+
+
+        }
+
+    </script>
+
+    <script>
+        function readImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result); // Renderizamos la imagen
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-        </script>
-    {% endblock %}
+        }
+
+        $("#imgInp").change(function () {
+            // Código a ejecutar cuando se detecta un cambio de archivO
+            readImage(this);
+        });
+    </script>
+
+    <script>
+        document.getElementById("file").onchange = function (e) {
+            // Creamos el objeto de la clase FileReader
+            let reader = new FileReader();
+
+            // Leemos el archivo subido y se lo pasamos a nuestro fileReader
+            reader.readAsDataURL(e.target.files[0]);
+
+            // Le decimos que cuando este listo ejecute el código interno
+            reader.onload = function () {
+                let preview = document.getElementById('preview'),
+                    image = document.getElementById('img');
+
+                image.src = reader.result;
+
+                preview.innerHTML = '';
+                preview.append(image);
+            };
+        }
+    </script>
+{% endblock %}
 
 </body>
 

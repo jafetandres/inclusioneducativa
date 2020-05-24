@@ -1,24 +1,24 @@
-from random import choice
-from urllib import request
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core import serializers
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+from django_chatter.models import Room
+from django_chatter.utils import create_room
 from experta import *
 from notifications.models import Notification
-
 from InclusionEducativa.Apps.AppDocente.forms import *
 from InclusionEducativa.Apps.AppDocente.models import *
-from InclusionEducativa.Apps.AppExperto.models import Comentario
-from InclusionEducativa.Apps.GestionSistema.models import *
+from InclusionEducativa.Apps.AppExperto.models import Comentario, ExpertoFichaInformativa
 from InclusionEducativa.Apps.GestionSistema.forms import *
-from django_chatter.utils import create_room
 
 contador = 0
 
 
+@login_required
 def verFichaInformativa(request, cedula):
-    usuario_logueado = request.user
     if Estudiante.objects.filter(cedula=cedula).exists():
         estudiante = Estudiante.objects.get(cedula=cedula)
         if Notification.objects.filter(target_object_id=estudiante.id, recipient_id=request.user.id).exists():
@@ -26,22 +26,19 @@ def verFichaInformativa(request, cedula):
             for notificacion in notificaciones:
                 notificacion.mark_as_read()
         fichaInformativaDocente = FichaInformativaDocente.objects.get(estudiante_id=estudiante.id)
-    # comentarios = Comentario.objects.filter(estudiante_id=estudiante.id).order_by('-id')
     return render(request, 'AppDocente/verFichaInformativa.html',
-                  {'estudiante': estudiante, 'fichaInformativaDocente': fichaInformativaDocente,
-                   'usuario_logueado': usuario_logueado})
+                  {'estudiante': estudiante, 'fichaInformativaDocente': fichaInformativaDocente})
 
 
+@login_required
 def comentarios(request):
-    print(request.GET['id'])
     comentarios = Comentario.objects.filter(estudiante_id=request.GET['id']).order_by('-id')
     data1 = serializers.serialize('json', comentarios)
     return HttpResponse(data1, content_type='application/json')
 
 
+@login_required
 def buscarEstudiante(request):
-    docente = Docente.objects.get(usuario_id=request.user.id)
-    usuario_logueado = request.user
     if request.method == 'POST':
         ced = request.POST['cedula']
         valores = [int(ced[x]) * (2 - x % 2) for x in range(9)]
@@ -49,18 +46,20 @@ def buscarEstudiante(request):
         if int(ced[9]) == 10 - int(str(suma)[-1:]):
             if Estudiante.objects.filter(cedula=request.POST['cedula']).exists():
                 estudiante = Estudiante.objects.get(cedula=request.POST['cedula'])
-                return render(request, 'AppDocente/crearFichaInformativa.html',
-                              {'usuario_logueado': usuario_logueado, 'estudiante': estudiante})
-                if FichaInformativa.objects.filter(docente_id=docente.id, estudiante_id=estudiante.id).exists():
-                    messages.error(request, 'Ya ha ingresado la ficha del estudiante')
+                docente = Docente.objects.get(usuario_id=request.user.id)
+                if FichaInformativaDocente.objects.filter(docente_id=docente.id,
+                                                          estudiante_id=estudiante.id).exists() is False:
+                    return redirect('appdocente:crearFichaInformativa', estudiante_cedula=estudiante.cedula)
+                else:
+                    if FichaInformativaDocente.objects.filter(estudiante_id=estudiante.id).exists():
+                        messages.error(request, 'Ya ha ingresado la ficha del estudiante otro docente')
+                    else:
+                        messages.error(request, 'Usted ha ingresado la ficha del estudiante')
             else:
-                instituciones = Institucion.objects.all()
-                return redirect('appdocente:crearFichaInformativa')
-                # return render(request, 'AppDocente/crearFichaInformativa.html',
-                #               {'usuario_logueado': usuario_logueado, 'instituciones': instituciones})
+                return redirect('appdocente:crearFichaInformativa', estudiante_cedula=ced)
         else:
             messages.error(request, "La cédula introducida no es válida")
-    return render(request, 'AppDocente/buscarEstudiante.html', {'usuario_logueado': usuario_logueado})
+    return render(request, 'AppDocente/buscarEstudiante.html')
 
 
 class Pregunta1(Fact):
@@ -90,6 +89,7 @@ class RobotCrossStreet(KnowledgeEngine):
         contador = 2
 
 
+@login_required
 def base(request):
     usuario_logueado = request.user
     docente = Docente.objects.get(usuario_id=usuario_logueado.id)
@@ -99,7 +99,7 @@ def base(request):
         if fichaInformativaDocente.docente_id == docente.id:
             estudiantes.append(Estudiante.objects.get(id=fichaInformativaDocente.estudiante_id))
     return render(request, 'AppDocente/base.html',
-                  {'usuario_logueado': usuario_logueado, 'estudiantes': estudiantes})
+                  {'estudiantes': estudiantes})
 
 
 def EstudianteTest(request):
@@ -198,18 +198,28 @@ def ResultadoTest(request):
     return render(request, 'AppDocente/resultado_test.html', {'resultado': resultado})
 
 
-def perfil(request, id_usuario):
-    usuario_logueado = request.user
+@csrf_exempt
+@login_required
+def perfil(request):
     usuario = Usuario.objects.get(id=request.user.id)
-    form_usuario = UsuarioForm(request.POST, instance=usuario)
     if request.method == 'POST':
-        if form_usuario.is_valid():
-            form_usuario.save()
-        return redirect('appdocente:base')
-    return render(request, 'AppDocente/perfil.html', {'usuario': usuario,
-                                                      'usuario_logueado': usuario_logueado})
+        try:
+            usuario.nombres = request.POST['nombres']
+            usuario.apellidos = request.POST['apellidos']
+            usuario.username = request.POST['username']
+            if bool(request.FILES.get('file', False)) == True:
+                usuario.foto = request.FILES['file']
+            usuario.email = usuario.username
+            usuario.fechaNacimiento = request.POST['fechaNacimiento']
+            usuario.save()
+        except IntegrityError as e:
+            messages.error(request, 'El correo electronico ya esta en uso')
+
+        return redirect('appdocente:perfil')
+    return render(request, 'AppDocente/perfil.html')
 
 
+@login_required
 def crearEstudiante(request, cedula):
     if request.method == 'POST':
         if Estudiante.objects.filter(cedula=cedula).exists():
@@ -218,16 +228,32 @@ def crearEstudiante(request, cedula):
         else:
             form_estudiante = EstudianteForm(request.POST)
             if form_estudiante.is_valid():
+                estudiante = form_estudiante.save(commit=False)
+                estudiante.cedula = cedula
                 estudiante = form_estudiante.save()
+                crear_room(estudiante, 'nuevo')
                 return estudiante
 
 
-def crearFichaInformativa(request):
-    usuario_logueado = request.user
+@login_required
+def crear_room(estudiante, estado):
+    usuarios = Usuario.objects.filter(tipo_usuario='experto')
+    room_id = create_room(usuarios, estado)
+    room = Room.objects.get(id=room_id)
+    room.name = 'Caso ' + estudiante.nombres + " " + estudiante.apellidos
+    room.save()
+
+
+@login_required
+def crearFichaInformativa(request, estudiante_cedula):
     docente = Docente.objects.get(usuario_id=request.user.id)
+    cedula = estudiante_cedula
+    estudiante = None
+    if Estudiante.objects.filter(cedula=estudiante_cedula).exists():
+        estudiante = Estudiante.objects.get(cedula=estudiante_cedula)
+        cedula = estudiante.cedula
     if request.method == 'POST':
-        cedula = request.POST['cedula']
-        form_fichaInformativa = FichaInformativaForm(request.POST)
+        form_fichaInformativa = FichaInformativaDocenteForm(request.POST)
         form_dificultad = DificultadForm(request.POST)
         form_diagnosticoMedico = DiagnosticoMedicoForm(request.POST)
         form_diagnosticoSindromico = DiagnosticoSindromicoForm(request.POST)
@@ -242,110 +268,95 @@ def crearFichaInformativa(request):
             fichaInformativaDocente.docente = docente
             fichaInformativaDocente.estudiante = crearEstudiante(request, cedula)
             fichaInformativaDocente.save()
-            if (request.POST['todos'] == 'todos'):
-                expertos = Experto.objects.all()
-                for experto in expertos:
-                    expertoFicha = ExpertoFichaInformativa()
-                    expertoFicha.ficha = fichaInformativaDocente
-                    expertoFicha.experto = experto
-                    expertoFicha.save()
-            elif (request.POST['psicologo'] == 'psicologo'):
-                experto = Experto.objects.get(tituloUniversitario='PSICOLOGO')
-                expertoFicha = ExpertoFichaInformativa()
-                expertoFicha.ficha = fichaInformativaDocente
-                expertoFicha.experto = experto
-                expertoFicha.save()
+            # if (request.POST['todos'] == 'todos'):
+            expertos = Experto.objects.all()
+            for experto in expertos:
+                if ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
+                                                          estudiante_id=fichaInformativaDocente.estudiante.id).exists():
+                    fichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
+                                                                                estudiante_id=fichaInformativaDocente.estudiante.id)
 
-            elif (request.POST['terapistaLenguaje'] == 'terapistaLenguaje'):
-                experto = Experto.objects.get(tituloUniversitario='TERAPISTA DE LENGUAJE')
-                expertoFicha = ExpertoFichaInformativa()
-                expertoFicha.ficha = fichaInformativaDocente
-                expertoFicha.experto = experto
-                expertoFicha.save()
-            elif (request.POST['terapistaFisico'] == 'terapistaFisico'):
-                experto = Experto.objects.get(tituloUniversitario='TERAPISTA FISICO')
-                expertoFicha = ExpertoFichaInformativa()
-                expertoFicha.ficha = fichaInformativaDocente
-                expertoFicha.experto = experto
-                expertoFicha.save()
-            elif (request.POST['educador'] == 'educador'):
-                experto = Experto.objects.get(tituloUniversitario='EDUCADOR')
-                expertoFicha = ExpertoFichaInformativa()
-                expertoFicha.ficha = fichaInformativaDocente
-                expertoFicha.experto = experto
-                expertoFicha.save()
-            elif (request.POST['estimulador'] == 'estimulador'):
-                experto = Experto.objects.get(tituloUniversitario='ESTIMULADOR TEMPRANO')
-                expertoFicha = ExpertoFichaInformativa()
-                expertoFicha.ficha = fichaInformativaDocente
-                expertoFicha.experto = experto
-                expertoFicha.save()
-                # chatusuarios.append(Usuario.objects.get(id=expertoFicha.experto.usuario.id))
-
-                # notificaion = Notificacion()
-                # notificaion.receptor = usuario
-                # notificaion.emisor = request.user
-                #
-                # notificaion.visto = False
-                # notificaion.target = estudiante.id
-                # notificaion.descripcion = 'NUEVO CASO'
-                #
-                # notificaion.save()
-                #
-                #
-
-            # create_room(chatusuarios)
-
-            #
-            # elif (request.POST['psicologo'] == 'psicologo'):
-            #
-            # # experto = Experto.objects.filter(tituloUniversitario='PSICOLOGO')
-            # # notificaion.receptor = experto
-            #
-            # elif (request.POST['terapistaLenguaje'] == 'terapistaLenguaje'):
-            #
-            # # experto = Experto.objects.filter(tituloUniversitario='TERAPISTA DE LENGUAJE')
-            # # notificaion.receptor = experto
-            #
-            # elif (request.POST['docente'] == 'docente'):
-            #
-            # # experto = Experto.objects.filter(tituloUniversitario='DOCENTE')
-            # # notificaion.receptor = experto
-            #
-            # elif (request.POST['fonoaudiologo'] == 'fonoaudiologo'):
-
-        # experto = Experto.objects.filter(tituloUniversitario='FONOAUDIOLOGO')
-        # notificaion.receptor = experto
-
-        # notify.send(request.user, recipient_list=expertos.usuario, verb='Un nuevo caso llego.', target=estudiante)
-
-        return redirect('appdocente:base')
+                    for fichaInformativa in fichasInformativas:
+                        if bool(fichaInformativa.fichaInformativaDocente) == False:
+                            fichaInformativa.fichaInformativaDocente = fichaInformativaDocente
+                            fichaInformativa.save()
+                else:
+                    expertoFichaInformativa = ExpertoFichaInformativa()
+                    expertoFichaInformativa.fichaInformativaDocente = fichaInformativaDocente
+                    expertoFichaInformativa.estudiante = fichaInformativaDocente.estudiante
+                    expertoFichaInformativa.experto = experto
+                    expertoFichaInformativa.save()
+            return redirect('appdocente:base')
     else:
         instituciones = Institucion.objects.all()
     return render(request, 'AppDocente/crearFichaInformativa.html',
-                  {'usuario_logueado': usuario_logueado,
-                   'instituciones': instituciones
-                   })
+                  {'instituciones': instituciones, 'estudiante': estudiante, 'cedula': cedula})
 
+    # elif (request.POST['psicologo'] == 'psicologo'):
+    #     experto = Experto.objects.get(tituloUniversitario='psicologo')
+    #     expertoFichaInformativa = ExpertoFichaInformativa()
+    #     expertoFichaInformativa.ficha = fichaInformativaDocente
+    #     expertoFichaInformativa.experto = experto
+    #     expertoFichaInformativa.save()
+    # elif (request.POST['terapistaLenguaje'] == 'terapistaLenguaje'):
+    #     experto = Experto.objects.get(tituloUniversitario='terapistaLenguaje')
+    #     expertoFichaInformativa = ExpertoFichaInformativa()
+    #     expertoFichaInformativa.ficha = fichaInformativaDocente
+    #     expertoFichaInformativa.experto = experto
+    #     expertoFichaInformativa.save()
+    # elif (request.POST['terapistaFisico'] == 'terapistaFisico'):
+    #     experto = Experto.objects.get(tituloUniversitario='terapistaFisico')
+    #     expertoFichaInformativa = ExpertoFichaInformativa()
+    #     expertoFichaInformativa.ficha = fichaInformativaDocente
+    #     expertoFichaInformativa.experto = experto
+    #     expertoFichaInformativa.save()
+    # elif (request.POST['educador'] == 'educador'):
+    #     experto = Experto.objects.get(tituloUniversitario='educador')
+    #     expertoFichaInformativa = ExpertoFichaInformativa()
+    #     expertoFichaInformativa.ficha = fichaInformativaDocente
+    #     expertoFichaInformativa.experto = experto
+    #     expertoFichaInformativa.save()
+    # elif (request.POST['estimuladorTemprano'] == 'estimuladorTemprano'):
+    #     experto = Experto.objects.get(tituloUniversitario='estimuladorTemprano')
+    #     expertoFichaInformativa = ExpertoFichaInformativa()
+    #     expertoFichaInformativa.ficha = fichaInformativaDocente
+    #     expertoFichaInformativa.experto = experto
+    #     expertoFichaInformativa.save()
+    # chatusuarios.append(Usuario.objects.get(id=expertoFichaInformativa.experto.usuario.id))
 
-def EstudianteEditar(request, id_estudiante):
-    estudiante = EstudianteDocente.objects.get(id=id_estudiante)
-    if request.method == 'POST':
-        form = fichaEstudianteForm(request.POST, instance=estudiante)
-        if form.is_valid():
-            form.save()
-        return redirect('appdocente:base')
-    return render(request, 'AppDocente/estudiante_crear.htm', {'form_estudiante': estudiante})
+    # notificaion = Notificacion()
+    # notificaion.receptor = usuario
+    # notificaion.emisor = request.user
+    #
+    # notificaion.visto = False
+    # notificaion.target = estudiante.id
+    # notificaion.descripcion = 'NUEVO CASO'
+    #
+    # notificaion.save()
+    #
+    #
 
+    # create_room(chatusuarios)
 
-def fichaEstudianteListar(request):
-    fichasEstudiantes = EstudianteDocente.objects.all()
-    return render(request, 'AppDocente/fichaEstudianteListar.html', {'fichasEstudiantes': fichasEstudiantes})
+    #
+    # elif (request.POST['psicologo'] == 'psicologo'):
+    #
+    # # experto = Experto.objects.filter(tituloUniversitario='PSICOLOGO')
+    # # notificaion.receptor = experto
+    #
+    # elif (request.POST['terapistaLenguaje'] == 'terapistaLenguaje'):
+    #
+    # # experto = Experto.objects.filter(tituloUniversitario='TERAPISTA DE LENGUAJE')
+    # # notificaion.receptor = experto
+    #
+    # elif (request.POST['docente'] == 'docente'):
+    #
+    # # experto = Experto.objects.filter(tituloUniversitario='DOCENTE')
+    # # notificaion.receptor = experto
+    #
+    # elif (request.POST['fonoaudiologo'] == 'fonoaudiologo'):
 
+    # experto = Experto.objects.filter(tituloUniversitario='FONOAUDIOLOGO')
+    # notificaion.receptor = experto
 
-def EstudianteEliminar(request, id_estudiante):
-    estudiante = EstudianteDocente.objects.get(id=id_estudiante)
-    if request.method == 'POST':
-        estudiante.delete()
-        return redirect('appdocente:estudiante_listar')
-    return render(request, 'AppDocente/estudiante_eliminar.html', {'estudiante': estudiante})
+    # notify.send(request.user, recipient_list=expertos.usuario, verb='Un nuevo caso llego.', target=estudiante)

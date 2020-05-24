@@ -84,6 +84,8 @@ TEMPLATES = [
     },
 ]
 
+# CHATTER_BASE_TEMPLATE ='Chat/base.html'
+
 WSGI_APPLICATION = 'InclusionEducativa.wsgi.application'
 
 # Database
@@ -172,3 +174,4 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'InclusionEducativa/media')
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10242880

@@ -3,7 +3,10 @@ from django import forms
 from InclusionEducativa.Apps.AppRepresentante.models import *
 
 
-
+class FichaInformativaRepresentanteForm(forms.ModelForm):
+    class Meta:
+        model = FichaInformativaRepresentante
+        fields = "__all__"
 
 class DificultadForm(forms.ModelForm):
     class Meta:
