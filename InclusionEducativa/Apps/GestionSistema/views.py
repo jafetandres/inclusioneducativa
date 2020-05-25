@@ -89,6 +89,18 @@ def crearUsuario(request):
                 usuario.set_password(form.cleaned_data.get('password'))
                 usuario.email = request.POST['username']
                 usuario.save()
+                if usuario.tipo_usuario == 'experto':
+                    experto = Experto()
+                    experto.usuario = usuario
+                    experto.save()
+                if usuario.tipo_usuario == 'representante':
+                    representante = Representante()
+                    representante.usuario = usuario
+                    representante.save()
+                if usuario.tipo_usuario == 'docente':
+                    docente = Docente()
+                    docente.usuario = usuario
+                    docente.save()
                 administradores = Usuario.objects.filter(tipo_usuario='Administrador')
                 sistema = Usuario.objects.get(username='jafetandres@hotmail.com')
                 notify.send(sistema, recipient=administradores, verb="/", description="Nuevo usuario registrado")
