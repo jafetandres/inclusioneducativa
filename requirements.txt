@@ -1,6 +1,6 @@
 aioredis==1.3.1
 asgi-redis==1.4.3
-asgiref==3.2.3
+asgiref==2.3.2
 async-timeout==2.0.1
 attrs==19.3.0
 autobahn==19.11.2
@@ -22,7 +22,9 @@ django-braces==1.14.0
 django-chatter==1.0.7
 django-load==1.0.0
 django-model-utils==4.0.0
+django-notifications-hq==1.6.0
 django-progressive-web-app==0.1.1
+django-summernote==0.8.11.6
 experta==1.9.2
 ez-setup==0.9
 frozendict==1.2
@@ -74,6 +76,7 @@ service-identity==18.1.0
 six==1.13.0
 sphinx-me==0.3
 sqlparse==0.3.0
+swapper==1.1.2.post1
 Twisted==19.10.0
 txaio==18.8.1
 ujson==1.35
