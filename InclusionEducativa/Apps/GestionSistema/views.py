@@ -2,6 +2,7 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, views, password_validation
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import get_password_validators, get_default_password_validators, \
     validate_password
@@ -25,6 +26,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 @csrf_exempt
+@login_required
 def perfil(request):
     usuario = Usuario.objects.get(id=request.user.id)
     if request.method == 'POST':
@@ -46,7 +48,6 @@ def perfil(request):
 
 def verCurriculum(request, usuario_id):
     usuario = Usuario.objects.get(id=usuario_id)
-
     return render(request, 'GestionSistema/verCurriculum.html', {'usuario': usuario})
 
 
@@ -61,6 +62,7 @@ def index(request):
     return render(request, 'index.html', {'usuario_logueado': usuario_logueado})
 
 
+@login_required
 def base(request):
     usuario_logueado = request.user
     usuarios = Usuario.objects.all().order_by('is_active', '-is_active')
@@ -72,6 +74,7 @@ def curriculum(request):
     return render(request, 'curriculum.html')
 
 
+@login_required
 def notificaciones(request):
     notificaciones = Notification.objects.filter(recipient_id=request.user.id).order_by('unread')
     data1 = serializers.serialize('json', notificaciones)
@@ -104,7 +107,8 @@ def crearUsuario(request):
                 administradores = Usuario.objects.filter(tipo_usuario='Administrador')
                 sistema = Usuario.objects.get(username='jafetandres@hotmail.com')
                 notify.send(sistema, recipient=administradores, verb="/", description="Nuevo usuario registrado")
-                return redirect('index')
+                messages.info(request, 'Cuenta creada con exito inicia sesion')
+                return redirect('login')
             else:
                 messages.error(request, 'Verifique que todos los campos esten correctos.')
     else:
@@ -112,6 +116,7 @@ def crearUsuario(request):
     return render(request, 'registro.html', {'form': form, 'instituciones': instituciones})
 
 
+@login_required
 def activarUsuario(request, id_usuario):
     usuario = Usuario.objects.get(id=id_usuario)
     usuario.is_active = True
@@ -119,6 +124,7 @@ def activarUsuario(request, id_usuario):
     return redirect('gestionsistema:base')
 
 
+@login_required
 def desactivarUsuario(request, id_usuario):
     usuario = Usuario.objects.get(id=id_usuario)
     usuario.is_active = False
@@ -126,6 +132,7 @@ def desactivarUsuario(request, id_usuario):
     return redirect('gestionsistema:base')
 
 
+@login_required
 def cambiarContrasena(request):
     errores = []
     bandera = False

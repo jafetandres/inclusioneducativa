@@ -32,32 +32,37 @@ def perfil(request):
         return redirect('apprepresentante:perfil')
     return render(request, 'AppRepresentante/perfil.html')
 
+
 @login_required
 def buscarEstudiante(request):
     if request.method == 'POST':
-        ced = request.POST['cedula']
-        valores = [int(ced[x]) * (2 - x % 2) for x in range(9)]
-        suma = sum(map(lambda x: x > 9 and x - 9 or x, valores))
-        if int(ced[9]) == 10 - int(str(suma)[-1:]):
-            if Estudiante.objects.filter(cedula=request.POST['cedula']).exists():
+        if Experto.objects.all().exists():
+            ced = request.POST['cedula']
+            valores = [int(ced[x]) * (2 - x % 2) for x in range(9)]
+            suma = sum(map(lambda x: x > 9 and x - 9 or x, valores))
+            if int(ced[9]) == 10 - int(str(suma)[-1:]):
+                if Estudiante.objects.filter(cedula=request.POST['cedula']).exists():
 
-                estudiante = Estudiante.objects.get(cedula=request.POST['cedula'])
-                representante = Representante.objects.get(usuario_id=request.user.id)
+                    estudiante = Estudiante.objects.get(cedula=request.POST['cedula'])
+                    representante = Representante.objects.get(usuario_id=request.user.id)
 
-                if FichaInformativaRepresentante.objects.filter(representante_id=representante.id,
-                                                                estudiante_id=estudiante.id).exists() is False:
+                    if FichaInformativaRepresentante.objects.filter(representante_id=representante.id,
+                                                                    estudiante_id=estudiante.id).exists() is False:
 
-                    return redirect('apprepresentante:crearFichaInformativa', estudiante_cedula=estudiante.cedula)
-                else:
-                    if FichaInformativaRepresentante.objects.filter(estudiante_id=estudiante.id).exists():
-                        messages.error(request, 'Ya ha ingresado la ficha del estudiante otro representante')
+                        return redirect('apprepresentante:crearFichaInformativa', estudiante_cedula=estudiante.cedula)
                     else:
-                        messages.error(request, 'Usted ya ha ingresado la ficha del estudiante')
+                        if FichaInformativaRepresentante.objects.filter(estudiante_id=estudiante.id).exists():
+                            messages.error(request, 'Ya ha ingresado la ficha del estudiante otro representante')
+                        else:
+                            messages.error(request, 'Usted ya ha ingresado la ficha del estudiante')
+                else:
+                    return redirect('apprepresentante:crearFichaInformativa', estudiante_cedula=ced)
             else:
-                return redirect('apprepresentante:crearFichaInformativa', estudiante_cedula=ced)
+                messages.error(request, "La cédula introducida no es válida")
         else:
-            messages.error(request, "La cédula introducida no es válida")
+            messages.error(request, "Lo sentimos no contamos con expertos disponibles por el momento")
     return render(request, 'AppRepresentante/buscarEstudiante.html')
+
 
 @login_required
 def base(request):
@@ -69,6 +74,7 @@ def base(request):
             estudiantes.append(Estudiante.objects.get(id=fichaInformativaRepresentante.estudiante_id))
     return render(request, 'AppRepresentante/base.html',
                   {'estudiantes': estudiantes})
+
 
 @login_required
 def crearEstudiante(request, cedula):
@@ -84,6 +90,7 @@ def crearEstudiante(request, cedula):
                 estudiante = form_estudiante.save()
                 crear_room(estudiante, 'nuevo')
                 return estudiante
+
 
 @login_required
 def crear_room(estudiante, estado):
@@ -137,6 +144,7 @@ def crearFichaInformativa(request, estudiante_cedula):
         instituciones = Institucion.objects.all()
     return render(request, 'AppRepresentante/crearFichaInformativa.html',
                   {'instituciones': instituciones, 'estudiante': estudiante, 'cedula': cedula})
+
 
 @login_required
 def verFichaInformativa(request, cedula):

@@ -40,25 +40,28 @@ def comentarios(request):
 @login_required
 def buscarEstudiante(request):
     if request.method == 'POST':
-        ced = request.POST['cedula']
-        valores = [int(ced[x]) * (2 - x % 2) for x in range(9)]
-        suma = sum(map(lambda x: x > 9 and x - 9 or x, valores))
-        if int(ced[9]) == 10 - int(str(suma)[-1:]):
-            if Estudiante.objects.filter(cedula=request.POST['cedula']).exists():
-                estudiante = Estudiante.objects.get(cedula=request.POST['cedula'])
-                docente = Docente.objects.get(usuario_id=request.user.id)
-                if FichaInformativaDocente.objects.filter(docente_id=docente.id,
-                                                          estudiante_id=estudiante.id).exists() is False:
-                    return redirect('appdocente:crearFichaInformativa', estudiante_cedula=estudiante.cedula)
-                else:
-                    if FichaInformativaDocente.objects.filter(estudiante_id=estudiante.id).exists():
-                        messages.error(request, 'Ya ha ingresado la ficha del estudiante otro docente')
+        if Experto.objects.all().exists():
+            ced = request.POST['cedula']
+            valores = [int(ced[x]) * (2 - x % 2) for x in range(9)]
+            suma = sum(map(lambda x: x > 9 and x - 9 or x, valores))
+            if int(ced[9]) == 10 - int(str(suma)[-1:]):
+                if Estudiante.objects.filter(cedula=request.POST['cedula']).exists():
+                    estudiante = Estudiante.objects.get(cedula=request.POST['cedula'])
+                    docente = Docente.objects.get(usuario_id=request.user.id)
+                    if FichaInformativaDocente.objects.filter(docente_id=docente.id,
+                                                              estudiante_id=estudiante.id).exists() is False:
+                        return redirect('appdocente:crearFichaInformativa', estudiante_cedula=estudiante.cedula)
                     else:
-                        messages.error(request, 'Usted ha ingresado la ficha del estudiante')
+                        if FichaInformativaDocente.objects.filter(estudiante_id=estudiante.id).exists():
+                            messages.error(request, 'Ya ha ingresado la ficha del estudiante otro docente')
+                        else:
+                            messages.error(request, 'Usted ha ingresado la ficha del estudiante')
+                else:
+                    return redirect('appdocente:crearFichaInformativa', estudiante_cedula=ced)
             else:
-                return redirect('appdocente:crearFichaInformativa', estudiante_cedula=ced)
+                messages.error(request, "La cédula introducida no es válida")
         else:
-            messages.error(request, "La cédula introducida no es válida")
+            messages.error(request, "Lo sentimos no contamos con expertos disponibles por el momento")
     return render(request, 'AppDocente/buscarEstudiante.html')
 
 
@@ -269,23 +272,26 @@ def crearFichaInformativa(request, estudiante_cedula):
             fichaInformativaDocente.estudiante = crearEstudiante(request, cedula)
             fichaInformativaDocente.save()
             # if (request.POST['todos'] == 'todos'):
-            expertos = Experto.objects.all()
-            for experto in expertos:
-                if ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
-                                                          estudiante_id=fichaInformativaDocente.estudiante.id).exists():
-                    fichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
-                                                                                estudiante_id=fichaInformativaDocente.estudiante.id)
+            if Experto.objects.all().exists():
+                expertos = Experto.objects.all()
+                for experto in expertos:
+                    if ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
+                                                              estudiante_id=fichaInformativaDocente.estudiante.id).exists():
+                        fichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
+                                                                                    estudiante_id=fichaInformativaDocente.estudiante.id)
 
-                    for fichaInformativa in fichasInformativas:
-                        if bool(fichaInformativa.fichaInformativaDocente) == False:
-                            fichaInformativa.fichaInformativaDocente = fichaInformativaDocente
-                            fichaInformativa.save()
-                else:
-                    expertoFichaInformativa = ExpertoFichaInformativa()
-                    expertoFichaInformativa.fichaInformativaDocente = fichaInformativaDocente
-                    expertoFichaInformativa.estudiante = fichaInformativaDocente.estudiante
-                    expertoFichaInformativa.experto = experto
-                    expertoFichaInformativa.save()
+                        for fichaInformativa in fichasInformativas:
+                            if bool(fichaInformativa.fichaInformativaDocente) == False:
+                                fichaInformativa.fichaInformativaDocente = fichaInformativaDocente
+                                fichaInformativa.save()
+                    else:
+                        expertoFichaInformativa = ExpertoFichaInformativa()
+                        expertoFichaInformativa.fichaInformativaDocente = fichaInformativaDocente
+                        expertoFichaInformativa.estudiante = fichaInformativaDocente.estudiante
+                        expertoFichaInformativa.experto = experto
+                        expertoFichaInformativa.save()
+            else:
+                messages.error(request, "Lo sentimos no tenemos expertos disponibles")
             return redirect('appdocente:base')
     else:
         instituciones = Institucion.objects.all()
