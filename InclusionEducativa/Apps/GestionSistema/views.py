@@ -1,20 +1,14 @@
 import json
-
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, views, password_validation
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.password_validation import get_password_validators, get_default_password_validators, \
-    validate_password
-
+from django.contrib.auth.password_validation import get_default_password_validators
 from django.core.mail import send_mail
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
-from hamcrest.core import description
 from notifications.models import Notification
-
 from InclusionEducativa import settings
 from InclusionEducativa.Apps.GestionSistema.forms import *
 from InclusionEducativa.Apps.GestionSistema.models import *

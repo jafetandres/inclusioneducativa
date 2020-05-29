@@ -112,9 +112,8 @@ DATABASES = {
 # DATABASES['default'].update(db_from_env)
 
 
-#
 ASGI_APPLICATION = 'InclusionEducativa.routing.application'
-#
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
