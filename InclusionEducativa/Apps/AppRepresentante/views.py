@@ -88,17 +88,17 @@ def crearEstudiante(request, cedula):
                 estudiante = form_estudiante.save(commit=False)
                 estudiante.cedula = cedula
                 estudiante = form_estudiante.save()
-                crear_room(estudiante, 'nuevo')
+                # crear_room(estudiante, 'nuevo')
                 return estudiante
 
 
-@login_required
-def crear_room(estudiante, estado):
-    usuarios = Usuario.objects.filter(tipo_usuario='experto')
-    room_id = create_room(usuarios, estado)
-    room = Room.objects.get(id=room_id)
-    room.name = 'Caso ' + estudiante.nombres + ' ' + estudiante.apellidos
-    room.save()
+# @login_required
+# def crear_room(estudiante, estado):
+#     usuarios = Usuario.objects.filter(tipo_usuario='experto')
+#     room_id = create_room(usuarios, estado)
+#     room = Room.objects.get(id=room_id)
+#     room.name = 'Caso ' + estudiante.nombres + ' ' + estudiante.apellidos
+#     room.save()
 
 @login_required
 def crearFichaInformativa(request, estudiante_cedula):
