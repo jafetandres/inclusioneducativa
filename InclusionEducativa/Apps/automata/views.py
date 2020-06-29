@@ -660,7 +660,7 @@ def reporte(request):
         story.append(Spacer(1, 0.1 * inch))
 
     actividades_fluidez = request.session.get('actividades_fluidez')
-    if actividades_alimentacion:
+    if actividades_fluidez:
         story.append(Paragraph('Fluidez', h1))
         story.append(Spacer(1, 0.1 * inch))
         story.append(Spacer(1, 0.1 * inch))
@@ -670,7 +670,7 @@ def reporte(request):
         story.append(Spacer(1, 0.1 * inch))
 
     actividades_voz = request.session.get('actividades_voz')
-    if actividades_alimentacion:
+    if actividades_voz:
         story.append(Paragraph('Voz', h1))
         story.append(Spacer(1, 0.1 * inch))
         story.append(Spacer(1, 0.1 * inch))
