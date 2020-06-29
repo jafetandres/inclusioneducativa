@@ -167,6 +167,17 @@ CHANNEL_LAYERS = {
     },
 }
 
+DATABASES = {
+        'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': 'inclusioneducativa',
+                'USER': 'inclusioneducativa',
+                # 'PASSWORD': 'jagq1995',
+                # 'HOST': 'localhost',
+                # 'PORT': '5432',
+                }
+        }
+
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
