@@ -42,13 +42,10 @@ def buscarEstudiante(request):
             suma = sum(map(lambda x: x > 9 and x - 9 or x, valores))
             if int(ced[9]) == 10 - int(str(suma)[-1:]):
                 if Estudiante.objects.filter(cedula=request.POST['cedula']).exists():
-
                     estudiante = Estudiante.objects.get(cedula=request.POST['cedula'])
                     representante = Representante.objects.get(usuario_id=request.user.id)
-
                     if FichaInformativaRepresentante.objects.filter(representante_id=representante.id,
                                                                     estudiante_id=estudiante.id).exists() is False:
-
                         return redirect('apprepresentante:crearFichaInformativa', estudiante_cedula=estudiante.cedula)
                     else:
                         if FichaInformativaRepresentante.objects.filter(estudiante_id=estudiante.id).exists():

@@ -337,63 +337,84 @@
 {% block js %}
     {{ block.super }}
     <script>
-        function habilitar1(value) {
-            if (value == "SI") {
+        function habilitarP2L1(value) {
+            if (value == "Si") {
                 // habilitamos
-                document.getElementById("campoRespuesta1").disabled = false;
-            } else if (value == "NO") {
+                document.getElementById("descripcion_prenatal").disabled = false;
+            } else if (value == "No") {
                 // deshabilitamos
-                document.getElementById("campoRespuesta1").disabled = true;
-            } else if (value == "DESCONOZCO") {
+                document.getElementById("descripcion_prenatal").disabled = true;
+            } else if (value == "Desconozco") {
                 // deshabilitamos
-                document.getElementById("campoRespuesta1").disabled = true;
+                document.getElementById("descripcion_prenatal").disabled = true;
             }
         }
 
-        function habilitar2(value) {
-            if (value == "SI") {
+        function habilitarP2L2(value) {
+            if (value == "Si") {
                 // habilitamos
-                document.getElementById("campoRespuesta2").disabled = false;
-            } else if (value == "NO") {
+                document.getElementById("descripcion_perinatal").disabled = false;
+            } else if (value == "No") {
                 // deshabilitamos
-                document.getElementById("campoRespuesta2").disabled = true;
-            } else if (value == "DESCONOZCO") {
+                document.getElementById("descripcion_perinatal").disabled = true;
+            } else if (value == "Desconozco") {
                 // deshabilitamos
-                document.getElementById("campoRespuesta2").disabled = true;
+                document.getElementById("descripcion_perinatal").disabled = true;
             }
         }
 
-        function habilitar3(value) {
-            if (value == "SI") {
+        function habilitarP2L3(value) {
+            if (value == "Si") {
                 // habilitamos
-                document.getElementById("campoRespuesta3").disabled = false;
-            } else if (value == "NO") {
+                document.getElementById("descripcion_postnatal").disabled = false;
+            } else if (value == "No") {
                 // deshabilitamos
-                document.getElementById("campoRespuesta3").disabled = true;
-            } else if (value == "DESCONOZCO") {
+                document.getElementById("descripcion_postnatal").disabled = true;
+            } else if (value == "Desconozco") {
                 // deshabilitamos
-                document.getElementById("campoRespuesta3").disabled = true;
+                document.getElementById("descripcion_postnatal").disabled = true;
             }
         }
 
-        function habilitarFamilia(value) {
-            if (value == "OTRO") {
+        function habilitarP3(value) {
+            if (value == "Otro") {
                 // habilitamos
-                document.getElementById("campoFamilia").disabled = false;
+                document.getElementById("descripcion_tipoFamilia").disabled = false;
             } else {
                 // deshabilitamos
-                document.getElementById("campoFamilia").disabled = true;
+                document.getElementById("descripcion_tipoFamilia").disabled = true;
             }
         }
 
-        function habilitarDiagnostico(value) {
-            document.getElementById("cmbox").disabled = false;
-            if (value == "100") {
+        function habilitarP5(value) {
+            if (value == "Si") {
                 // habilitamos
-                document.getElementById("cmbox").disabled = false;
-            } else if (value == "200") {
+                document.getElementById("descripcionAntecedentesFPatologicos").disabled = false;
+            } else if (value == "No") {
                 // deshabilitamos
-                document.getElementById("cmbox").disabled = true;
+                document.getElementById("descripcionAntecedentesFPatologicos").disabled = true;
+            } else if (value == "Desconozco") {
+                // deshabilitamos
+                document.getElementById("descripcionAntecedentesFPatologicos").disabled = true;
+            }
+        }
+
+        function habilitarP6(value) {
+            if (value == "No") {
+                document.getElementById("diagnosticoMedicoDescripcion").disabled = true;
+                document.getElementById("diagnosticoMedicoOpcion").disabled = true;
+                $('select').selectpicker('refresh');
+
+            } else if (value == "Si") {
+                document.getElementById("diagnosticoMedicoOpcion").disabled = false;
+                $('select').selectpicker('refresh');
+            }
+            if (value == "Sindrome") {
+
+                document.getElementById("diagnosticoMedicoDescripcion").disabled = false;
+            } else if (value != "Sindrome") {
+                document.getElementById("diagnosticoMedicoDescripcion").disabled = true;
+
             }
         }
 

@@ -1,7 +1,5 @@
 from django import forms
-
 from InclusionEducativa.Apps.AppDocente.models import *
-
 
 class FichaInformativaDocenteForm(forms.ModelForm):
     class Meta:

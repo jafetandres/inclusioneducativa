@@ -9,14 +9,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
 DATABASES = {
         'default': {
                 'ENGINE': 'django.db.backends.postgresql_psycopg2',
                 'NAME': 'inclusioneducativa',
                 'USER': 'inclusioneducativa',
-                'PASSWORD': 'jagq1995',
-                'HOST': 'localhost',
-                'PORT': '5432',
+                # 'PASSWORD': 'jagq1995',
+                # 'HOST': 'localhost',
+                # 'PORT': '5432',
                 }
         }
+
+

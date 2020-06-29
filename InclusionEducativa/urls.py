@@ -25,29 +25,26 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('chat/', include('InclusionEducativa.Apps.chat.urls', namespace='chat')),
+    path('automata/', include('InclusionEducativa.Apps.automata.urls', namespace='automata')),
+    # url(r'^', include('django_telegrambot.urls')),
     url('^', include('django.contrib.auth.urls')),
-    # url(r'^password_reset/$', auth_views.password_reset, {'template_name': 'password_reset_form.html'},
-    #     name='password_reset'),
     url(r'^$', index, name='index'),
-    url(r'^test/$', realizarTest, name='test'),
+
     url(r'^notificaciones/$', notificaciones, name='notificaciones'),
     url(r'^curriculum/$', curriculum, name='curriculum'),
     url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),
-    path('summernote/', include('django_summernote.urls')),
     url(r'^crearUsuario$', crearUsuario, name='crearUsuario'),
     url(r'^accounts/login/$', login_view, name='login'),
     url(r'^accounts/logout/$', logout_view, name='logout'),
     url(r'^cambiarContrasena/', cambiarContrasena, name='cambiarContrasena'),
-
     url(r'^appexperto/', include(('InclusionEducativa.Apps.AppExperto.urls', 'appexperto'), namespace='appexperto')),
     url(r'gestionsistema',
         include(('InclusionEducativa.Apps.GestionSistema.urls', 'gestionsistema'), namespace='gestionsistema')),
     url(r'^appdocente/', include(('InclusionEducativa.Apps.AppDocente.urls', 'appdocente'), namespace='appdocente')),
     url(r'^apprepresentante/',
         include(('InclusionEducativa.Apps.AppRepresentante.urls', 'apprepresentante'), namespace='apprepresentante')),
-
     path('Chat/', include('django_chatter.urls')),
-
 ]
 
 if settings.DEBUG:

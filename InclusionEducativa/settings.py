@@ -27,6 +27,7 @@ SECRET_KEY = '0r9u3z=w6j2mq$vbus@(ppx5%f+c63pgmsnum10=!_jvl7i@2h'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+ADMINS = [('Jafet', 'jafetandres@hotmail.com')]
 # DEBUG = False
 #
 # ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
@@ -45,11 +46,14 @@ INSTALLED_APPS = [
     'InclusionEducativa.Apps.AppDocente',
     'InclusionEducativa.Apps.AppRepresentante',
     'InclusionEducativa.Apps.AppExperto',
-    'pwa',
+    'InclusionEducativa.Apps.automata',
     'django_chatter',
     'channels',
     'notifications',
-    'django_summernote'
+    'InclusionEducativa.Apps.chat',
+    'django_extensions'
+
+    # 'django_telegrambot'
 
 ]
 
@@ -84,19 +88,94 @@ TEMPLATES = [
     },
 ]
 
+# DJANGO_TELEGRAMBOT = {
+#
+#     'MODE': 'WEBHOOK',  # (Optional [str]) # The default value is WEBHOOK,
+#     # otherwise you may use 'POLLING'
+#     # NB: if use polling you must provide to run
+#     # a management command that starts a worker
+#
+#     'WEBHOOK_SITE': 'https://mywebsite.com',
+#     'WEBHOOK_PREFIX': '/prefix',  # (Optional[str]) # If this value is specified,
+#     # a prefix is added to webhook url
+#
+#     # 'WEBHOOK_CERTIFICATE' : 'cert.pem', # If your site use self-signed
+#     # certificate, must be set with location of your public key
+#     # certificate.(More info at https://core.telegram.org/bots/self-signed )
+#
+#     'BOTS': [
+#         {
+#             'TOKEN': '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',  # Your bot token.
+#
+#             # 'ALLOWED_UPDATES':(Optional[list[str]]), # List the types of
+#             # updates you want your bot to receive. For example, specify
+#             # ``["message", "edited_channel_post", "callback_query"]`` to
+#             # only receive updates of these types. See ``telegram.Update``
+#             # for a complete list of available update types.
+#             # Specify an empty list to receive all updates regardless of type
+#             # (default). If not specified, the previous setting will be used.
+#             # Please note that this parameter doesn't affect updates created
+#             # before the call to the setWebhook, so unwanted updates may be
+#             # received for a short period of time.
+#
+#             # 'TIMEOUT':(Optional[int|float]), # If this value is specified,
+#             # use it as the read timeout from the server
+#
+#             # 'WEBHOOK_MAX_CONNECTIONS':(Optional[int]), # Maximum allowed number of
+#             # simultaneous HTTPS connections to the webhook for update
+#             # delivery, 1-100. Defaults to 40. Use lower values to limit the
+#             # load on your bot's server, and higher values to increase your
+#             # bot's throughput.
+#
+#             # 'POLL_INTERVAL' : (Optional[float]), # Time to wait between polling updates from Telegram in
+#             # seconds. Default is 0.0
+#
+#             # 'POLL_CLEAN':(Optional[bool]), # Whether to clean any pending updates on Telegram servers before
+#             # actually starting to poll. Default is False.
+#
+#             # 'POLL_BOOTSTRAP_RETRIES':(Optional[int]), # Whether the bootstrapping phase of the `Updater`
+#             # will retry on failures on the Telegram server.
+#             # |   < 0 - retry indefinitely
+#             # |     0 - no retries (default)
+#             # |   > 0 - retry up to X times
+#
+#             # 'POLL_READ_LATENCY':(Optional[float|int]), # Grace time in seconds for receiving the reply from
+#             # server. Will be added to the `timeout` value and used as the read timeout from
+#             # server (Default: 2).
+#         },
+#         # Other bots here with same structure.
+#     ],
+#
+# }
+
 # CHATTER_BASE_TEMPLATE ='Chat/base.html'
 
 WSGI_APPLICATION = 'InclusionEducativa.wsgi.application'
+ASGI_APPLICATION = 'InclusionEducativa.routing.application'
+
+GRAPH_MODELS = {
+    'all_applications': True,
+    'group_models': True,
+}
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        },
+
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'InclusionEducativa.db',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'InclusionEducativa.db',
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -111,18 +190,6 @@ DATABASES = {
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
 
-
-ASGI_APPLICATION = 'InclusionEducativa.routing.application'
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('127.0.0.1', 6379)],
-        },
-
-    },
-}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -140,7 +207,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 LANGUAGE_CODE = "es-es"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Guayaquil'
 
 USE_I18N = True
 
@@ -159,9 +226,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'InclusionEducativa/static/')), ]
-#
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 
 AUTH_USER_MODEL = 'GestionSistema.Usuario'
 EMAIL_USE_TLS = True
@@ -170,7 +234,6 @@ EMAIL_HOST_USER = 'jafetgalvez1@gmail.com'
 EMAIL_HOST_PASSWORD = 'kgelhlrlozgcpoum'
 EMAIL_PORT = 587
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'InclusionEducativa/media')
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10242880

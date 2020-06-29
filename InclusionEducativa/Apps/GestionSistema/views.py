@@ -1,5 +1,6 @@
 import json
-from django.contrib import messages
+import io
+from django.contrib import messages, staticfiles
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import get_default_password_validators
@@ -13,10 +14,11 @@ from InclusionEducativa import settings
 from InclusionEducativa.Apps.GestionSistema.forms import *
 from InclusionEducativa.Apps.GestionSistema.models import *
 from django_chatter.models import UserProfile
-from datetime import datetime
+from datetime import datetime, date
 from notifications.signals import notify
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
+
 
 
 @csrf_exempt
@@ -45,10 +47,6 @@ def verCurriculum(request, usuario_id):
     return render(request, 'GestionSistema/verCurriculum.html', {'usuario': usuario})
 
 
-def realizarTest(request):
-    return render(request, 'test.html')
-
-
 def index(request):
     usuario_logueado = None
     if request.user.is_authenticated:
@@ -59,6 +57,7 @@ def index(request):
 @login_required
 def base(request):
     usuario_logueado = request.user
+
     usuarios = Usuario.objects.all().order_by('is_active', '-is_active')
     return render(request, 'GestionSistema/base.html',
                   {'usuario_logueado': usuario_logueado, 'notificaciones': notificaciones, 'usuarios': usuarios})
@@ -503,3 +502,4 @@ def reenviarContrasena(request, id_usuario):
     contenido = 'Hola bienvenido a Inclusion educativa tu para ingresar al sistema utiliza los siguiente datos Correo: ' + usuario.__str__() + 'Contraseña: ' + password_generate
     res = send_mail("Creacion de Usuario Inclusion Educativa", contenido, settings.EMAIL_HOST_USER,
                     [usuario.__str__()])
+
