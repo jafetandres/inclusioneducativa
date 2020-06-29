@@ -45,7 +45,7 @@ def test(request):
             testLenguaje.genero = request.session.get('genero')
             testLenguaje.fechaNacimiento = request.session.get('fechaNacimiento')
             testLenguaje.save()
-            if request.POST['p1'] == 'no':
+            if request.POST.get('p1', False) == 'no':
                 actividades_alimentacion.append(
                     'Servir los alimentos en porciones pequeñas cuando estos no son de agrado para su hijo/a '
                     'para incrementar paulatinamente la cantidad, siendo recomendable anticipar el menú del día '
@@ -62,7 +62,7 @@ def test(request):
                     'Presentar agendas/ calendarios visuales (fotos, gráficos, pictogramas) de la secuencia de '
                     'alimentos en el orden en que se servirá los alimentos ej. sopa + ensalada y pollo + '
                     'postre (este último puede ser utilizado como reforzador positivo)')
-            if request.POST['p2'] == 'no':
+            if request.POST.get('p2', False) == 'no':
                 actividades_alimentacion.append(
                     'Usar la participación parcial de los familiares al momento de utilizar los cubiertos '
                     '(ej. colocarse detrás del niño/a y ayudar con sus manos a utilizar los utensilios '
@@ -91,7 +91,7 @@ def test(request):
                 actividades_alimentacion.append(
                     'Incorporar un mantel o individual con velcro con la forma de los utensilios '
                     'para que el niño/a aprenda la colocación correcta de los mismos')
-            if request.POST['p3'] == 'no':
+            if request.POST.get('p3', False) == 'no':
                 actividades_alimentacion.append(
                     'Presentar los alimentos sólidos en trozos pequeños cuando estos no son de agrado para '
                     'su hijo/a, para incrementar paulatinamente la cantidad (sin embargo descartar con un '
@@ -100,7 +100,7 @@ def test(request):
                 actividades_alimentacion.append(
                     'Realizar ejercicios maxilares como abrir y cerrar la'
                     ' boca para estimular el proceso de masticación')
-            if request.POST['p4'] == 'no':
+            if request.POST.get('p4', False) == 'no':
                 actividades_alimentacion.append(
                     'Motivar a su hijo/a mediante tazas de su agrado(dibujos, colores) correspondientes a '
                     'su edad para la incorporación de bebidas no agradables para el niño/a')
@@ -110,7 +110,7 @@ def test(request):
                 actividades_alimentacion.append(
                     'Motivar al niño al terminar la ingesta por medio de reforzadores (ej. aplausos, '
                     'festejos verbales ¡Muy bien!)')
-            if request.POST['p5'] == 'no':
+            if request.POST.get('p5', False) == 'no':
                 actividades_alimentacion.append(
                     'Ejercitar los labios para mejorar la ingesta (uso de sorbetes, soplo, apretar los '
                     'labios, simular a enviar besos, etc.)')
@@ -120,7 +120,7 @@ def test(request):
                 actividades_alimentacion.append(
                     'Descartar con un especialista si no existe alguna condición médica que impide el '
                     'control de los órganos de la boca')
-            if request.POST['p6'] == 'no':
+            if request.POST.get('p6', False) == 'no':
                 actividades_alimentacion.append(
                     'Presentar los alimentos en porciones pequeñas hasta incorporar la cantidad de los mismo, '
                     'en presentaciones agradables a la vista del niño/a y en utensilios q él o ella haya '
@@ -135,7 +135,7 @@ def test(request):
                     'Alimento de agrado: espagueti'
                     'Así, se dará un trozo de carne y dos porciones de espagueti después que haya probado '
                     'el alimento no deseado hasta ir incorporando gradualmente el alimento')
-            if request.POST['p7'] == 'no':
+            if request.POST.get('p7', False) == 'no':
                 actividades_comprension.append(
                     'Utilizar los objetos reales de lo que queremos enseñar, dándole el uso y la función '
                     'correcta siendo modelo para que nuestro hijo/a imite ej. pelota (hacerla rodar )'
@@ -152,7 +152,7 @@ def test(request):
                 actividades_comprension.append(
                     'Dar el nombre de los objetos cuando se realiza una acción ej. al momento del lavado de'
                     'dientes dar el nombre al colocar la PASTA DENTAL, tomar el CEPILLO, etc.')
-            if request.POST['p8'] == 'no':
+            if request.POST.get('p8', False) == 'no':
                 actividades_comprension.append(
                     'Descartar con un especialista si no existe alguna condición médica como problemas '
                     'auditivos antes de iniciar este programa')
@@ -167,7 +167,7 @@ def test(request):
                 actividades_comprension.append(
                     'Utilizar apoyo visual (tarjetas, fotos, etc.) para mejorar la comprensión cuando se da '
                     'una orden a realizar')
-            if request.POST['p9'] == 'no':
+            if request.POST.get('p9', False) == 'no':
                 actividades_comprension.append(
                     'Eliminar los ruidos externos o distracciones ')
                 actividades_comprension.append(
@@ -180,7 +180,7 @@ def test(request):
                 actividades_comprension.append(
                     'Utilizar indicaciones simples evitando el exceso de información que pueden crear confusión ej. '
                     'Toma la pelota')
-            if request.POST['p10'] == 'no':
+            if request.POST.get('p10', False) == 'no':
                 actividades_comprension.append(
                     'Preparar juguetes que sean del interés del niño/a para motivar el uso correcto de ellos, si no '
                     'los utiliza correctamente se sugiere se lo tome de las manos y enseñarle cómo usarlos')
@@ -197,7 +197,7 @@ def test(request):
                 actividades_comprension.append(
                     'Delimitar el espacio establecido para jugar (incorporar un espacio en casa que sea '
                     'sólo para esa actividad)')
-            if request.POST['p11'] == 'no':
+            if request.POST.get('p11', False) == 'no':
                 actividades_comprension.append(
                     'Brindar la orden de manera clara y concisa con la acción que queremos que realice'
                     ' en pasos de secuencia ej. Queremos que pinte todos los círculos de color amarillo '
@@ -220,7 +220,7 @@ def test(request):
                 actividades_comprension.append(
                     'Iniciar el uso con material concreto (objetos) para posteriormente cambiarlos por '
                     'fotografías, gráficos /pictogramas')
-            if request.POST['p12'] == 'no':
+            if request.POST.get('p12', False) == 'no':
                 actividades_comprension.append(
                     'Utilizar las fotografías de los personajes del cuento, presentando con 2 – 3'
                     ' acciones para que el niño/a identifique o asocie en cuál participó el personajes  ')
@@ -233,7 +233,7 @@ def test(request):
                 actividades_comprension.append(
                     'Utilizar objetos/gráficos que se encontraron y NO en el cuento para que el niño/a '
                     'seleccione cuales estuvieron presentes en la historia  ')
-            if request.POST['p13'] == 'no':
+            if request.POST.get('p13', False) == 'no':
                 actividades_comprension.append(
                     'Utilizar preguntas claras y cortas con un vocabulario sencillo si el niño/a tienen '
                     'un número limitado de palabras')
@@ -241,7 +241,7 @@ def test(request):
                     'Si el caso requiere apoyarse de material visual que acompañe la pregunta')
                 actividades_comprension.append(
                     'Realizar preguntas cerradas para que el niño/a no pierda el hilo de la conversación')
-            if request.POST['p14'] == 'no':
+            if request.POST.get('p14', False) == 'no':
                 actividades_comprension.append(
                     'Estimular el reconocimiento de acciones por medio de la imitación, iniciando con la '
                     'imitación del padre a las acciones o juegos que realiza el niño/a para luego '
@@ -252,7 +252,7 @@ def test(request):
                 actividades_comprension.append(
                     'Iniciar la identificación de acciones con verbos que sean de uso común para el'
                     'niño, ej. comer, dormir, etc. ')
-            if request.POST['p15'] == 'no':
+            if request.POST.get('p15', False) == 'no':
                 actividades_comprension.append(
                     'Utilizar objetos material concreto o fotografías para indicar el objeto o '
                     'persona que queremos que indique ')
@@ -263,7 +263,7 @@ def test(request):
                     ' acciones y lugares')
                 actividades_comprension.append(
                     'Brindar oportunidades para la repetición del vocabulario aprendido')
-            if request.POST['p16'] == 'no':
+            if request.POST.get('p16', False) == 'no':
                 actividades_comprension.append(
                     'Brindar la orden con palabras clave ej . GUARDA, COME, etc.')
                 actividades_comprension.append(
@@ -273,7 +273,7 @@ def test(request):
                 actividades_comprension.append(
                     'Seleccionar anticipadamente los comandos que queremos que el niño/a aprenda '
                     'e ir incorporando nuevos y de mayor complejidad')
-            if request.POST['p17'] == 'no':
+            if request.POST.get('p17', False) == 'no':
                 actividades_comprension.append(
                     'Utilizar la imagen secuenciada (gráficos u objetos) de lo que queremos que el niño/a realice ')
                 actividades_comprension.append(
@@ -299,7 +299,7 @@ def test(request):
                     'Reforzar el uso de objetos, vestimenta de acuerdo al clima, acciones, lugares, '
                     'etc., mediante la asociación y emparejamiento de láminas o gráficos para enseñar '
                     'la situación correcta y lógica ')
-            if request.POST['p20'] == 'no':
+            if request.POST.get('p20', False) == 'no':
                 actividades_expre_com.append(
                     'Prestar atención a las interacciones del niño/a, como tomar al padre de la mano '
                     'y guiarlo hacia el objeto que desea, utilizar tercera persona para indicar '
@@ -315,7 +315,7 @@ def test(request):
                 actividades_expre_com.append(
                     'Colocar el objeto de mayor preferencia para el niño fuera de su alcance '
                     'para que solicite lo que desea')
-            if request.POST['p21'] == 'no':
+            if request.POST.get('p21', False) == 'no':
                 actividades_expre_com.append(
                     'Dar el nombre de los objetos de interés para el niño de manera repetitiva '
                     'cada vez que esta se presente. ')
@@ -329,7 +329,7 @@ def test(request):
                     'al tomar su mano y guiar el movimiento')
                 actividades_expre_com.append(
                     'Utilizar algún tipo de comunicador (tecnológico, gráfico) como sustitutivo del lenguaje oral')
-            if request.POST['p22'] == 'no':
+            if request.POST.get('p22', False) == 'no':
                 actividades_expre_com.append(
                     'Aumentar el vocabulario partiendo de objetos y TEMAS de interés para el niño/a')
                 actividades_expre_com.append(
@@ -354,7 +354,7 @@ def test(request):
                     'la pregunta de referencia “¿Quién es?” y la respuesta a dar será “YO” tomando al niño/a de la mano '
                     'y tocando su pecho para dar la simulación que él/ella lo realiza'
                     'Se puede realizar la actividad de igual manera con el uso de un espejo')
-            if request.POST['p24'] == 'no':
+            if request.POST.get('p24', False) == 'no':
                 actividades_expre_com.append(
                     'Enseñar el uso de estructuras por medio de lectura  de gráficos o pictogramas que contengan los siguientes elementos:'
                     'Sustantivo + verbo + sustantivos (mamá dame agua)  EL EJEMPLO PARA 2-3 AÑOS '
@@ -365,7 +365,7 @@ def test(request):
                     'Realizar preguntas claves para provocar el uso de vocabulario espontáneo Ej. Con el apoyo de la mano del '
                     'padre tocar el pecho del niño/a para que este diga su nombre “JUAN”, se le preguntará qué necesita y la '
                     'respuesta esperada será QUIERE AGUA, etc.')
-            if request.POST['p25'] == 'no':
+            if request.POST.get('p25', False) == 'no':
                 actividades_expre_com.append(
                     'Motivar la comunicación por medio de actividades y temas que sean de interés para el niño/a')
                 actividades_expre_com.append(
@@ -375,7 +375,7 @@ def test(request):
                     'al niño/a a interactuar con el adulto y mejorar la comunicación  ')
                 actividades_expre_com.append(
                     'Establecer tiempos cortos inicialmente de compartir con el niño/a actividades para luego incorporar gradualmente el tiempo')
-            if request.POST['p26'] == 'no':
+            if request.POST.get('p26', False) == 'no':
                 actividades_expre_com.append(
                     'Motivar la comunicación por medio de actividades y temas que sean de interés para el niño/a')
                 actividades_expre_com.append(
@@ -385,7 +385,7 @@ def test(request):
                     'al niño/a a interactuar con el adulto y mejorar la comunicación  ')
                 actividades_expre_com.append(
                     'Establecer tiempos cortos inicialmente de compartir con el niño/a actividades para luego incorporar gradualmente el tiempo')
-            if request.POST['p27'] == 'no':
+            if request.POST.get('p27', False) == 'no':
                 actividades_expre_com.append(
                     'Motivar la comunicación por medio de actividades y temas que sean de interés para el niño/a')
                 actividades_expre_com.append(
@@ -395,20 +395,20 @@ def test(request):
                     'al niño/a a interactuar con el adulto y mejorar la comunicación  ')
                 actividades_expre_com.append(
                     'Establecer tiempos cortos inicialmente de compartir con el niño/a actividades para luego incorporar gradualmente el tiempo')
-            if request.POST['p28'] == 'no':
+            if request.POST.get('p28', False) == 'no':
                 actividades_expre_com.append(
                     'Utilizar apoyos visuales con diferentes emociones en los que el niño/a pueda seleccionar cómo se siente')
                 actividades_expre_com.append(
                     'Utilizar historias sociales en los que se armará una historia del niño/a mientras se le pregunta las actividades,'
                     ' lugares, personas, sensaciones y sentimientos que ocurrieron en ella')
-            if request.POST['p29'] == 'no':
+            if request.POST.get('p29', False) == 'no':
                 actividades_expre_com.append(
                     'A medida que el niño ha incorporado un considerable vocabulario comprensivo y expresivo  tendrá interés por '
                     'preguntar en base a la imitación ¿Qué es, quién es? Como preguntas que hemos incorporado a lo largo '
                     'del proceso de adquisición de vocabulario')
                 actividades_expre_com.append(
                     'Incorporar objetos, situaciones y acciones que no son comunes para el niño/a para generar curiosidad')
-            if request.POST['p30'] == 'no':
+            if request.POST.get('p30', False) == 'no':
                 actividades_expre_com.append(
                     'Establecer temas que sean de conocimiento previo del niño (qué hizo en la escuela, juguete preferido, etc.)')
                 actividades_expre_com.append(
@@ -416,7 +416,7 @@ def test(request):
                     ' le ayuden a retomar el tema')
                 actividades_expre_com.append(
                     'Apoyarse de ayudas visuales como fotografías del tema que queremos incorporar')
-            if request.POST['p31'] == 'no':
+            if request.POST.get('p31', False) == 'no':
                 actividades_expre_com.append(
                     'Realizar juegos en los que se visualice la toma de turnos ej. Teléfono de vaso e hilo, rondas con globo y '
                     'la persona que tiene el globo tendrá la oportunidad de hablar, etc. ')
@@ -440,7 +440,7 @@ def test(request):
                     'como ¿qué harás? Seguido de nuestra indicación')
                 actividades_expre_com.append(
                     'Utilizar agendas visuales para ayudar al niño/a en la planificación de actividades futuras')
-            if request.POST['p33'] == 'no':
+            if request.POST.get('p33', False) == 'no':
                 if edad >= 2 and edad < 3:
                     actividades_expre_com.append(
                         'Rezalizar ejercicios con los labios: apretar, simular como enviar besos')
@@ -518,7 +518,7 @@ def test(request):
                     actividades_expre_com.append(
                         'Iniciar la enseñanza con las letras más simples como /m/, /p/ /c,q/k/  dejar para'
                         'el último letras como /r/, /s/, / y sínfones')
-            if request.POST['p34'] == 'no':
+            if request.POST.get('p34', False) == 'no':
                 actividades_fluidez.append(
                     'Iniciar con interacción básica mediante temas de interés que motiven a su hijo/a a compartir tiempos de atención')
                 actividades_fluidez.append(
@@ -528,7 +528,7 @@ def test(request):
                 actividades_fluidez.append(
                     'Motivar el uso de lenguaje espontáneo por medio de canciones de agrado para el niño, uso de '
                     'títeres o marionetas para recrear una historia, etc.')
-            if request.POST['p35'] == 'no':
+            if request.POST.get('p35', False) == 'no':
                 actividades_fluidez.append(
                     'Si su niño/a presenta ecolalia (repetición de palabras), se requiere identificar si la dificultad es'
                     ' descartada por un alteración en el área comprensiva, horas excesivas de ocio, o bloqueo en la comunicación '
@@ -540,7 +540,7 @@ def test(request):
                     'centrado en una organización y evite sentirse ansioso en el día, ya que esto puede provocar su ecolalia')
                 actividades_fluidez.append(
                     'Utilizar preguntas de clave tipo Q “Qué es, quién es, qué hace” ')
-            if request.POST['p36'] == 'no':
+            if request.POST.get('p36', False) == 'no':
                 actividades_voz.append(
                     'El uso de la entonación “peculiar” en su niño/a puede estar ligado a alteraciones a nivel sensorial'
                     ' (oído, gusto, tacto, olfato, visión), por lo que es importante trabajar en un programa de integración '
@@ -550,7 +550,7 @@ def test(request):
                 actividades_voz.append(
                     'Realizar juegos de roles ( dramatizaciones) en los que se pueda establecer diálogos con '
                     'diferentes guiones en los que se incorpore emociones diversas ')
-            if request.POST['p37'] == 'no':
+            if request.POST.get('p37', False) == 'no':
                 actividades_voz.append(
                     'El uso de la entonación “peculiar” en su niño/a puede estar ligado a alteraciones a nivel sensorial'
                     ' (oído, gusto, tacto, olfato, visión), por lo que es importante trabajar en un programa de integración '
@@ -560,7 +560,7 @@ def test(request):
                 actividades_voz.append(
                     'Realizar juegos de roles ( dramatizaciones) en los que se pueda establecer diálogos con '
                     'diferentes guiones en los que se incorpore emociones diversas ')
-            if request.POST['p38'] == 'no':
+            if request.POST.get('p38', False) == 'no':
                 actividades_voz.append(
                     'El uso de la entonación “peculiar” en su niño/a puede estar ligado a alteraciones a nivel sensorial'
                     ' (oído, gusto, tacto, olfato, visión), por lo que es importante trabajar en un programa de integración '
