@@ -1,34 +1,30 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
     <meta charset="utf-8">
-    <title>Plainced</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
-
+    <meta name="keywords" content="">
+    <meta name="description" content="Plataforma de inclusion educativa para ninos con distintos problemas">
+    <meta name="author" content="Jafet Galvez">
+    <title>Plainced</title>
     <!-- Favicons -->
     <link href="{% static 'img/favicon.png' %}" rel="icon">
-
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
           rel="stylesheet">
-
     <!-- Bootstrap CSS File -->
     <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-
     <!-- Libraries CSS Files -->
     <link href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
     <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
     <link href="{% static 'lib/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
     <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
     <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
-
     <!-- Main Stylesheet File -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-
-
     <!-- =======================================================
       Theme Name: Rapid
       Theme URL: https://bootstrapmade.com/rapid-multipurpose-bootstrap-business-template/
@@ -36,13 +32,8 @@
       License: https://bootstrapmade.com/license/
     ======================================================= -->
 </head>
-
 <body>
-<!--==========================
-Header
-============================-->
 <header id="header">
-
     <div id="topbar">
         <div class="container">
             <div class="social-links">
@@ -53,9 +44,7 @@ Header
             </div>
         </div>
     </div>
-
     <div class="container">
-
         <div class="logo float-left">
             <!-- Uncomment below if you prefer to use an image logo -->
             <h1 class="text-light"><a href="#intro" class="scrollto"><span>PLAINCED</span></a></h1>
@@ -65,8 +54,8 @@ Header
             <ul>
                 <li class="active"><a href="#intro">Inicio</a></li>
                 <li><a href="#about">Acerca de</a></li>
-                <li><a href="#team">Equipo Multidiciplinario</a></li>
-                <li><a href="#services">Recomendador</a></li>
+                <li><a href="#team">Equipo Interdisciplinario</a></li>
+                <li><a href="#services">Sistemas Expertos</a></li>
                 <li><a href="#footer">Contáctanos</a></li>
                 {% if usuario_logueado.is_authenticated %}
                     {% if usuario_logueado.tipo_usuario == 'experto' %}
@@ -91,7 +80,8 @@ Header
                         </li>
                     {% endif %}
                 {% else %}
-                    <li class="text-lowercase"><a href="{% url 'login' %}"><i class="fa fa-user"></i> Iniciar Sesion</a>
+                    <li class="text-lowercase"><a href="{% url 'gestionsistema:login' %}"><i class="fa fa-user"></i>
+                        Iniciar Sesion</a>
                     </li>
                 {% endif %}
             </ul>
@@ -110,7 +100,7 @@ Header
     <div class="container d-flex h-100">
         <div class="row justify-content-center align-self-center">
             <div class="col-md-6 intro-info order-md-first order-last">
-                <h2 align="center">Plataforma de Inclusión<span>Educativa</span></h2>
+                <h2 align="center">Plataforma de Inclusión <span>Educativa</span></h2>
                 <div>
                     {% if usuario_logueado.is_authenticated %}
                         {% if usuario_logueado.tipo_usuario == 'experto' %}
@@ -126,7 +116,8 @@ Header
                             <a href="{% url 'apprepresentante:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
                         {% endif %}
                     {% else %}
-                        <a href="{% url 'crearUsuario' %}" class="btn-get-started scrollto">Crear cuenta </a>
+                        <a href="{% url 'gestionsistema:crearUsuario' %}" class="btn-get-started scrollto">Crear
+                            cuenta </a>
                     {% endif %}
                 </div>
             </div>
@@ -145,140 +136,148 @@ Header
       About Us Section
     ============================-->
     <section id="about">
-
         <div class="container">
             <div class="row">
-
-                <div class="col-lg-7 col-md-6">
+                <div class="col-lg-12 col-md-6">
                     <div class="about-content">
-                        <h2>Componentes</h2>
-                        <h3>Plataforma accesible y siempre disponible.</h3>
-                        <p>Plataforma web que dispone de componentes indispensables para una Educación Inclusiva y de
-                            calidad.</p>
-
+                        <h2>Misión</h2>
+                        {#                        <h3>Plataforma accesible y siempre disponible.</h3>#}
+                        <p>Somos un equipo interdisciplinario comprometido con la educación inclusiva,
+                            que proporciona apoyo y acompañamiento a docentes y padres de familia en
+                            estrategias metodológicas y didácticas, a través de asistencia en línea
+                            como puente de acceso al trabajo cooperativo y colaborativo. </p>
+                        <h2>Visión</h2>
+                        <p>Asegurar la participación colaborativa mediante redes de apoyo entre
+                            profesionales del equipo interdisciplinario y la comunidad educativa, brindando
+                            herramientas específicas que promuevan adecuadas prácticas inclusivas de manera
+                            integral.</p>
+                        <h2>Objetivos</h2>
+                        <p>Somos un equipo interdisciplinario comprometido con la educación inclusiva,
+                            que proporciona apoyo y acompañamiento a docentes y padres de familia en
+                            estrategias metodológicas y didácticas, a través de asistencia en línea
+                            como puente de acceso al trabajo cooperativo y colaborativo. </p>
                         <ul>
-                            <li><i class="ion-android-checkmark-circle"></i> AQUI VA EL LINK DEL TEST.</li>
-                            <li><i class="ion-android-checkmark-circle"></i> Equipo profesional.</li>
-                            <li><i class="ion-android-checkmark-circle"></i> Comunicación integral.</li>
-                            <li><i class="ion-android-checkmark-circle"></i> Diagnóstico Presuntivo.</li>
-
+                            <li><i class="ion-android-checkmark-circle"></i>Asesorar a docentes en la implementación de
+                                estrategias metodológicas para casos específicos
+                            </li>
+                            <li><i class="ion-android-checkmark-circle"></i>Guiar a los padres de familia en el manejo
+                                de estrategias a ser aplicadas en el contexto familiar según sus necesidades específicas
+                            </li>
+                            <li><i class="ion-android-checkmark-circle"></i>Capacitar a docentes y padres de familia en
+                                temas de inclusión educativa
+                            </li>
+                            <li><i class="ion-android-checkmark-circle"></i>Promover el trabajo transdisciplinar</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-
     </section>
 
     <!-- #about -->
-
-
     <!--==========================
       Team Section
     ============================-->
     <section id="team" class="section-bg">
         <div class="container">
             <div class="section-header">
-                <h3>Equipo multidiciplinario</h3>
-                <p>Equipo de Trabajo integral que brinda asistencia.</p>
+                <h3>Equipo profesional interdisciplinario</h3>
+                <p>Equipo integrado por profesionales en las áreas de Psicología, Lenguaje, Estimulación Temprana,
+                    Pedagogía, Física y Docente.</p>
             </div>
-
             <div class="row">
-
-                <div class="col-lg-3 col-md-6 wow fadeInUp">
-                    <div class="member">
-                        <a target="_blank" href="{% url 'curriculum' %}"><img src="media/img_perfil/adriana.jpeg"
-                                                                              class="img-fluid" alt=""></a>
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>Adriana León</h4>
-                                <span>Terapista de Lenguaje</span>
-
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
+                {% if expertos %}
+                    {% for experto in expertos %}
+                        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="member">
+                                <a target="_blank" href="{% url 'gestionsistema:curriculum' experto.usuario.id %}"><img
+                                        src="{{ experto.usuario.foto.url }}"
+                                        class="img-fluid" alt=""></a>
+                                <div class="member-info">
+                                    <div class="member-info-content">
+                                        <h4>{{ experto.usuario.nombres }}</h4>
+                                        <span>{{ experto.tituloUniversitario }}</span>
+                                        <div class="social">
+                                            <a href=""><i class="fa fa-twitter"></i></a>
+                                            <a href=""><i class="fa fa-facebook"></i></a>
+                                            <a href=""><i class="fa fa-google-plus"></i></a>
+                                            <a href=""><i class="fa fa-linkedin"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="member">
-                        <img src="media/img_perfil/soledad.jpeg" class="img-fluid" alt="">
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>Soledad Rivera</h4>
-                                <span>Terapista Física</span>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="member">
-                        <img src="media/img_perfil/liliana.jpeg" class="img-fluid" alt="">
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>Liliana Peñafiel</h4>
-                                <span>Psicóloga</span>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="member">
-                        <img src="media/img_perfil/cayetana.jpeg" class="img-fluid" alt="">
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>Cayetana Palacios</h4>
-                                <span>Estimuladora Temprana</span>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="member">
-                        <img src="media/img_perfil/jaimmy.jpeg" class="img-fluid" alt="">
-                        <div class="member-info">
-                            <div class="member-info-content">
-                                <h4>Jaimmy Vélez</h4>
-                                <span>Educadora</span>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-twitter"></i></a>
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-google-plus"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                    {% endfor %}
+                    {#                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">#}
+                    {#                        <div class="member">#}
+                    {#                            <img src="media/img_perfil/soledad.jpeg" class="img-fluid" alt="">#}
+                    {#                            <div class="member-info">#}
+                    {#                                <div class="member-info-content">#}
+                    {#                                    <h4>Soledad Rivera</h4>#}
+                    {#                                    <span>Terapista Física</span>#}
+                    {#                                    <div class="social">#}
+                    {#                                        <a href=""><i class="fa fa-twitter"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-facebook"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-google-plus"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-linkedin"></i></a>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                    {#                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">#}
+                    {#                        <div class="member">#}
+                    {#                            <img src="media/img_perfil/liliana.jpeg" class="img-fluid" alt="">#}
+                    {#                            <div class="member-info">#}
+                    {#                                <div class="member-info-content">#}
+                    {#                                    <h4>Liliana Peñafiel</h4>#}
+                    {#                                    <span>Psicóloga</span>#}
+                    {#                                    <div class="social">#}
+                    {#                                        <a href=""><i class="fa fa-twitter"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-facebook"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-google-plus"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-linkedin"></i></a>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                    {#                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">#}
+                    {#                        <div class="member">#}
+                    {#                            <img src="media/img_perfil/cayetana.jpeg" class="img-fluid" alt="">#}
+                    {#                            <div class="member-info">#}
+                    {#                                <div class="member-info-content">#}
+                    {#                                    <h4>Cayetana Palacios</h4>#}
+                    {#                                    <span>Estimuladora Temprana</span>#}
+                    {#                                    <div class="social">#}
+                    {#                                        <a href=""><i class="fa fa-twitter"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-facebook"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-google-plus"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-linkedin"></i></a>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                    {#                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">#}
+                    {#                        <div class="member">#}
+                    {#                            <img src="media/img_perfil/jaimmy.jpeg" class="img-fluid" alt="">#}
+                    {#                            <div class="member-info">#}
+                    {#                                <div class="member-info-content">#}
+                    {#                                    <h4>Jaimmy Vélez</h4>#}
+                    {#                                    <span>Educadora</span>#}
+                    {#                                    <div class="social">#}
+                    {#                                        <a href=""><i class="fa fa-twitter"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-facebook"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-google-plus"></i></a>#}
+                    {#                                        <a href=""><i class="fa fa-linkedin"></i></a>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                {% endif %}
             </div>
-
         </div>
     </section><!-- #team -->
 
@@ -289,10 +288,10 @@ Header
         <div class="container">
 
             <header class="section-header">
-                <h3>Recomendador</h3>
-                <p>Escribir que tipos de servicios brindamos en la plataforma.</p>
+                <h3>Sistemas Expertos</h3>
+                <p>Herramienta que brinda planes de trabajo en las diferentes áreas del
+                    desarrollo según los resultados de una encuesta previa.</p>
             </header>
-
             <div class="row">
 
                 {#                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">#}

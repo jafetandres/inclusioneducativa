@@ -167,26 +167,26 @@ CHANNEL_LAYERS = {
     },
 }
 
-DATABASES = {
-        'default': {
-                'ENGINE': 'django.db.backends.postgresql_psycopg2',
-                'NAME': 'inclusioneducativa',
-                'USER': 'inclusioneducativa',
-                # 'PASSWORD': 'jagq1995',
-                # 'HOST': 'localhost',
-                # 'PORT': '5432',
-                }
-        }
+# DATABASES = {
+#         'default': {
+#                 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#                 'NAME': 'inclusioneducativa',
+#                 'USER': 'inclusioneducativa',
+#                 # 'PASSWORD': 'jagq1995',
+#                 # 'HOST': 'localhost',
+#                 # 'PORT': '5432',
+#                 }
+#         }
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'InclusionEducativa.db',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'InclusionEducativa.db',
+    }
+}
 
 # DATABASES = {
 #     'default': {
@@ -235,7 +235,8 @@ USE_TZ = True
 # ]
 
 STATIC_URL = '/static/'
-
+LOGIN_URL = '/gestionsistema/login/'
+LOGOUT_REDIRECT_URL = 'index'
 STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'InclusionEducativa/static/')), ]
 
 AUTH_USER_MODEL = 'GestionSistema.Usuario'

@@ -1,51 +1,23 @@
-"""InclusionEducativa URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 import notifications.urls
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
-from django.views.generic import TemplateView
 from InclusionEducativa.Apps.GestionSistema.views import *
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include('InclusionEducativa.Apps.chat.urls', namespace='chat')),
     path('automata/', include('InclusionEducativa.Apps.automata.urls', namespace='automata')),
-    # url(r'^', include('django_telegrambot.urls')),
-    url('^', include('django.contrib.auth.urls')),
-    url(r'^$', index, name='index'),
-
-    url(r'^notificaciones/$', notificaciones, name='notificaciones'),
-    url(r'^curriculum/$', curriculum, name='curriculum'),
+    path('', index, name='index'),
     url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),
-    url(r'^crearUsuario$', crearUsuario, name='crearUsuario'),
-    url(r'^accounts/login/$', login_view, name='login'),
-    url(r'^accounts/logout/$', logout_view, name='logout'),
-    url(r'^cambiarContrasena/', cambiarContrasena, name='cambiarContrasena'),
-    url(r'^appexperto/', include(('InclusionEducativa.Apps.AppExperto.urls', 'appexperto'), namespace='appexperto')),
-    url(r'gestionsistema',
-        include(('InclusionEducativa.Apps.GestionSistema.urls', 'gestionsistema'), namespace='gestionsistema')),
-    url(r'^appdocente/', include(('InclusionEducativa.Apps.AppDocente.urls', 'appdocente'), namespace='appdocente')),
-    url(r'^apprepresentante/',
-        include(('InclusionEducativa.Apps.AppRepresentante.urls', 'apprepresentante'), namespace='apprepresentante')),
+    path('appexperto/', include('InclusionEducativa.Apps.AppExperto.urls', namespace='appexperto')),
+    path('gestionsistema/', include('InclusionEducativa.Apps.GestionSistema.urls', namespace='gestionsistema')),
+    path('appdocente/', include('InclusionEducativa.Apps.AppDocente.urls', namespace='appdocente')),
+    path('apprepresentante/', include('InclusionEducativa.Apps.AppRepresentante.urls', namespace='apprepresentante')),
     path('Chat/', include('django_chatter.urls')),
+    url('^', include('django.contrib.auth.urls')),
 ]
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

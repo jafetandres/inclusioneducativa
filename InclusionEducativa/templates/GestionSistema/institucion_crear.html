@@ -2,69 +2,140 @@
 {% block usuario %}
     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
 {% endblock %}
-{% load filtros %}
 {% block contenido %}
-    <h1 class="h3 mb-2 text-gray-800" align="center">INSTITUCION</h1>
-    <div class="container">
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <div class="container-fluid">
-                    <br>
-                    <br>
-                    <form method="post" class="user">
-                        {% csrf_token %}
-                        <div class="form-group row">
-                            <div class="container">
-                                <br>
-                                <br>
-                                <div class="form-group">
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <label for="nombre">Nombre: <input type="text"
-                                                                               class="form-control form-control-user"
-                                                                               value='{{ form_institucion.nombre }}'
-                                                                               id="nombre" name="nombre" size="1000" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                                               required></label>
-                                        </div>
-                                        <br>
-                                        <br>
-                                        <div class="col-sm-6">
-                                            <label for="tipoEstablecimiento">Tipo de Establecimiento: <input type="text"
-                                                                                                             class="form-control form-control-user"
-                                                                                                             value="{{ form_institucion.tipoEstablecimiento }}"
-                                                                                                             id="tipoEstablecimiento"
-                                                                                                             name="tipoEstablecimiento"
-                                                                                                             size="1000" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                                                                             required></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6">
-                                            <label for="direccion">Direccion:<input type="text"
-                                                                                    class="form-control form-control-user"
-                                                                                    value="{{ form_institucion.direccion }}"
-                                                                                    id="direccion" name="direccion"
-                                                                                    size="1000" onkeyup="javascript:this.value=this.value.toUpperCase();" required></label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label for="telefono">Telefono: <input type="tel"
-                                                                                   class="form-control form-control-user"
-                                                                                   value="{{ form_institucion.telefono }}"
-                                                                                   id="telefono" name="telefono" maxlength="11"
-                                                                                   size="1000"  onkeypress="return soloNumeros(event)" required></label>
-                                        </div>
-                                    </div>
-                                    <div align="center">
-                                        <button type="submit" class="btn btn btn-primary btn-user">Guardar</button>
-                                        <a class="btn btn btn-danger btn-user" href="{% url 'gestionsistema:institucion_listar' %}">Cancelar</a>
-                                    </div>
-                                    <br>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <div class="p-5">
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">INSTITUCION</h1>
                 </div>
+                <form method="post" class="user">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="nombre">Nombre: <input type="text"
+                                                               class="form-control form-control-user"
+                                                               value='{{ form_institucion.nombre }}'
+                                                               id="nombre" name="nombre" size="1000"
+                                                               onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                               required></label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="tipoEstablecimiento">Tipo de Establecimiento: <input type="text"
+                                                                                             class="form-control form-control-user"
+                                                                                             value="{{ form_institucion.tipoEstablecimiento }}"
+                                                                                             id="tipoEstablecimiento"
+                                                                                             name="tipoEstablecimiento"
+                                                                                             size="1000"
+                                                                                             onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                                                             required></label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="direccion">Dirección:<input type="text"
+                                                                    class="form-control form-control-user"
+                                                                    value="{{ form_institucion.direccion }}"
+                                                                    id="direccion" name="direccion"
+                                                                    size="1000"
+                                                                    onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                                    required></label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="telefono">Teléfono: <input type="tel"
+                                                                   class="form-control form-control-user"
+                                                                   value="{{ form_institucion.telefono }}"
+                                                                   id="telefono" name="telefono"
+                                                                   maxlength="11"
+                                                                   size="1000"
+                                                                   onkeypress="return soloNumeros(event)"
+                                                                   required></label>
+                        </div>
+                    </div>
+                    <div align="center">
+                        <button type="submit" class="btn btn-primary btn-user">Guardar</button>
+                        <a class="btn btn btn-danger btn-user"
+                           href="{% url 'gestionsistema:institucion_listar' %}">Cancelar</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script>
+        function soloNumeros(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            } else
+                var cedula = document.getElementById("cedula").value.trim();
+            var cad = "";
+            $("#cedula").on('input', function () {
+
+                document.getElementById("salida").innerHTML = ("La cedula es incorrecta");
+                cad = $(this).val();
+
+
+                var total = 0;
+                var longitud = cad.length;
+                var longcheck = longitud - 1;
+                console.log("tamano = " + longitud);
+
+                if (cad !== "") {
+                    for (i = 0; i < longcheck; i++) {
+                        if (i % 2 === 0) {
+                            var aux = cad.charAt(i) * 2;
+                            if (aux > 9) aux -= 9;
+                            total += aux;
+                        } else {
+                            total += parseInt(cad.charAt(i)); // parseInt o concatenará en lugar de sumar
+                        }
+                    }
+
+                    total = total % 10 ? 10 - total % 10 : 0;
+
+                    if (cad.charAt(longitud - 1) == total) {
+
+
+                        document.getElementById("salida").innerHTML = ("Cedula correcta");
+
+                        $.ajax({
+                            url: "{% url 'gestionsistema:buscarUsuario'  %}",
+                            type: "get", // or "get"
+                            data: {
+                                'cedula': cad,
+
+                            },
+                            success: function (data) {
+
+
+                                if (data != null) {
+                                    document.getElementById("salida").innerHTML = ("Cedula ya existe");
+
+                                }
+
+
+                            },
+                            error: function () {
+                                console.log('error' + data.error())
+                            }
+                        });
+                        estadoCedula = true;
+
+                    } else {
+                        document.getElementById("salida").innerHTML = ("La cedula es incorrecta");
+
+                    }
+                }
+            });
+
+
+            return true;
+
+
+        }
+
+    </script>
 {% endblock %}

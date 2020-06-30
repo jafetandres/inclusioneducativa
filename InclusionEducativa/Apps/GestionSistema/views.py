@@ -20,7 +20,6 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 
 
-
 @csrf_exempt
 @login_required
 def perfil(request):
@@ -49,9 +48,12 @@ def verCurriculum(request, usuario_id):
 
 def index(request):
     usuario_logueado = None
+    expertos = None
+    if Experto.objects.all().exists():
+        expertos = Experto.objects.all()
     if request.user.is_authenticated:
         usuario_logueado = Usuario.objects.get(id=request.user.id)
-    return render(request, 'index.html', {'usuario_logueado': usuario_logueado})
+    return render(request, 'index.html', {'usuario_logueado': usuario_logueado, 'expertos': expertos})
 
 
 @login_required
@@ -63,8 +65,11 @@ def base(request):
                   {'usuario_logueado': usuario_logueado, 'notificaciones': notificaciones, 'usuarios': usuarios})
 
 
-def curriculum(request):
-    return render(request, 'curriculum.html')
+def curriculum(request, usuario_id):
+    experto = None
+    if Experto.objects.filter(usuario_id=usuario_id).exists():
+        experto = Experto.objects.get(usuario_id=usuario_id)
+    return render(request, 'curriculum.html', {'experto': experto})
 
 
 @login_required
@@ -502,4 +507,3 @@ def reenviarContrasena(request, id_usuario):
     contenido = 'Hola bienvenido a Inclusion educativa tu para ingresar al sistema utiliza los siguiente datos Correo: ' + usuario.__str__() + 'Contraseña: ' + password_generate
     res = send_mail("Creacion de Usuario Inclusion Educativa", contenido, settings.EMAIL_HOST_USER,
                     [usuario.__str__()])
-

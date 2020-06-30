@@ -1,8 +1,8 @@
 from django.urls import path
 from django.conf.urls import url, include
-
 from InclusionEducativa.Apps.AppExperto.views import *
 
+app_name = 'appexperto'
 urlpatterns = [
     url(r'^$', base, name='base'),
     url(r'^verFicha/(?P<cedula>\d+)/$', verFicha, name='verFicha'),

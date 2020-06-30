@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from InclusionEducativa.Apps.AppDocente.views import *
 
+app_name = 'appdocente'
 urlpatterns = [
     url(r'^$', base, name='base'),
     url(r'^comentarios$', comentarios, name='comentarios'),

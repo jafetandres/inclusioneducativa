@@ -1,7 +1,7 @@
 from django.conf.urls import url
-
 from InclusionEducativa.Apps.AppRepresentante.views import *
 
+app_name = 'apprepresentante'
 urlpatterns = [
     url(r'^$', base, name='base'),
     url(r'^buscarEstudiante$', buscarEstudiante, name='buscarEstudiante'),
