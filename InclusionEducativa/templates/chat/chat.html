@@ -33,34 +33,58 @@
                     </div>
                 </div>
                 <div class="card-body contacts_body">
-                    <ui class="contacts">
-                        <li class="active">
-                            <div class="d-flex bd-highlight">
-                                <div class="img_cont">
-                                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                         class="rounded-circle user_img">
-                                    <span class="online_icon"></span>
-                                </div>
-                                <div class="user_info">
-                                    <span>Khalid</span>
-                                    <p>Kalid is online</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="d-flex bd-highlight">
-                                <div class="img_cont">
-                                    <img src="https://2.bp.blogspot.com/-8ytYF7cfPkQ/WkPe1-rtrcI/AAAAAAAAGqU/FGfTDVgkcIwmOTtjLka51vineFBExJuSACLcBGAs/s320/31.jpg"
-                                         class="rounded-circle user_img">
-                                    <span class="online_icon offline"></span>
-                                </div>
-                                <div class="user_info">
-                                    <span>Taherah Big</span>
-                                    <p>Taherah left 7 mins ago</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ui>
+                    {% if rooms %}
+                        <ui class="contacts">
+                            {% for chat in rooms %}
+                                {% if chat.id ==  room.id %}
+                                    <a href="{% url 'chat:room' chat.id %}">
+                                        <li class="active">
+                                            <div class="d-flex bd-highlight">
+                                                <div class="img_cont">
+                                                    <img src="{% static 'chat/img/group.png' %}"
+                                                         class="rounded-circle user_img">
+                                                    <span class="online_icon"></span>
+                                                </div>
+                                                <div class="user_info">
+                                                    <span>{{ chat.name }}</span>
+                                                    <p>Kalid is online</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'chat:room' chat.id %}">
+                                        <li>
+                                            <div class="d-flex bd-highlight">
+                                                <div class="img_cont">
+                                                    <img src="{% static 'chat/img/group.png' %}"
+                                                         class="rounded-circle user_img">
+                                                    <span class="online_icon"></span>
+                                                </div>
+                                                <div class="user_info">
+                                                    <span>{{ chat.name }}</span>
+                                                    <p>Kalid is online</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                            {#                        <li>#}
+                            {#                            <div class="d-flex bd-highlight">#}
+                            {#                                <div class="img_cont">#}
+                            {#                                    <img src="https://2.bp.blogspot.com/-8ytYF7cfPkQ/WkPe1-rtrcI/AAAAAAAAGqU/FGfTDVgkcIwmOTtjLka51vineFBExJuSACLcBGAs/s320/31.jpg"#}
+                            {#                                         class="rounded-circle user_img">#}
+                            {#                                    <span class="online_icon offline"></span>#}
+                            {#                                </div>#}
+                            {#                                <div class="user_info">#}
+                            {#                                    <span>Taherah Big</span>#}
+                            {#                                    <p>Taherah left 7 mins ago</p>#}
+                            {#                                </div>#}
+                            {#                            </div>#}
+                            {#                        </li>#}
+                        </ui>
+                    {% endif %}
                 </div>
                 <div class="card-footer"></div>
             </div>
@@ -70,18 +94,17 @@
                 <div class="card-header msg_head">
                     <div class="d-flex bd-highlight">
                         <div class="img_cont">
-                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
+                            <img src="{% static 'chat/img/group.png' %}"
                                  class="rounded-circle user_img">
                             <span class="online_icon"></span>
                         </div>
                         <div class="user_info">
-                            <span>chat con</span>
-                            <p>1767 Mensajes</p>
+                            <span>{{ room.name }}</span>
                         </div>
-                        <div class="video_cam">
-                            <span><i class="fas fa-video"></i></span>
-                            <span><i class="fas fa-phone"></i></span>
-                        </div>
+                        {#                        <div class="video_cam">#}
+                        {#                            <span><i class="fas fa-video"></i></span>#}
+                        {#                            <span><i class="fas fa-phone"></i></span>#}
+                        {#                        </div>#}
                     </div>
                     <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
                     <div class="action_menu">
@@ -94,7 +117,7 @@
                     </div>
                 </div>
                 <div class="card-body msg_card_body" id="chat-log">
-                    <div> jose martines</div>
+                    <div class="msg_time"> jose martines</div>
                     <div class="d-flex justify-content-start mb-4">
                         <div class="img_cont_msg">
                             <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
@@ -138,11 +161,11 @@
 <script src="{% static 'chat/js/dateFormatter.js' %}"></script>
 
 <script>
-    var roomName = {{ room_name_json }};
-    var username = {{ username }};
+    var room_id = "{{ room.id }}";
+    var username = "{{ username }}";
     var chatSocket = new ReconnectingWebSocket(
         'ws://' + window.location.host +
-        '/ws/chat/' + roomName + '/');
+        '/ws/chat/' + room_id + '/');
 
     chatSocket.onopen = function (e) {
         fetchMessages();
@@ -170,19 +193,22 @@
     };
 
     document.querySelector('#chat-message-submit').onclick = function (e) {
-        console.log('entro');
         var messageInputDom = document.querySelector('#chat-message-input');
         var message = messageInputDom.value;
-        chatSocket.send(JSON.stringify({
-            'command': 'new_message',
-            'message': message,
-            'from': username
-        }));
+        if (message.replace(/\s/g, "") != "") {
+            chatSocket.send(JSON.stringify({
+                'command': 'new_message',
+                'message': message,
+                'from': username,
+                'room_id': room_id
+            }));
+        }
+
         messageInputDom.value = '';
     };
 
     function fetchMessages() {
-        chatSocket.send(JSON.stringify({'command': 'fetch_messages'}));
+        chatSocket.send(JSON.stringify({'command': 'fetch_messages', 'room_id': room_id}));
     }
 
     function createMessage(data) {
@@ -211,11 +237,14 @@
 
 
         }
+
         msgListTag.appendChild(imgContainer);
         msgListTag.appendChild(msgContainer);
         msgContainer.appendChild(msgTime);
         imgContainer.appendChild(imgTag);
         document.querySelector('#chat-log').appendChild(msgListTag);
+        var element = document.getElementById("chat-log");
+        element.scrollTop = element.scrollHeight - element.clientHeight;
     }
 </script>
 </body>

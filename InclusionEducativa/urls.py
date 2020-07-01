@@ -16,7 +16,7 @@ urlpatterns = [
     path('gestionsistema/', include('InclusionEducativa.Apps.GestionSistema.urls', namespace='gestionsistema')),
     path('appdocente/', include('InclusionEducativa.Apps.AppDocente.urls', namespace='appdocente')),
     path('apprepresentante/', include('InclusionEducativa.Apps.AppRepresentante.urls', namespace='apprepresentante')),
-    path('Chat/', include('django_chatter.urls')),
+    # path('Chat/', include('django_chatter.urls')),
     url('^', include('django.contrib.auth.urls')),
 ]
 if settings.DEBUG:

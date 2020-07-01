@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django_chatter.models import DateTimeModel
 
 User = get_user_model()
 
@@ -12,11 +13,8 @@ class Message(models.Model):
     def __str__(self):
         return self.author.username
 
-    def last_10_messages():
-        return Message.objects.order_by('-timestamp').all()[:10]
 
-
-class Room(models.Model):
+class Room(DateTimeModel):
     name = models.CharField(max_length=100, blank=True, null=True)
     participants = models.ManyToManyField(
         User, blank=True, related_name='chats')

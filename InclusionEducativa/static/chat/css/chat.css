@@ -101,6 +101,10 @@ body, html {
     margin-bottom: 15px !important;
 }
 
+.contacts a {
+    text-decoration: none;
+}
+
 .active {
     background-color: rgba(0, 0, 0, 0.3);
 }

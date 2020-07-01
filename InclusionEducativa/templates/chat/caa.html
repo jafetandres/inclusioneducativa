@@ -129,6 +129,7 @@
         '/ws/chat/' + roomName + '/');
 
     chatSocket.onopen = function (e) {
+        console.log('conectado');
         fetchMessages();
     }
 
@@ -154,13 +155,13 @@
     };
 
     document.querySelector('#chat-message-submit').onclick = function (e) {
-        console.log('entro');
         var messageInputDom = document.querySelector('#chat-message-input');
         var message = messageInputDom.value;
         chatSocket.send(JSON.stringify({
             'command': 'new_message',
             'message': message,
             'from': username
+
         }));
         messageInputDom.value = '';
     };
