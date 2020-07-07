@@ -55,7 +55,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'InclusionEducativa.wsgi.application'
+WSGI_APPLICATION = 'InclusionEducativa.wsgi.application'
 ASGI_APPLICATION = 'InclusionEducativa.routing.application'
 
 # GRAPH_MODELS = {
@@ -102,6 +102,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'InclusionEducativa/static/')
+# STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'InclusionEducativa/static/')), ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'InclusionEducativa/media')
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10242880
