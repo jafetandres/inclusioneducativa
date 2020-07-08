@@ -1,22 +1,5 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Plainced</title>
-    <!-- Custom fonts for this template-->
-    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-          rel="stylesheet">
-    <!-- Custom styles for this template-->
-    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
-</head>
-<body class="bg-gradient-primary">
-<div class="container">
+{% extends 'automata/base.html' %}
+{% block contenido %}
     <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
             <div class="container">
@@ -31,7 +14,7 @@
                     {% endif %}
                     <form method="post">
                         {% csrf_token %}
-                        <h1 class="h4 text-gray-900 mb-4">Alimentacion</h1>
+                        <h1 class="h4 text-gray-900 mb-4">Alimentación</h1>
                         <ol>
                             <li class="">Come solo:</li>
                             <dd>
@@ -66,7 +49,7 @@
                                 <input type="radio" value="no" name="p6"> No
                             </dd>
                         </ol>
-                        <h1 class="h4 text-gray-900 mb-4">Comprension</h1>
+                        <h1 class="h4 text-gray-900 mb-4">Comprensión</h1>
                         <ol>
                             <li>Conoce para qué sirven los objetos:</li>
                             <dd>
@@ -143,7 +126,7 @@
                                 </dd>
                             {% endif %}
                         </ol>
-                        <h1 class="h4 text-gray-900 mb-4">Expresion y Comunicacion</h1>
+                        <h1 class="h4 text-gray-900 mb-4">Expresión y Comunicación</h1>
                         <ol>
                             <li>Solicita deseos y necesidades (puede ser de manera oral, gestos, señas, etc.):</li>
                             <dd>
@@ -158,9 +141,9 @@
                                 <input type="radio" value="no" name="p21"> No
                             </dd>
                             <li>Utiliza un vocabulario espontáneo superior a
-                                {% if edad >= 1 and edad < 2 %}
-                                    2 – 20 palabras:
-                                {% endif %}
+                                {#                                {% if edad >= 1 and edad < 2 %}#}
+                                {#                                    2 – 20 palabras:#}
+                                {#                                {% endif %}#}
                                 {% if edad >= 2 and edad < 3 %}
                                     100 palabras:
                                 {% endif %}
@@ -186,23 +169,21 @@
                                     <input type="radio" value="no" name="p23"> No
                                 </dd>
                             {% endif %}
-                            {% if edad >= 2 %}
-                                <li>Estructura oraciones en su conversación :
-                                    {% if edad >= 2 and edad < 3 %}
-                                        (ej. mamá dame agua):
-                                    {% endif %}
-                                    {% if edad >= 3 and edad < 4 %}
-                                        (ej. quiero ir al parque):
-                                    {% endif %}
-                                    {% if edad >= 4 %}
-                                        (ej. mamá, comí un helado en la escuela):
-                                    {% endif %}
-                                </li>
-                                <dd>
-                                    <input type="radio" value="si" name="p24" required> Si
-                                    <input type="radio" value="no" name="p24"> No
-                                </dd>
-                            {% endif %}
+                            <li>Estructura oraciones en su conversación :
+                                {% if edad >= 2 and edad < 3 %}
+                                    (ej. mamá dame agua):
+                                {% endif %}
+                                {% if edad >= 3 and edad < 4 %}
+                                    (ej. quiero ir al parque):
+                                {% endif %}
+                                {% if edad >= 4 %}
+                                    (ej. mamá, comí un helado en la escuela):
+                                {% endif %}
+                            </li>
+                            <dd>
+                                <input type="radio" value="si" name="p24" required> Si
+                                <input type="radio" value="no" name="p24"> No
+                            </dd>
                             <li>Se comunica con todos los miembros de la familia:</li>
                             <dd>
                                 <input type="radio" value="si" name="p25" required> Si
@@ -239,25 +220,25 @@
                                 <input type="radio" value="no" name="p31"> No
                             </dd>
                             {% if edad >= 3 %}
-                                <li>Utiliza tiempos verbales (pasado, presente) niños a partir de 3 años:</li>
+                                <li>Utiliza tiempos verbales (pasado, presente):</li>
                                 <dd>
                                     <input type="radio" value="si" name="p32" required> Si
                                     <input type="radio" value="no" name="p32"> No
                                 </dd>
                             {% endif %}
-                            {% if edad >= 2 %}
+                            {% if edad >= 2.5 %}
                                 <li>Su niño/a pronuncia correctamente estas letras cuando habla
-                                    {% if edad >= 2 and edad < 3 %}
-                                        m-p-b-t-d-k-n:
+                                    {% if edad >= 2.5 and edad < 3 %}
+                                        <b>m-p-b-t-d-k-n:</b>
                                     {% endif %}
-                                    {% if edad >= 3 and edad < 4 %}
-                                        m-p-b-t-d-k-g-j-n-l-y-ll-ch:
+                                    {% if edad >= 3 and edad < 4.5 %}
+                                        <b>m-p-b-t-d-k-g-j-n-l-y-ll-ch:</b>
                                     {% endif %}
-                                    {% if edad >= 4 and edad < 5 %}
-                                        m-p-b-t-d-k-g-j-n-l-y-ll-ch-r-s) sínfones con l ej. plato, globo,etc:
+                                    {% if edad >= 4.5 and edad < 5 %}
+                                        <b>m-p-b-t-d-k-g-j-n-l-y-ll-ch-r-s) sínfones con l ej. plato, globo,etc:</b>
                                     {% endif %}
                                     {% if edad >= 5 %}
-                                        Pronuncia todas las letras correctamente:
+                                        <b>Pronuncia todas las letras correctamente:</b>
                                     {% endif %}
                                 </li>
                                 <dd>
@@ -310,13 +291,4 @@
             </div>
         </div>
     </div>
-</div>
-<!-- Bootstrap core JavaScript-->
-<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<!-- Core plugin JavaScript-->
-<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-<!-- Custom scripts for all pages-->
-<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-</body>
-</html>
+{% endblock %}

@@ -1,5 +1,8 @@
 import io
+
+from django.contrib import messages
 from django.shortcuts import render, redirect
+from reportlab.lib.colors import Color
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
@@ -17,11 +20,22 @@ titulo = "Actividades"
 
 def datosTest(request):
     if request.method == 'POST':
-        request.session['fechaNacimiento'] = request.POST['fechaNacimiento']
-        request.session['canton'] = request.POST['canton']
-        request.session['genero'] = request.POST['genero']
-        return redirect('automata:test')
-    return render(request, 'test/datosTest.html')
+        if calcularEdad(request.POST['fechaNacimiento']) >= 2 and calcularEdad(request.POST['fechaNacimiento']) <= 10:
+            request.session['fechaNacimiento'] = request.POST['fechaNacimiento']
+            request.session['canton'] = request.POST['canton']
+            request.session['genero'] = request.POST['genero']
+            return redirect('automata:test')
+        else:
+            messages.error(request, 'Lo sentimos la ficha evaluativa esta diseñada para niños de 2 a 10 años')
+    return render(request, 'automata/base.html')
+
+
+def calcularEdad(fechaNacimiento):
+    hoy = datetime.today()
+    fechaNacimiento = datetime.strptime(str(fechaNacimiento), '%Y-%m-%d')
+    dias = hoy - fechaNacimiento
+    edad = dias.days / 365
+    return edad
 
 
 def test(request):
@@ -30,10 +44,11 @@ def test(request):
     actividades_expre_com = []
     actividades_fluidez = []
     actividades_voz = []
-    hoy = datetime.today()
-    fechaNacimiento = datetime.strptime(str(request.session.get('fechaNacimiento')), '%Y-%m-%d')
-    dias = hoy - fechaNacimiento
-    edad = dias.days / 365
+    # hoy = datetime.today()
+    # fechaNacimiento = datetime.strptime(str(request.session.get('fechaNacimiento')), '%Y-%m-%d')
+    # dias = hoy - fechaNacimiento
+    # edad = dias.days / 365
+    edad = calcularEdad(request.session.get('fechaNacimiento'))
     if request.method == 'POST':
         form_testLenguaje = TestLenguajeForm(request.POST)
         if form_testLenguaje.is_valid():
@@ -441,7 +456,7 @@ def test(request):
                 actividades_expre_com.append(
                     'Utilizar agendas visuales para ayudar al niño/a en la planificación de actividades futuras')
             if request.POST.get('p33', False) == 'no':
-                if edad >= 2 and edad < 3:
+                if edad >= 2.5 and edad < 3:
                     actividades_expre_com.append(
                         'Rezalizar ejercicios con los labios: apretar, simular como enviar besos')
                     actividades_expre_com.append(
@@ -468,7 +483,7 @@ def test(request):
                         '/d/, apretar la lengua contra los dientes y expulsar aire')
                     actividades_expre_com.append(
                         'Evitar utilizar un lenguaje infantil en casa, hablar con el niño/a de manera clara y fuerte PARA 3-5 AÑOS TAMBIÉN')
-                if edad >= 3 and edad < 4:
+                if edad >= 3 and edad < 4.5:
                     actividades_expre_com.append(
                         'Realizar ejercicios con los labios: apretar, simular como enviar besos, vibrar PARA 4-5 AÑOS TAMBIÉN')
                     actividades_expre_com.append(
@@ -489,7 +504,7 @@ def test(request):
                         '/d/, apretar la lengua contra los dientes y expulsar aire'
                         '/l/, elevar la lengua a la parte posterior de los incisivos superiores'
                         '/ch/, juntar los dientes y emitir sonidos con fuerza')
-                if edad >= 4:
+                if edad >= 4.5:
                     actividades_expre_com.append(
                         'Realizar ejercicios con la lengua: sacar y meter la lengua de manera rápida y lenta, elevar y descender, '
                         'lateralizar, vibrar ')
@@ -578,11 +593,11 @@ def test(request):
             request.session['actividades_voz'] = actividades_voz
 
             return redirect('automata:resultadoTest')
-    return render(request, 'test/test.html', {'edad': edad})
+    return render(request, 'automata/test.html', {'edad': edad})
 
 
 def resultadoTest(request):
-    return render(request, 'test/resultadoTest.html')
+    return render(request, 'automata/resultadoTest.html')
 
 
 # Definimos las caracteristicas fijas de la primera página
@@ -620,6 +635,11 @@ def reporte(request):
     story = [Spacer(0, 80)]
     # Definimos un estilo
     estilo = styles['Normal']
+    linkStyle = ParagraphStyle(
+        'link',
+        textColor='#3366BB'
+    )
+
     # Creamos 100 párrafos
     # for i in range(100):
     #     texto = ("Este es el párrafo número %s. " % (i + 1)) * 20
@@ -635,18 +655,34 @@ def reporte(request):
         story.append(Paragraph('Alimentacion', h1))
         story.append(Spacer(1, 0.1 * inch))
         story.append(Spacer(1, 0.1 * inch))
-
         for i, actividad in enumerate(actividades_alimentacion):
             story.append(Paragraph(actividad, estilo, bulletText=str(i + 1) + '.'))
             story.append(Spacer(1, 0.1 * inch))
+        story.append(Paragraph('<b>Links de apoyo:</b>', estilo))
+        story.append(Spacer(1, 0.1 * inch))
+        story.append(Paragraph('http://www.arasaac.org/herramientas.php', linkStyle))
+        story.append(Paragraph('http://wikinclusion.org/index.php/1028', linkStyle))
+        story.append(Paragraph('http://wikinclusion.org/index.php/1018', linkStyle))
+        story.append(Paragraph('http://wikinclusion.org/index.php/1020', linkStyle))
+        story.append(Spacer(1, 0.1 * inch))
+
     actividades_comprension = request.session.get('actividades_comprension')
     if actividades_comprension:
         story.append(Paragraph('Comprension', h1))
         story.append(Spacer(1, 0.1 * inch))
         story.append(Spacer(1, 0.1 * inch))
-
-    for i, actividad in enumerate(actividades_comprension):
-        story.append(Paragraph(actividad, estilo, bulletText=str(i + 1) + '.'))
+        for i, actividad in enumerate(actividades_comprension):
+            story.append(Paragraph(actividad, estilo, bulletText=str(i + 1) + '.'))
+            story.append(Spacer(1, 0.1 * inch))
+        story.append(Paragraph('<b>Links de apoyo:</b>', estilo))
+        story.append(Spacer(1, 0.1 * inch))
+        story.append(Paragraph('http://www.arasaac.org/herramientas.php', linkStyle))
+        story.append(Paragraph('http://www.arasaac.org/materiales.php?id_material=2705', linkStyle))
+        story.append(Paragraph('http://www.arasaac.org/materiales.php?id_material=2728', linkStyle))
+        story.append(
+            Paragraph('https://elsonidodelahierbaelcrecer.blogspot.com/search/label/Categor%C3%ADas', linkStyle))
+        story.append(Paragraph('http://www.arasaac.org/catalogos.php', linkStyle))
+        story.append(Paragraph('http://wikinclusion.org/index.php/Estimulaci%C3%B3n', linkStyle))
         story.append(Spacer(1, 0.1 * inch))
 
     actividades_expre_com = request.session.get('actividades_expre_com')
@@ -654,9 +690,15 @@ def reporte(request):
         story.append(Paragraph('Expresion y Comunicacion', h1))
         story.append(Spacer(1, 0.1 * inch))
         story.append(Spacer(1, 0.1 * inch))
-
-    for i, actividad in enumerate(actividades_expre_com):
-        story.append(Paragraph(actividad, estilo, bulletText=str(i + 1) + '.'))
+        for i, actividad in enumerate(actividades_expre_com):
+            story.append(Paragraph(actividad, estilo, bulletText=str(i + 1) + '.'))
+            story.append(Spacer(1, 0.1 * inch))
+        story.append(Paragraph('<b>Links de apoyo:</b>', estilo))
+        story.append(Spacer(1, 0.1 * inch))
+        story.append(Paragraph('http://www.arasaac.org/materiales.php?id_material=2710', linkStyle))
+        story.append(Paragraph('http://www.arasaac.org/materiales.php?id_material=2725', linkStyle))
+        story.append(Paragraph('https://elsonidodelahierbaelcrecer.blogspot.com/search/label/Lenguaje', linkStyle))
+        story.append(Paragraph('http://wikinclusion.org/index.php/Escuchar,_hablar_y_conversar', linkStyle))
         story.append(Spacer(1, 0.1 * inch))
 
     actividades_fluidez = request.session.get('actividades_fluidez')
@@ -664,9 +706,13 @@ def reporte(request):
         story.append(Paragraph('Fluidez', h1))
         story.append(Spacer(1, 0.1 * inch))
         story.append(Spacer(1, 0.1 * inch))
-
-    for i, actividad in enumerate(actividades_fluidez):
-        story.append(Paragraph(actividad, estilo, bulletText=str(i + 1) + '.'))
+        for i, actividad in enumerate(actividades_fluidez):
+            story.append(Paragraph(actividad, estilo, bulletText=str(i + 1) + '.'))
+            story.append(Spacer(1, 0.1 * inch))
+        story.append(Paragraph('<b>Links de apoyo:</b>', estilo))
+        story.append(Spacer(1, 0.1 * inch))
+        story.append(Paragraph('http://www.arasaac.org/materiales.php?id_material=2716', linkStyle))
+        story.append(Paragraph('https://elsonidodelahierbaelcrecer.blogspot.com/search/label/conversacion', linkStyle))
         story.append(Spacer(1, 0.1 * inch))
 
     actividades_voz = request.session.get('actividades_voz')
@@ -674,9 +720,12 @@ def reporte(request):
         story.append(Paragraph('Voz', h1))
         story.append(Spacer(1, 0.1 * inch))
         story.append(Spacer(1, 0.1 * inch))
-
-    for i, actividad in enumerate(actividades_voz):
-        story.append(Paragraph(actividad, estilo, bulletText=str(i + 1) + '.'))
+        for i, actividad in enumerate(actividades_voz):
+            story.append(Paragraph(actividad, estilo, bulletText=str(i + 1) + '.'))
+            story.append(Spacer(1, 0.1 * inch))
+        story.append(Paragraph('<b>Links de apoyo:</b>', estilo))
+        story.append(Spacer(1, 0.1 * inch))
+        story.append(Paragraph('http://www.arasaac.org/materiales.php?id_material=2636', linkStyle))
         story.append(Spacer(1, 0.1 * inch))
 
     # Construimos el documento a partir de los argumentos definidos

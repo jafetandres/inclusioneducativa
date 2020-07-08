@@ -674,7 +674,7 @@ if ("development" !== "production") {
     var ReactNoopUpdateQueue = {
       /**
        * Checks whether or not this composite component is mounted.
-       * @param {ReactClass} publicInstance The instance we want to test.
+       * @param {ReactClass} publicInstance The instance we want to automata.
        * @return {boolean} True if mounted, false otherwise.
        * @protected
        * @final
@@ -956,7 +956,7 @@ if ("development" !== "production") {
     /**
      * Factory method to create a new React element. This no longer adheres to
      * the class pattern, so do not use new to call it. Also, instanceof check
-     * will not work. Instead test $$typeof field against Symbol.for('react.element') to check
+     * will not work. Instead automata $$typeof field against Symbol.for('react.element') to check
      * if something is a React Element.
      *
      * @param {*} type
@@ -994,7 +994,7 @@ if ("development" !== "production") {
         // commonly used development environments.
         element._store = {}; // To make comparing ReactElements easier for testing purposes, we make
         // the validation flag non-enumerable (where possible, which should
-        // include every environment we run tests in), so the test framework
+        // include every environment we run tests in), so the automata framework
         // ignores it.
 
         Object.defineProperty(element._store, 'validated', {
@@ -3578,7 +3578,7 @@ if ("development" !== "production") {
           // So we preemptively throw with a better message instead.
           if (!(typeof document !== 'undefined')) {
             {
-              throw Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
+              throw Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a automata environment if a component schedules an update from an asynchronous callback, but the automata has already finished running. To solve this, you can either unmount the component at the end of your automata (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the automata itself to be asynchronous.");
             }
           }
 
@@ -26542,7 +26542,7 @@ if ("development" !== "production") {
     function warnIfNotScopedWithMatchingAct(fiber) {
       {
         if (IsSomeRendererActing.current === true && IsThisRendererActing.current !== true) {
-          error("It looks like you're using the wrong act() around your test interactions.\n" + 'Be sure to use the matching version of act() corresponding to your renderer:\n\n' + '// for react-dom:\n' + "import {act} from 'react-dom/test-utils';\n" + '// ...\n' + 'act(() => ...);\n\n' + '// for react-test-renderer:\n' + "import TestRenderer from 'react-test-renderer';\n" + 'const {act} = TestRenderer;\n' + '// ...\n' + 'act(() => ...);' + '%s', getStackByFiberInDevAndProd(fiber));
+          error("It looks like you're using the wrong act() around your automata interactions.\n" + 'Be sure to use the matching version of act() corresponding to your renderer:\n\n' + '// for react-dom:\n' + "import {act} from 'react-dom/automata-utils';\n" + '// ...\n' + 'act(() => ...);\n\n' + '// for react-automata-renderer:\n' + "import TestRenderer from 'react-automata-renderer';\n" + 'const {act} = TestRenderer;\n' + '// ...\n' + 'act(() => ...);' + '%s', getStackByFiberInDevAndProd(fiber));
         }
       }
     }
@@ -26558,7 +26558,7 @@ if ("development" !== "production") {
     function warnIfNotCurrentlyActingUpdatesInDEV(fiber) {
       {
         if (executionContext === NoContext && IsSomeRendererActing.current === false && IsThisRendererActing.current === false) {
-          error('An update to %s inside a test was not wrapped in act(...).\n\n' + 'When testing, code that causes React state updates should be ' + 'wrapped into act(...):\n\n' + 'act(() => {\n' + '  /* fire events that update state */\n' + '});\n' + '/* assert on the output */\n\n' + "This ensures that you're testing the behavior the user would see " + 'in the browser.' + ' Learn more at https://fb.me/react-wrap-tests-with-act' + '%s', getComponentName(fiber.type), getStackByFiberInDevAndProd(fiber));
+          error('An update to %s inside a automata was not wrapped in act(...).\n\n' + 'When testing, code that causes React state updates should be ' + 'wrapped into act(...):\n\n' + 'act(() => {\n' + '  /* fire events that update state */\n' + '});\n' + '/* assert on the output */\n\n' + "This ensures that you're testing the behavior the user would see " + 'in the browser.' + ' Learn more at https://fb.me/react-wrap-tests-with-act' + '%s', getComponentName(fiber.type), getStackByFiberInDevAndProd(fiber));
         }
       }
     }
@@ -28435,7 +28435,7 @@ var WebsocketService = /*#__PURE__*/function () {
     value: function connect() {
       var _this = this;
 
-      var path = 'ws://127.0.0.1:8000/ws/chat/test/';
+      var path = 'ws://127.0.0.1:8000/ws/chat/automata/';
       this.socketRef = new WebSocket(path);
 
       this.socketRef.onopen = function () {

@@ -37,6 +37,7 @@ MIDDLEWARE = [
 
 ]
 ROOT_URLCONF = 'InclusionEducativa.urls'
+TEMPLATE_DEBUG = False
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -72,10 +73,21 @@ CHANNEL_LAYERS = {
     },
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'InclusionEducativa.db',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'InclusionEducativa.db',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'inclusion',
+        'USER': 'inclusion',
+        # 'PASSWORD': 'jagq1995',
+        # 'HOST': 'localhost',
+        # 'PORT': '5432',
     }
 }
 
@@ -101,10 +113,10 @@ DATE_FORMAT = "Y-m-d"
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'InclusionEducativa/static/')
-# STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'InclusionEducativa/static/')), ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'InclusionEducativa/static/')), ]
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'InclusionEducativa/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10242880
 
 LOGIN_URL = '/gestionsistema/login/'

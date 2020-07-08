@@ -1,0 +1,23 @@
+{% extends 'automata/base.html' %}
+{% block contenido %}
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <div class="container">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Se han generado actividades que ayudaran a tu hijo...</h1>
+                    </div>
+                    <div>
+                        <p>Agregar descripcion</p>
+                    </div>
+                    <div align="center">
+                        <a href="{% url 'automata:reporte' %}" class="btn btn-success btn-icon-split">
+                            <span class="icon text-white-50"><i class="fas fa-download"></i></span>
+                            <span class="text">Descargar Actividades</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
