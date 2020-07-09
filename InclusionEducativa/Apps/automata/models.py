@@ -9,6 +9,7 @@ class TestLenguaje(models.Model):
     canton = models.ForeignKey(Canton, on_delete=models.CASCADE, null=True, blank=True)
     fechaNacimiento = models.DateField(null=True, blank=True)
     genero = models.CharField(max_length=100, null=True, blank=True)
+    discapacidad = models.CharField(max_length=100, null=True, blank=True)
     p1 = models.CharField(max_length=5, null=True, blank=True)
     p2 = models.CharField(max_length=5, null=True, blank=True)
     p3 = models.CharField(max_length=5, null=True, blank=True)
