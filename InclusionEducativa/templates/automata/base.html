@@ -23,7 +23,7 @@
 <div class="container">
     {% block contenido %}
         <div class="row justify-content-center">
-            <div class="col-6">
+            <div class="col-lg-6 col-sm-12">
                 <div class="card shadow-lg my-5">
                     <div class="card-body">
                         {% if messages %}
@@ -37,14 +37,14 @@
                                 <h1 class="h4 text-gray-900 p-4">Datos personales de su hijo(a)</h1>
                             </div>
                             <div class="form-group row justify-content-center">
-                                <div class="col-6 ">
+                                <div class="col-lg-6 col-sm-12 ">
                                     <label for="fechaNacimiento">Fecha de Nacimiento: </label>
                                     <input pattern="(?:19|20)(?:(?:[13579][26]|[02468][048])-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))|(?:[0-9]{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31)))"
                                            class="form-control" name="fechaNacimiento"
                                            id="fechaNacimiento"
                                            placeholder="yyyy-mm-dd" autocomplete="off" required>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <div class="row">
                                         <legend class="col-form-label col-4 pt-0">Genero:</legend>
                                         <div class="col-mb-8">
@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                             <div class="form-group row justify-content-center">
-                                <div class="col-6 py-3">
+                                <div class="col-lg-6 col-sm-12 py-3">
                                     <select class="selectpicker" id="provincia" name="provincia"
                                             onchange="cargarCantones()"
                                             required>
@@ -75,14 +75,14 @@
                                         <option value="azuay">Azuay</option>
                                     </select>
                                 </div>
-                                <div class="col-6 py-3">
+                                <div class="col-lg-6 col-sm-12 py-3">
                                     <select class="selectpicker" id="canton" name="canton" required>
                                         <option value="" selected disabled>Seleccionar Canton</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div class="col-6">
+                                <div class="col-lg-6 col-sm-12">
                                     <select class="selectpicker" id="discapacidad" name="discapacidad"
                                             required>
                                         <option value="" selected disabled>Seleccionar Discapacidad</option>

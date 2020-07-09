@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '0r9u3z=w6j2mq$vbus@(ppx5%f+c63pgmsnum10=!_jvl7i@2h'
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 ADMINS = [('Jafet', 'jafetandres@hotmail.com')]
 
@@ -37,7 +37,7 @@ MIDDLEWARE = [
 
 ]
 ROOT_URLCONF = 'InclusionEducativa.urls'
-TEMPLATE_DEBUG = False
+# TEMPLATE_DEBUG = False
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -73,23 +73,23 @@ CHANNEL_LAYERS = {
     },
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'InclusionEducativa.db',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'inclusion',
-        'USER': 'inclusion',
-        # 'PASSWORD': 'jagq1995',
-        # 'HOST': 'localhost',
-        # 'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'InclusionEducativa.db',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'inclusion',
+#         'USER': 'inclusion',
+#         # 'PASSWORD': 'jagq1995',
+#         # 'HOST': 'localhost',
+#         # 'PORT': '5432',
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -131,12 +131,12 @@ EMAIL_HOST_PASSWORD = 'kgelhlrlozgcpoum'
 EMAIL_PORT = 587
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-SECURE_HSTS_SECONDS = 0
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-X_FRAME_OPTIONS = 'DENY'
-SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_SECONDS = 0
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# SECURE_BROWSER_XSS_FILTER = True
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# X_FRAME_OPTIONS = 'DENY'
+# SECURE_HSTS_PRELOAD = True
