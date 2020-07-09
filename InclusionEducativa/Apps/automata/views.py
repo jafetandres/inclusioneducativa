@@ -508,11 +508,11 @@ def test(request):
                         'Realizar ejercicios con la lengua: sacar y meter la lengua de manera rápida y lenta, elevar y descender ')
                     actividades_expre_com.append(
                         'Estimular la percepción de sonidos, realizando juegos de identificación de sonidos (animales, medio ambiente, story)'
-                        ' PARA 4-5 AÑOS TAMBIÉN')
+                    )
                     actividades_expre_com.append(
                         'Realizar ejercicios de ritmo ej. Caminar siguiendo el ritmo que se le marque en el tambor posteriormente'
                         ' escuchar el ritmo marcado por el tambor y seguirlo a la vez, golpeando con la mano sobre la mesa  '
-                        'PARA 4-5 AÑOS TAMBIÉN')
+                    )
                     actividades_expre_com.append(
                         'Repetir sílabas que no formen palabra por ejemplo: pa - ba - fa, be - me - pe, ja - ga - ca.')
                     actividades_expre_com.append(
@@ -523,6 +523,13 @@ def test(request):
                         '/l/, elevar la lengua a la parte posterior de los incisivos superiores'
                         '/ch/, juntar los dientes y emitir sonidos con fuerza')
                 if edad >= 4.5:
+                    actividades_expre_com.append(
+                        'Realizar ejercicios de ritmo ej. Caminar siguiendo el ritmo que se le marque en el tambor posteriormente'
+                        ' escuchar el ritmo marcado por el tambor y seguirlo a la vez, golpeando con la mano sobre la mesa  '
+                    )
+                    actividades_expre_com.append(
+                        'Estimular la percepción de sonidos, realizando juegos de identificación de sonidos (animales, medio ambiente, story)'
+                    )
                     actividades_expre_com.append(
                         'Realizar ejercicios de ritmo ej. Caminar siguiendo el ritmo que se le marque en el tambor')
                     actividades_expre_com.append(
