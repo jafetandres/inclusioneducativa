@@ -21,7 +21,7 @@
                                 <input type="radio" value="si" name="p1" required> Si
                                 <input type="radio" value="no" name="p1"> No
                             </dd>
-                            <li>Utiliza cubiertos para alimentarse (cuchara, vaso):</li>
+                            <li>Utiliza cubiertos para alimentarse <b>(cuchara, vaso)</b>:</li>
                             <dd>
                                 <input type="radio" value="si" name="p2" required> Si
                                 <input type="radio" value="no" name="p2"> No
@@ -36,7 +36,7 @@
                                 <input type="radio" value="si" name="p4" required> Si
                                 <input type="radio" value="no" name="p4"> No
                             </dd>
-                            <li>Controla el cierre bucal para evitar la salivación y/o retener los alimentos sin
+                            <li>Controla el cierre bucal para evitar la salivación y(o) retener los alimentos sin
                                 derramarlos:
                             </li>
                             <dd>
@@ -71,14 +71,14 @@
                                 <input type="radio" value="si" name="p10" required> Si
                                 <input type="radio" value="no" name="p10"> No
                             </dd>
-                            <li>Identifica contenidos pedagógicos que trabajan en su nivel escolar como cantidad,
-                                tamaño, colores, etc.:
+                            <li>Identifica contenidos pedagógicos que trabajan en su nivel escolar como <b>cantidad,
+                                tamaño, colores, etc</b>:
                             </li>
                             <dd>
                                 <input type="radio" value="si" name="p11" required> Si
                                 <input type="radio" value="no" name="p11"> No
                             </dd>
-                            <li>Identifica objetos, personajes y acciones de un cuento:</li>
+                            <li>Identifica <b>objetos, personajes y acciones</b> de un cuento:</li>
                             <dd>
                                 <input type="radio" value="si" name="p12" required> Si
                                 <input type="radio" value="no" name="p12"> No
@@ -88,37 +88,37 @@
                                 <input type="radio" value="si" name="p13" required> Si
                                 <input type="radio" value="no" name="p13"> No
                             </dd>
-                            <li>Identifica verbos en acción (correr, saltar, dar, etc.):</li>
+                            <li>Identifica verbos en acción <b>(correr, saltar, dar, etc)</b>:</li>
                             <dd>
                                 <input type="radio" value="si" name="p14" required> Si
                                 <input type="radio" value="no" name="p14"> No
                             </dd>
-                            <li>Comprende cuando usted le hace preguntas de ¿qué, quién?:</li>
+                            <li>Comprende cuando usted le hace preguntas de <b>¿qué, quién?</b>:</li>
                             <dd>
                                 <input type="radio" value="si" name="p15" required> Si
                                 <input type="radio" value="no" name="p15"> No
                             </dd>
-                            <li>Ejecuta órdenes de comandos simples (ej. guarda):</li>
+                            <li>Ejecuta órdenes de comandos simples <b>(ej. guarda)</b>:</li>
                             <dd>
                                 <input type="radio" value="si" name="p16" required> Si
                                 <input type="radio" value="no" name="p16"> No
                             </dd>
-                            <li>Ejecuta órdenes de comando más complejos (ej. toma las llaves y colócalas en la caja
-                                de mi habitación):
+                            <li>Ejecuta órdenes de comando más complejos <b>(ej. toma las llaves y colócalas en la caja
+                                de mi habitación)</b>:
                             </li>
                             <dd>
                                 <input type="radio" value="si" name="p17" required> Si
                                 <input type="radio" value="no" name="p17"> No
                             </dd>
                             {% if edad >= 4 %}
-                                <li>Puede deducir situaciones (ej. qué pasaría si me como muchos dulces):
+                                <li>Puede deducir situaciones <b>(ej. qué pasaría si me como muchos dulces)</b>:
                                 </li>
                                 <dd>
                                     <input type="radio" value="si" name="p18" required> Si
                                     <input type="radio" value="no" name="p18"> No
                                 </dd>
-                                <li>Interpreta situaciones (ej. la mamá toma su cartera y se pone un suéter ¿A dónde
-                                    va?):
+                                <li>Interpreta situaciones <b>(ej. la mamá toma su cartera y se pone un suéter ¿A dónde
+                                    va?)</b>:
                                 </li>
                                 <dd>
                                     <input type="radio" value="si" name="p19" required> Si
@@ -128,13 +128,14 @@
                         </ol>
                         <h1 class="h4 text-gray-900 mb-4">Expresión y Comunicación</h1>
                         <ol>
-                            <li>Solicita deseos y necesidades (puede ser de manera oral, gestos, señas, etc.):</li>
+                            <li>Solicita deseos y necesidades <b>(puede ser de manera oral, gestos, señas, etc)</b>:
+                            </li>
                             <dd>
                                 <input type="radio" value="si" name="p20" required> Si
                                 <input type="radio" value="no" name="p20"> No
                             </dd>
-                            <li>Utiliza gestos, señas, etc. claros y con significado para mencionar a objetos (en
-                                caso de no utilizar leng. Oral):
+                            <li>Utiliza <b>gestos, señas,</b> etc. claros y con significado para mencionar a objetos <b>(en
+                                caso de no utilizar leng. Oral)</b>:
                             </li>
                             <dd>
                                 <input type="radio" value="si" name="p21" required> Si
@@ -145,16 +146,16 @@
                                 {#                                    2 – 20 palabras:#}
                                 {#                                {% endif %}#}
                                 {% if edad >= 2 and edad < 3 %}
-                                    100 palabras:
+                                    <b>100 palabras:</b>
                                 {% endif %}
                                 {% if edad >= 3 and edad < 4 %}
-                                    900 palabras:
+                                    <b>900 palabras:</b>
                                 {% endif %}
                                 {% if edad >= 4 and edad < 5 %}
-                                    1500 palabras:
+                                    <b>1500 palabras:</b>
                                 {% endif %}
                                 {% if edad >= 5 %}
-                                    2500 palabras:
+                                    <b>2500 palabras:</b>
                                 {% endif %}
                                 <dd>
                                     <input type="radio" value="si" name="p22" required> Si
@@ -162,22 +163,22 @@
                                 </dd>
                             </li>
                             {% if edad >= 3 %}
-                                <li>Utiliza pronombres personales y posesivos (yo, tú, mío, tuyo):
+                                <li>Utiliza pronombres personales y posesivos <b>(yo, tú, mío, tuyo)</b>:
                                 </li>
                                 <dd>
                                     <input type="radio" value="si" name="p23" required> Si
                                     <input type="radio" value="no" name="p23"> No
                                 </dd>
                             {% endif %}
-                            <li>Estructura oraciones en su conversación :
+                            <li>Estructura oraciones en su conversación
                                 {% if edad >= 2 and edad < 3 %}
-                                    (ej. mamá dame agua):
+                                    <b>(ej. mamá dame agua)</b>:
                                 {% endif %}
                                 {% if edad >= 3 and edad < 4 %}
-                                    (ej. quiero ir al parque):
+                                    <b>(ej. quiero ir al parque)</b>:
                                 {% endif %}
                                 {% if edad >= 4 %}
-                                    (ej. mamá, comí un helado en la escuela):
+                                    <b>(ej. mamá, comí un helado en la escuela)</b>:
                                 {% endif %}
                             </li>
                             <dd>
@@ -194,12 +195,12 @@
                                 <input type="radio" value="si" name="p26" required> Si
                                 <input type="radio" value="no" name="p26"> No
                             </dd>
-                            <li>Se comunica con docentes, terapeutas y otros de su entorno:</li>
+                            <li>Se comunica con <b>docentes, terapeutas y otros</b> de su entorno:</li>
                             <dd>
                                 <input type="radio" value="si" name="p27" required> Si
                                 <input type="radio" value="no" name="p27"> No
                             </dd>
-                            <li>Expresa sus sentimientos, ideas y/o emociones:</li>
+                            <li>Expresa sus sentimientos, ideas y(o) emociones:</li>
                             <dd>
                                 <input type="radio" value="si" name="p28" required> Si
                                 <input type="radio" value="no" name="p28"> No
@@ -220,7 +221,7 @@
                                 <input type="radio" value="no" name="p31"> No
                             </dd>
                             {% if edad >= 3 %}
-                                <li>Utiliza tiempos verbales (pasado, presente):</li>
+                                <li>Utiliza tiempos verbales <b>(pasado, presente)</b>:</li>
                                 <dd>
                                     <input type="radio" value="si" name="p32" required> Si
                                     <input type="radio" value="no" name="p32"> No
@@ -229,16 +230,16 @@
                             {% if edad >= 2.5 %}
                                 <li>Su niño/a pronuncia correctamente estas letras cuando habla
                                     {% if edad >= 2.5 and edad < 3 %}
-                                        <b>m-p-b-t-d-k-n:</b>
+                                        <b>m-p-b-t-d-k-n</b>:
                                     {% endif %}
                                     {% if edad >= 3 and edad < 4.5 %}
-                                        <b>m-p-b-t-d-k-g-j-n-l-y-ll-ch:</b>
+                                        <b>m-p-b-t-d-k-g-j-n-l-y-ll-ch</b>:
                                     {% endif %}
                                     {% if edad >= 4.5 and edad < 5 %}
-                                        <b>m-p-b-t-d-k-g-j-n-l-y-ll-ch-r-s) sínfones con l ej. plato, globo,etc:</b>
+                                        <b>m-p-b-t-d-k-g-j-n-l-y-ll-ch-r-s) sínfones con l ej. plato, globo,etc</b>:
                                     {% endif %}
                                     {% if edad >= 5 %}
-                                        <b>Pronuncia todas las letras correctamente:</b>
+                                        <b>Pronuncia todas las letras correctamente</b>:
                                     {% endif %}
                                 </li>
                                 <dd>
@@ -249,12 +250,12 @@
                         </ol>
                         <h1 class="h4 text-gray-900 mb-4">Fluidez</h1>
                         <ol>
-                            <li>Conversa de manera fluida (tiempo adecuado y continuo):</li>
+                            <li>Conversa de manera fluida <b>(tiempo adecuado y continuo)</b>:</li>
                             <dd>
                                 <input type="radio" value="si" name="p34" required> Si
                                 <input type="radio" value="no" name="p34"> No
                             </dd>
-                            <li>Conversa de manera fluida (sin repetir sílabas, palabras ni frases):</li>
+                            <li>Conversa de manera fluida <b>(sin repetir sílabas, palabras ni frases)</b>:</li>
                             <dd>
                                 <input type="radio" value="si" name="p35" required> Si
                                 <input type="radio" value="no" name="p35"> No
@@ -262,19 +263,19 @@
                         </ol>
                         <h1 class="h4 text-gray-900 mb-4">Voz</h1>
                         <ol>
-                            <li>Cuando habla, su voz suena clara y relajada ( NO nasalizada o tensa):</li>
+                            <li>Cuando habla, su voz suena clara y relajada <b>( No nasalizada o tensa)</b>:</li>
                             <dd>
                                 <input type="radio" value="si" name="p36" required> Si
                                 <input type="radio" value="no" name="p36"> No
                             </dd>
-                            <li>Realiza cambios en la entonación al usar exclamaciones, frases, etc. acordes a la
+                            <li>Realiza cambios en la entonación al usar <b>exclamaciones, frases, etc.</b> acordes a la
                                 situación:
                             </li>
                             <dd>
                                 <input type="radio" value="si" name="p37" required> Si
                                 <input type="radio" value="no" name="p37"> No
                             </dd>
-                            <li>Puede realizar modificaciones de intensidad (susurrada, normal, alto):</li>
+                            <li>Puede realizar modificaciones de intensidad <b>(susurrada, normal, alto)</b>:</li>
                             <dd>
                                 <input type="radio" value="si" name="p38" required> Si
                                 <input type="radio" value="no" name="p38"> No

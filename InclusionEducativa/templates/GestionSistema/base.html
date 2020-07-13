@@ -14,6 +14,8 @@
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="{% static 'automata/css/automata.css' %}">
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
     <!-- Custom styles for this page -->
@@ -47,7 +49,7 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Administracion
+            Administración
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
@@ -164,9 +166,9 @@
                                             <td><b>Estado</b></td>
                                             <td><b>Nombres</b></td>
                                             <td><b>Apellidos</b></td>
-                                            <td><b>Correo</b></td>
+                                            <td><b>Correo Electrónico</b></td>
                                             <td><b>Rol</b></td>
-                                            <td><b>Cedula</b></td>
+                                            <td><b>Cédula</b></td>
                                             <td><b>Perfil</b></td>
                                         </tr>
                                         </thead>
@@ -198,8 +200,6 @@
                                                     </td>
                                                 </tr>
                                             {% endfor %}
-                                        {% else %}
-                                            <h4>No hay registros de Usuarios.</h4>
                                         {% endif %}
                                         </tbody>
                                     </table>
@@ -247,6 +247,9 @@
     </div>
 </div>
 {% block js %}
+    <script src="{% static 'automata/js/automata.js' %}"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js'></script>
+    <script src='https://isuttell.github.io/sine-waves/javascripts/sine-waves.min.js'></script>
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>

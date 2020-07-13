@@ -22,9 +22,10 @@
 </head>
 
 <body class="bg-gradient-primary">
-
+<div class="col-lg-4 col-sm-12">
+    <a style="text-decoration: none;" href="{% url 'index' %}"><h1 class="text-gray-100 m-2">PLAINCED</h1></a>
+</div>
 <div class="container">
-
     <!-- Outer Row -->
     <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-12 col-md-9">
@@ -40,7 +41,7 @@
                                 <div class="text-center mb-3">
                                     <h1 class="h4 text-gray-900">Bienvenido a PLAINCED</h1>
                                     Inicia sesión o
-                                    <a href="{% url 'gestionsistema:crearUsuario' %}">crea una cuenta</a>
+                                    <a href="{% url 'gestionsistema:crearUsuario' %}">Crea una cuenta</a>
                                 </div>
 
                                 {% if messages %}
@@ -54,7 +55,7 @@
                                     <div class="form-group">
                                         <input type="email" name="username" class="form-control form-control-user"
                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                               placeholder="Correo Electronico">
+                                               placeholder="Correo Electrónico">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="password" class="form-control form-control-user"
@@ -71,7 +72,7 @@
                                 </form>
 
                                 <div class="text-center">
-                                    <a class="small" href="{% url 'password_reset' %}">Olvide mi contraseña?</a>
+                                    <a class="small" href="{% url 'password_reset' %}">Olvidé mi contraseña?</a>
                                 </div>
                             </div>
                         </div>

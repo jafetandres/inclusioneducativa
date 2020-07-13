@@ -1,5 +1,7 @@
 from django.db import models
 
+from InclusionEducativa.Apps.GestionSistema.models import Usuario
+
 
 class Canton(models.Model):
     nombre = models.CharField(max_length=100, null=True, blank=True)
@@ -48,3 +50,8 @@ class TestLenguaje(models.Model):
     p36 = models.CharField(max_length=5, null=True, blank=True)
     p37 = models.CharField(max_length=5, null=True, blank=True)
     p38 = models.CharField(max_length=5, null=True, blank=True)
+
+
+class ResumenExperto(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True, blank=True)
+    audio = models.FileField(upload_to='audio/')

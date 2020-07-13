@@ -17,8 +17,8 @@ class Message(models.Model):
 class Room(DateTimeModel):
     name = models.CharField(max_length=100, blank=True, null=True)
     participants = models.ManyToManyField(
-        User, blank=True, related_name='chats')
-    messages = models.ManyToManyField(Message, blank=True)
+        User, blank=True, null=True, related_name='chats')
+    messages = models.ManyToManyField(Message, blank=True, null=True)
 
     def __str__(self):
         return "{}".format(self.pk)

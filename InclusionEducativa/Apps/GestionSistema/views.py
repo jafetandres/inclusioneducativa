@@ -19,6 +19,8 @@ from notifications.signals import notify
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 
+from InclusionEducativa.Apps.automata.views import  textToSpeech
+
 
 @csrf_exempt
 @login_required
@@ -36,14 +38,14 @@ def perfil(request):
             usuario.save()
         except IntegrityError as e:
             messages.error(request, 'El correo electronico ya esta en uso')
-
         return redirect('gestionsistema:perfil')
     return render(request, 'GestionSistema/perfil.html')
 
 
 def verCurriculum(request, usuario_id):
     usuario = Usuario.objects.get(id=usuario_id)
-    return render(request, 'GestionSistema/verCurriculum.html', {'usuario': usuario})
+    audio = textToSpeech(usuario)
+    return render(request, 'GestionSistema/verCurriculum.html', {'usuario': usuario, 'audio': audio})
 
 
 def index(request):
@@ -59,7 +61,6 @@ def index(request):
 @login_required
 def base(request):
     usuario_logueado = request.user
-
     usuarios = Usuario.objects.all().order_by('is_active', '-is_active')
     return render(request, 'GestionSistema/base.html',
                   {'usuario_logueado': usuario_logueado, 'notificaciones': notificaciones, 'usuarios': usuarios})
@@ -106,7 +107,7 @@ def crearUsuario(request):
                 sistema = Usuario.objects.get(username='jafetandres@hotmail.com')
                 notify.send(sistema, recipient=administradores, verb="/", description="Nuevo usuario registrado")
                 messages.info(request, 'Cuenta creada con exito inicia sesion')
-                return redirect('login')
+                return redirect('gestionsistema:login')
             else:
                 messages.error(request, 'Verifique que todos los campos esten correctos.')
     else:

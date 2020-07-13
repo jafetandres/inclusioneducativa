@@ -19,8 +19,6 @@ def index(request):
     else:
         return render(request, 'chat/chat.html')
 
-    # return render(request, 'chat/chat.html')
-
 
 def get_current_chat(room_id):
     return get_object_or_404(Room, id=room_id)

@@ -109,7 +109,7 @@
                         </li>
 
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" target="_blank" href="{% url 'django_chatter:index' %}"
+                            <a class="nav-link dropdown-toggle" target="_blank" href="{% url 'chat:index' %}"
                                aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-comment-dots"></i> &nbsp Chat
                                 <!-- Counter - Messages -->
@@ -185,8 +185,8 @@
                                     <tr>
                                         <td>Nombres</td>
                                         <td>Apellidos</td>
-                                        <td>Cedula</td>
-                                        <td>Institucion</td>
+                                        <td>Cédula</td>
+                                        <td>Institución</td>
                                         <td>Ficha</td>
                                     </tr>
                                     </thead>
@@ -305,7 +305,7 @@
         $(document).ready(function () {
             function cargarNotificaciones() {
                 $.ajax({
-                    url: "{% url 'notificaciones' %}",
+                    url: "{% url 'gestionsistema:notificaciones' %}",
                     success: function (data) {
                         if (data.length > 0) {
                             var html = "";

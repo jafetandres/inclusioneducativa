@@ -244,7 +244,7 @@
                 $(document).ready(function () {
                     function cargarNotificaciones() {
                         $.ajax({
-                            url: "{% url 'notificaciones' %}",
+                            url: "{% url 'gestionsistema:notificaciones' %}",
                             success: function (data) {
                                 if (data.length > 0) {
                                     var html = "";

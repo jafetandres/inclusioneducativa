@@ -69,7 +69,7 @@
                 <div class="col-lg-7">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Registrate!</h1>
+                            <h1 class="h4 text-gray-900 mb-4">Regístrate!</h1>
                         </div>
                         {% if messages %}
                             {% for message in messages %}
@@ -96,7 +96,7 @@
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-user color" name="cedula"
                                            id="cedula"
-                                           placeholder="Cedula" onkeypress="return validarCedula(event)" maxlength="10"
+                                           placeholder="Cédula" onkeypress="return validarCedula(event)" maxlength="10"
                                            required>
                                     <span id="spanCedula"></span>
                                 </div>
@@ -133,7 +133,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label class="text-md-center font-weight-bold text-primary">INSTITUCION &nbsp
+                                    <label class="text-md-center font-weight-bold text-primary">INSTITUCIÓN &nbsp
                                         <select class="selectpicker" name="institucion" required>
                                             <option value="" disabled selected>Escoger una opción</option>
                                             {% if instituciones %}
@@ -164,10 +164,10 @@
                         </form>
                         <hr>
                         <div class="text-center">
-                            <a class="small" href="registration/password_reset_form.html">Olvide mi contraseña?</a>
+                            <a class="small" href="{% url 'password_reset' %}">Olvidé mi contraseña?</a>
                         </div>
                         <div class="text-center">
-                            <a class="small" href="{% url 'login' %}">Ya tengo una cuenta? Iniciar Sesion!</a>
+                            <a class="small" href="{% url 'gestionsistema:login' %}">Ya tengo una cuenta? Iniciar Sesión!</a>
                         </div>
                     </div>
                 </div>
