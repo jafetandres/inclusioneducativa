@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
 from django.contrib.auth.models import User
@@ -80,3 +82,18 @@ class Estudiante(models.Model):
     fechaNacimiento = models.DateField(null=True, blank=True)
     nivel = models.CharField(max_length=50)
     institucion = models.ForeignKey(Institucion, on_delete=models.CASCADE, null=True, blank=True)
+    actividadesDocente = models.FileField(upload_to='actividades', null=True, blank=True)
+    actividadesRepresentante = models.FileField(upload_to='actividades', null=True, blank=True)
+
+    def filenameDocente(self):
+        return os.path.basename(self.actividadesDocente.name)
+
+    def filenameRepresentante(self):
+        return os.path.basename(self.actividadesRepresentante.name)
+
+
+class Comentario(models.Model):
+    emisor = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True, blank=True)
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE, null=True, blank=True)
+    contenido = models.CharField(max_length=500, null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now=True, null=True, blank=True)

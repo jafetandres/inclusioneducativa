@@ -1,39 +1,33 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Portal Docente</title>
-    {% block css %}
-        <!-- Custom fonts for this template-->
-        <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-              rel="stylesheet">
-        <!-- Custom styles for this template-->
-        <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
-
-        <!-- Datepicker styles for this template-->
-        <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
-
-        <!-- Css DataTables -->
-        <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
-        </head>
-    {% endblock %}
-
+    <meta name="author" content="jafet galvez">
+    <title>Plainced|Docente</title>
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+    <!-- Datepicker styles for this template-->
+    <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
+    <!-- Css DataTables -->
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+    <!-- SummerNote for this template-->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+</head>
 <body id="page-top">
 <!-- Page Wrapper -->
 <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center"
            href="{% url 'appdocente:base' %}">
@@ -42,10 +36,8 @@
             </div>
             <div class="sidebar-brand-text mx-3">Portal Docente</div>
         </a>
-
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
-
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
             <a class="nav-link" href="{% url 'appdocente:base' %}">
@@ -133,9 +125,9 @@
                 </ul>
             </nav>
             <!-- End of Topbar -->
-            {% block contenido %}
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+            <div class="container">
+                {% block contenido %}
+                    <!-- Begin Page Content -->
                     <div class="p-2">
                         <a class="btn btn-success" href="{% url 'appdocente:buscarEstudiante' %}">Crear nueva
                             ficha</a>
@@ -178,9 +170,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.container-fluid -->
-            {% endblock %}
+                {% endblock %}
+            </div>
             {% block footer %}
                 <!-- Footer -->
                 <footer class="sticky-footer bg-white">
@@ -201,7 +192,6 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -253,6 +243,8 @@
     <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
     <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+    <!-- Summer keyboard-->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
 
     <script>

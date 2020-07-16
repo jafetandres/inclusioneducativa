@@ -1,36 +1,33 @@
 {% extends 'AppDocente/base.html' %}
 {% block contenido %}
-    <div class="container">
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <div class="col-lg-5 d-none d-lg-block"></div>
-                <div class="p-4">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <p class="alert alert-info">{{ message }}</p>
-                        {% endfor %}
-                    {% endif %}
-                    <form method="post" class="">
-                        {% csrf_token %}
-                        <div class="form-row align-items-center">
-                            <div class="col-auto">
-                                <div class="form-check mb-2">
-                                    <label class="form-check-label" for="cedula">
-                                        Ingrese el número de cédula del estudiante:
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="col-auto">
-                                <input type="text" maxlength="10" minlength="10" class="form-control mb-2"
-                                       id="cedula" name="cedula" required>
-                            </div>
-                            <div class="col-auto">
-                                <button class="btn btn-primary mb-2">Empezar</button>
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <div class="col-lg-5 d-none d-lg-block"></div>
+            <div class="p-4">
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="alert alert-info">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+                <form method="post" class="">
+                    {% csrf_token %}
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <div class="form-check mb-2">
+                                <label class="form-check-label" for="cedula">
+                                    Ingrese el número de cédula del estudiante:
+                                </label>
                             </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-auto">
+                            <input type="text" maxlength="10" minlength="10" class="form-control mb-2"
+                                   id="cedula" name="cedula" required>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary mb-2">Empezar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

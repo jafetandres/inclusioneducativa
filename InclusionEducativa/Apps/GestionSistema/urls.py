@@ -7,6 +7,8 @@ app_name = 'gestionsistema'
 
 urlpatterns = [
     path('', base, name='base'),
+    path('crearComentario/', crearComentario, name='crearComentario'),
+    path('cargarComentarios/', cargarComentarios, name='cargarComentarios'),
     path('curriculum/<usuario_id>/', curriculum, name='curriculum'),
     path('crearUsuario/', crearUsuario, name='crearUsuario'),
     path('login/', login_view, name='login'),

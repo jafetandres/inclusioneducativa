@@ -1,40 +1,33 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Portal Representante</title>
-
+    <meta name="author" content="jafet galvez && katty gonzalez">
+    <title>Plainced|Representante</title>
     <!-- Custom fonts for this template-->
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
-
     <!-- Custom styles for this page -->
     <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
     <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
-
-
+    <!-- SummerNote for this template-->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 </head>
-
 <body id="page-top">
-
 <!-- Page Wrapper -->
 <div id="wrapper">
     {% block sidebar %}
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center"
                href="{% url 'apprepresentante:base' %}">
@@ -43,7 +36,6 @@
                 </div>
                 <div class="sidebar-brand-text mx-3">Portal Representante</div>
             </a>
-
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
@@ -53,8 +45,6 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Inicio</span></a>
             </li>
-
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
             <!-- Sidebar Toggler (Sidebar) -->
@@ -135,9 +125,9 @@
                 </ul>
             </nav>
             <!-- End of Topbar -->
-            {% block contenido %}
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+            <div class="container">
+                {% block contenido %}
+                    <!-- Begin Page Content -->
                     <div class="p-2">
                         <a class="btn btn-success" href="{% url 'apprepresentante:buscarEstudiante' %}">Crear nueva
                             ficha</a>
@@ -180,10 +170,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.container-fluid -->
-            {% endblock %}
 
+                    <!-- /.container-fluid -->
+                {% endblock %}
+            </div>
         </div>
         <!-- End of Page Wrapper -->
 
@@ -211,131 +201,132 @@
                 </div>
             </div>
         </div>
-        <!-- Bootstrap core JavaScript-->
-        <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-        <!-- Core plugin JavaScript-->
-        <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
-        <!-- Custom scripts for all pages-->
-        <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-
-        <!-- Page level plugins -->
-        <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
-
-        <!-- Page level custom scripts -->
-        <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
-        <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
-
-        <!-- Js DataTables -->
-        <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
-        <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
-        <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
-
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
-
-        <!-- DatePicker core JavaScript-->
-        <script src="{% static 'dist/datepicker.js' %}"></script>
-        <script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
-        {% block js %}
-            <script>
-                $(document).ready(function () {
-                    function cargarNotificaciones() {
-                        $.ajax({
-                            url: "{% url 'gestionsistema:notificaciones' %}",
-                            success: function (data) {
-                                if (data.length > 0) {
-                                    var html = "";
-                                    var html1 = "";
-                                    var unread = 0;
-                                    for (var i = 0; i < data.length; i++) {
-                                        if (data[i].fields.unread == true) {
-                                            unread++;
-                                            html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +
-                                                '                                <div class="mr-3">\n' +
-                                                '                                    <div class="icon-circle bg-primary">\n' +
-                                                '                                        <i class="fas fa-file-alt text-white"></i>\n' +
-                                                '                                    </div>\n' +
-                                                '                                </div>\n' +
-                                                '                                <div>\n' +
-                                                '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +
-                                                '                                    <span class="font-weight-bold"> ' + data[i].fields.description + '</span>\n' +
-                                                '                                </div>\n' +
-                                                '                            </a>' + html1;
-
-                                        } else {
-                                            html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +
-                                                '                                <div class="mr-3">\n' +
-                                                '                                    <div class="icon-circle bg-primary">\n' +
-                                                '                                        <i class="fas fa-file-alt text-white"></i>\n' +
-                                                '                                    </div>\n' +
-                                                '                                </div>\n' +
-                                                '                                <div>\n' +
-                                                '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +
-                                                '                                    ' + data[i].fields.description + '\n' +
-                                                '                                </div>\n' +
-                                                '                            </a>' + html1;
-
-                                        }
-                                    }
-                                    if (unread > 0) {
-                                        $('#unread_notifications').html(unread);
-                                        $('#unread_notification').html(html1);
-
-                                    } else {
-                                        $('#unread_notifications').html('');
-                                        $('#unread_notification').html(html1);
-                                    }
-
-                                } else {
-                                    $('#unread_notification').html('<p class="text-center p-3">No hay notificaciones</p>');
-                                }
-                            },
-                            error: function () {
-                                console.log('no hay notificaciones');
-                            }
-                        });
-                    }
-
-                    setInterval(cargarNotificaciones, 500);
-                });
-            </script>
-            <script>
-                $('#dataTable').dataTable({
-                    paging: true,
-                    searching: true,
-                    language: {
-                        search: "Buscar:",
-                        lengthMenu: "Mostrar _MENU_ registros",
-                        info: "Se muestra de _START_ a _END_ registros de _TOTAL_ registros en total",
-                        infoEmpty: "Se muestra 0 registros de 0 ",
-                        infoFiltered: "(Hay _MAX_ registros en total)",
-                        infoPostFix: "",
-                        loadingRecords: "Cargando...",
-                        zeroRecords: "No existen registros",
-                        paginate: {
-                            first: "Primero",
-                            previous: "Previo",
-                            next: "Siguiente",
-                            last: "Anterior"
-                        },
-                    }
-
-                });
-            </script>
-            <script>
-                $('#fechaNacimiento').datepicker({
-                    language: 'es-ES',
-                    format: 'yyyy-mm-dd',
-                    autoHide: true
-                });
-            </script>
-        {% endblock %}
     </div>
 </div>
+{% block js %}
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+    <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+
+    <!-- Js DataTables -->
+    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+
+    <!-- DatePicker core JavaScript-->
+    <script src="{% static 'dist/datepicker.js' %}"></script>
+    <script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
+    <!-- Summer keyboard-->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+    {#    <script>#}
+    {#        $(document).ready(function () {#}
+    {#            function cargarNotificaciones() {#}
+    {#                $.ajax({#}
+    {#                    url: "{% url 'gestionsistema:notificaciones' %}",#}
+    {#                    success: function (data) {#}
+    {#                        if (data.length > 0) {#}
+    {#                            var html = "";#}
+    {#                            var html1 = "";#}
+    {#                            var unread = 0;#}
+    {#                            for (var i = 0; i < data.length; i++) {#}
+    {#                                if (data[i].fields.unread == true) {#}
+    {#                                    unread++;#}
+    {#                                    html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +#}
+    {#                                        '                                <div class="mr-3">\n' +#}
+    {#                                        '                                    <div class="icon-circle bg-primary">\n' +#}
+    {#                                        '                                        <i class="fas fa-file-alt text-white"></i>\n' +#}
+    {#                                        '                                    </div>\n' +#}
+    {#                                        '                                </div>\n' +#}
+    {#                                        '                                <div>\n' +#}
+    {#                                        '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +#}
+    {#                                        '                                    <span class="font-weight-bold"> ' + data[i].fields.description + '</span>\n' +#}
+    {#                                        '                                </div>\n' +#}
+    {#                                        '                            </a>' + html1;#}
+    {##}
+    {#                                } else {#}
+    {#                                    html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +#}
+    {#                                        '                                <div class="mr-3">\n' +#}
+    {#                                        '                                    <div class="icon-circle bg-primary">\n' +#}
+    {#                                        '                                        <i class="fas fa-file-alt text-white"></i>\n' +#}
+    {#                                        '                                    </div>\n' +#}
+    {#                                        '                                </div>\n' +#}
+    {#                                        '                                <div>\n' +#}
+    {#                                        '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +#}
+    {#                                        '                                    ' + data[i].fields.description + '\n' +#}
+    {#                                        '                                </div>\n' +#}
+    {#                                        '                            </a>' + html1;#}
+    {##}
+    {#                                }#}
+    {#                            }#}
+    {#                            if (unread > 0) {#}
+    {#                                $('#unread_notifications').html(unread);#}
+    {#                                $('#unread_notification').html(html1);#}
+    {##}
+    {#                            } else {#}
+    {#                                $('#unread_notifications').html('');#}
+    {#                                $('#unread_notification').html(html1);#}
+    {#                            }#}
+    {##}
+    {#                        } else {#}
+    {#                            $('#unread_notification').html('<p class="text-center p-3">No hay notificaciones</p>');#}
+    {#                        }#}
+    {#                    },#}
+    {#                    error: function () {#}
+    {#                        console.log('no hay notificaciones');#}
+    {#                    }#}
+    {#                });#}
+    {#            }#}
+    {##}
+    {#            setInterval(cargarNotificaciones, 500);#}
+    {#        });#}
+    {#    </script>#}
+    <script>
+        $('#dataTable').dataTable({
+            paging: true,
+            searching: true,
+            language: {
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros",
+                info: "Se muestra de _START_ a _END_ registros de _TOTAL_ registros en total",
+                infoEmpty: "Se muestra 0 registros de 0 ",
+                infoFiltered: "(Hay _MAX_ registros en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No existen registros",
+                paginate: {
+                    first: "Primero",
+                    previous: "Previo",
+                    next: "Siguiente",
+                    last: "Anterior"
+                },
+            }
+
+        });
+    </script>
+    <script>
+        $('#fechaNacimiento').datepicker({
+            language: 'es-ES',
+            format: 'yyyy-mm-dd',
+            autoHide: true
+        });
+    </script>
+{% endblock %}
 </body>
-
-
 </html>

@@ -6,20 +6,21 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import get_default_password_validators
 from django.core.mail import send_mail
 from django.db import IntegrityError
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
 from notifications.models import Notification
 from InclusionEducativa import settings
 from InclusionEducativa.Apps.GestionSistema.forms import *
-from InclusionEducativa.Apps.GestionSistema.models import *
+from .models import *
 from django_chatter.models import UserProfile
 from datetime import datetime, date
 from notifications.signals import notify
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
-
-from InclusionEducativa.Apps.automata.views import  textToSpeech
+from InclusionEducativa.Apps.automata.views import textToSpeech
+from ..AppDocente.models import FichaInformativaDocente
+from ..AppRepresentante.models import FichaInformativaRepresentante
 
 
 @csrf_exempt
@@ -508,3 +509,45 @@ def reenviarContrasena(request, id_usuario):
     contenido = 'Hola bienvenido a Inclusion educativa tu para ingresar al sistema utiliza los siguiente datos Correo: ' + usuario.__str__() + 'Contraseña: ' + password_generate
     res = send_mail("Creacion de Usuario Inclusion Educativa", contenido, settings.EMAIL_HOST_USER,
                     [usuario.__str__()])
+
+
+@csrf_exempt
+@login_required
+def crearComentario(request):
+    if request.method == 'POST':
+        comentario = Comentario()
+        comentario.contenido = request.POST['contenidoComentario']
+        comentario.emisor = request.user
+        estudiante = Estudiante.objects.get(id=request.POST['id'])
+        comentario.estudiante = estudiante
+        comentario.save()
+        # receptores = []
+        # representante = FichaInformativaRepresentante.objects.get(estudiante_id=estudiante.id).representante.usuario
+        # receptores.append(representante)
+        # docente = FichaInformativaDocente.objects.get(estudiante_id=estudiante.id).docente.usuario
+        # receptores.append(docente)
+        # verbDocente = "/appdocente/verFichaInformativa/" + estudiante.cedula
+        # descripcion = "Nuevo comentario de " + request.user.nombres + " para " + estudiante.nombres + " " + estudiante.apellidos
+        # verbRepresente = "/apprepresentante/verFichaInformativa/" + estudiante.cedula
+        # notify.send(request.user, recipient=docente, actor=request.user,
+        #             verb=verbDocente,
+        #             description=descripcion, target=estudiante)
+        # notify.send(request.user, recipient=representante, actor=request.user,
+        #             verb=verbRepresente,
+        #             description=descripcion, target=estudiante)
+
+
+@login_required
+def cargarComentarios(request):
+    comentarios = Comentario.objects.filter(estudiante_id=request.GET['id']).order_by('-timestamp')
+    lista = []
+    for comentario in comentarios:
+        foto = 'https://image.ibb.co/jw55Ex/def_face.jpg'
+        if comentario.emisor.foto:
+            foto = comentario.emisor.foto.url
+        lista.append({'nombre': comentario.emisor.nombres,
+                      'foto': foto,
+                      'contenido': comentario.contenido})
+    return JsonResponse({"message": "success",
+                         'comentarios': lista
+                         }, safe=False)

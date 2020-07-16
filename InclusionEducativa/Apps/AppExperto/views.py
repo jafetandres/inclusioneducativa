@@ -40,6 +40,7 @@ def perfil(request, id_usuario):
     return render(request, 'AppExperto/perfil.html', {'usuario': usuario,
                                                       'usuario_logueado': usuario_logueado})
 
+
 @login_required
 def base(request):
     experto = Experto.objects.get(usuario_id=request.user.id)
@@ -61,6 +62,7 @@ def onesignal_register(request):
         return HttpResponse('Done')
     return HttpResponse('Something went wrong')
 
+
 @login_required
 def verFicha(request, cedula):
     estudiante = Estudiante.objects.get(cedula=cedula)
@@ -76,6 +78,17 @@ def verFicha(request, cedula):
         fichaInformativaRepresentante = FichaInformativaRepresentante.objects.get(estudiante_id=estudiante.id)
     else:
         fichaInformativaRepresentante = None
+
+    if request.method == 'POST':
+        if bool(request.FILES.get('actividadesDocente', False)) == True:
+            estudiante = Estudiante.objects.get(cedula=cedula)
+            estudiante.actividadesDocente = request.FILES['actividadesDocente']
+            estudiante.save()
+        if bool(request.FILES.get('actividadesRepresentante', False)) == True:
+            estudiante = Estudiante.objects.get(cedula=cedula)
+            estudiante.actividadesRepresentante = request.FILES['actividadesRepresentante']
+            estudiante.save()
+
     return render(request, 'AppExperto/verFichaInformativa.html',
                   {'estudiante': estudiante,
                    'fichaInformativaDocente': fichaInformativaDocente,

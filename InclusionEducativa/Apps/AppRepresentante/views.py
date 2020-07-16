@@ -47,11 +47,11 @@ def buscarEstudiante(request):
                     if FichaInformativaRepresentante.objects.filter(representante_id=representante.id,
                                                                     estudiante_id=estudiante.id).exists() is False:
                         return redirect('apprepresentante:crearFichaInformativa', estudiante_cedula=estudiante.cedula)
-                    else:
-                        if FichaInformativaRepresentante.objects.filter(estudiante_id=estudiante.id).exists():
-                            messages.error(request, 'Ya ha ingresado la ficha del estudiante otro representante')
-                        else:
-                            messages.error(request, 'Usted ya ha ingresado la ficha del estudiante')
+                    elif FichaInformativaRepresentante.objects.filter(representante_id=representante.id,
+                                                                      estudiante_id=estudiante.id).exists():
+                        messages.error(request, 'Usted ya ha ingresado la ficha de su hijo(a)')
+                    elif FichaInformativaRepresentante.objects.filter(estudiante_id=estudiante.id).exists():
+                        messages.error(request, 'Otro representante ya ha ingresado la ficha del niño(a)')
                 else:
                     return redirect('apprepresentante:crearFichaInformativa', estudiante_cedula=ced)
             else:

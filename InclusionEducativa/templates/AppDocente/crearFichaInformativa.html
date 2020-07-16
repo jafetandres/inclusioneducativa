@@ -1,386 +1,330 @@
 {% extends 'AppDocente/base.html' %}
 {% block contenido %}
-    <div class="container">
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <div class="col-lg-5 d-none d-lg-block"></div>
-                <div class="p-4">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <p class="alert alert-info">{{ message }}</p>
-                        {% endfor %}
-                    {% endif %}
-                    <form method="post" class="user ">
-                        {% csrf_token %}
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="alert alert-info">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            <form method="post" class="user ">
+                {% csrf_token %}
+                <div id="datosPersonales">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Datos personales del estudiante</h1>
+                        </div>
                         {% if estudiante %}
-                            <div id="datosPersonales">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Datos Personales</h1>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-6 mb-sm-0">
-                                            <label>Nombres:<input type="text" class="form-control form-control-user"
-                                                                  name="nombres" size="100" id="nombres"
-                                                                  value="{{ estudiante.nombres }}"
-                                                                  onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                                  required disabled></label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label>Apellidos:<input type="text" class="form-control form-control-user"
-                                                                    name="apellidos" size="100" id="apellidos"
-                                                                    value="{{ estudiante.apellidos }}"
-                                                                    onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                                    required disabled></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-6 mb-sm-0">
-                                            <label>Fecha de Nacimiento: <input
-                                                    pattern="(?:19|20)(?:(?:[13579][26]|[02468][048])-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))|(?:[0-9]{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31)))"
-                                                    class="form-control form-control-user" name="fechaNacimiento"
-                                                    id="fechaNacimiento" value="{{ estudiante.fechaNacimiento }}"
-                                                    placeholder="yyyy-mm-dd" autocomplete="off"
-                                                    required disabled></label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label>Cedula:<input type="text" class="form-control form-control-user"
-                                                                 name="cedula" size="100" id="cedula"
-                                                                 value="{{ estudiante.cedula }}"
-                                                                 onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                                 required disabled></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-6 mb-sm-0">
-                                            <label class="text-md-center font-weight-bold text-primary">INSTITUCION
-                                                &nbsp;
-                                                <select class="selectpicker" name="institucion" id="institucion"
-                                                        required disabled>
-                                                    <option value="{{ estudiante.institucion.id }}" disabled
-                                                            selected>{{ estudiante.institucion.nombre }}
-                                                    </option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label class="text-md-center font-weight-bold text-primary">NIVEL QUE CURSA
-                                                &nbsp;
-                                                <select name="nivel" id="nivel"
-                                                        class="selectpicker" required disabled>
-                                                    <option value="{{ estudiante.nivel }}" disabled
-                                                            selected>{{ estudiante.nivel }}
-                                                    </option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                    </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-6 mb-sm-0">
+                                    <label>Nombres:<input type="text" class="form-control form-control-user"
+                                                          name="nombres" size="100" id="nombres"
+                                                          value="{{ estudiante.nombres }}"
+                                                          onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                          required disabled></label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Apellidos:<input type="text" class="form-control form-control-user"
+                                                            name="apellidos" size="100" id="apellidos"
+                                                            value="{{ estudiante.apellidos }}"
+                                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                            required disabled></label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-6 mb-sm-0">
+                                    <label>Fecha de Nacimiento: <input
+                                            pattern="(?:19|20)(?:(?:[13579][26]|[02468][048])-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))|(?:[0-9]{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31)))"
+                                            class="form-control form-control-user" name="fechaNacimiento"
+                                            id="fechaNacimiento" value="{{ estudiante.fechaNacimiento }}"
+                                            placeholder="yyyy-mm-dd" autocomplete="off"
+                                            required disabled></label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cédula:<input type="text" class="form-control form-control-user"
+                                                         name="cedula" size="100" id="cedula"
+                                                         value="{{ estudiante.cedula }}"
+                                                         onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                         required disabled></label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-6 mb-sm-0">
+                                    <label class="text-md-center font-weight-bold text-primary">INSTITUCIÓN
+                                        &nbsp;
+                                        <select class="selectpicker" name="institucion" id="institucion"
+                                                required disabled>
+                                            <option value="{{ estudiante.institucion.id }}" disabled
+                                                    selected>{{ estudiante.institucion.nombre }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-md-center font-weight-bold text-primary">NIVEL QUE CURSA
+                                        &nbsp;
+                                        <select name="nivel" id="nivel"
+                                                class="selectpicker" required disabled>
+                                            <option value="{{ estudiante.nivel }}" disabled
+                                                    selected>{{ estudiante.nivel }}
+                                            </option>
+                                        </select>
+                                    </label>
                                 </div>
                             </div>
                         {% else %}
-                            <div id="datosPersonales">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Datos Personales</h1>
-                                    </div>
-                                    {% csrf_token %}
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-6 mb-sm-0">
-                                            <label>Nombres:<input type="text" class="form-control form-control-user"
-                                                                  name="nombres" size="100" id="nombres"
-                                                                  onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                                  required></label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label>Apellidos:<input type="text" class="form-control form-control-user"
-                                                                    name="apellidos" size="100" id="apellidos"
-                                                                    onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                                    required></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-6 mb-sm-0">
-                                            <label>Fecha de Nacimiento: <input
-                                                    pattern="(?:19|20)(?:(?:[13579][26]|[02468][048])-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))|(?:[0-9]{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31)))"
-                                                    class="form-control form-control-user" name="fechaNacimiento"
-                                                    id="fechaNacimiento"
-                                                    placeholder="yyyy-mm-dd" autocomplete="off"
-                                                    required></label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label>Cédula:<input type="text" class="form-control form-control-user"
-                                                                 name="cedula" size="100" id="cedula"
-                                                                 value="{{ cedula }}"
-                                                                 onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                                 required disabled></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-6 mb-sm-0">
-                                            <label class="text-md-center font-weight-bold text-primary">INSTITUCIÓN
-                                                &nbsp;
-                                                <select class="selectpicker" name="institucion" id="institucion"
-                                                        required>
-                                                    <option value="" disabled selected>Escoger una opción</option>
-                                                    {% if instituciones %}
-                                                        {% for institucion in instituciones %}
-                                                            <option value="{{ institucion.id }}">{{ institucion.nombre }}</option>
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                </select>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label class="text-md-center font-weight-bold text-primary">NIVEL QUE CURSA
-                                                &nbsp;
-                                                <select name="nivel" id="nivel"
-                                                        class="selectpicker" required>
-                                                    <option value="" disabled selected>Escoger una opción</option>
-                                                    <option value="Subnivel 1">Subnivel 1 (2 años)
-                                                    </option>
-                                                    <option value="Subnivel 2">Subnivel 2 (3 años)
-                                                    </option>
-                                                    <option value="Subnivel 3">Subnivel 3 (4 años)
-                                                    </option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                    </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-6 mb-sm-0">
+                                    <label>Nombres:<input type="text" class="form-control form-control-user"
+                                                          name="nombres" size="100" id="nombres"
+                                                          onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                          required></label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Apellidos:<input type="text" class="form-control form-control-user"
+                                                            name="apellidos" size="100" id="apellidos"
+                                                            onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                            required></label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-6 mb-sm-0">
+                                    <label>Fecha de Nacimiento: <input
+                                            pattern="(?:19|20)(?:(?:[13579][26]|[02468][048])-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))|(?:[0-9]{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31)))"
+                                            class="form-control form-control-user" name="fechaNacimiento"
+                                            id="fechaNacimiento"
+                                            placeholder="yyyy-mm-dd" autocomplete="off"
+                                            required></label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cédula:<input type="text" class="form-control form-control-user"
+                                                         name="cedula" size="100" id="cedula"
+                                                         value="{{ cedula }}"
+                                                         onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                         required disabled></label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-6 mb-sm-0">
+                                    <label class="text-md-center font-weight-bold text-primary">INSTITUCIÓN
+                                        &nbsp;
+                                        <select class="selectpicker" name="institucion" id="institucion"
+                                                required>
+                                            <option value="" disabled selected>Escoger una opción</option>
+                                            {% if instituciones %}
+                                                {% for institucion in instituciones %}
+                                                    <option value="{{ institucion.id }}">{{ institucion.nombre }}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="text-md-center font-weight-bold text-primary">NIVEL QUE CURSA
+                                        &nbsp;
+                                        <select name="nivel" id="nivel"
+                                                class="selectpicker" required>
+                                            <option value="" disabled selected>Escoger una opción</option>
+                                            <option value="Subnivel 1">Subnivel 1 (2 años)
+                                            </option>
+                                            <option value="Subnivel 2">Subnivel 2 (3 años)
+                                            </option>
+                                            <option value="Subnivel 3">Subnivel 3 (4 años)
+                                            </option>
+                                        </select>
+                                    </label>
                                 </div>
                             </div>
                         {% endif %}
-                        <div id="fichaInformativaDocente">
-                            <hr>
-                            <div class="p-5">
-                                <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Ficha Informativa</h1>
-                                </div>
-                                <ol>
-                                    <li>Se presentaron dificultades en las siguientes etapas:</li>
-                                    <dd>
-                                        <h6>Prenatal (antes del nacimiento):</h6>
+                    </div>
+                </div>
+                <hr>
+                <div id="fichaInformativaDocente">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Ficha informativa del estudiante</h1>
+                        </div>
+                        <ol>
+                            <li><b>Se presentaron dificultades en las siguientes etapas:</b></li>
+                            <dd>
+                                <h6>Prenatal (antes del nacimiento):</h6>
+                                <input type="radio" value="Si" name="respuesta_prenatal"
+                                       onchange="habilitarP2L1(this.value);"> Si
+                                <input type="radio" value="No" name="respuesta_prenatal"
+                                       onchange="habilitarP2L1(this.value);"> No
+                                <input type="radio" value="Desconozco" name="respuesta_prenatal"
+                                       onchange="habilitarP2L1(this.value);" checked> Desconozco
+                                <textarea class="form-control" type="text" id="descripcion_prenatal"
+                                          name="descripcion_prenatal"
+                                          disabled></textarea>
+                                <h6>Perinatal (durante el nacimiento):</h6>
+                                <input type="radio" value="Si" name="respuesta_perinatal"
+                                       onchange="habilitarP2L2(this.value);"> Si
+                                <input type="radio" value="No" name="respuesta_perinatal"
+                                       onchange="habilitarP2L2(this.value);"> No
+                                <input type="radio" value="Desconozco" name="respuesta_perinatal"
+                                       onchange="habilitarP2L2(this.value);" checked> Desconozco
+                                <textarea class="form-control" type="text" id="descripcion_perinatal"
+                                          name="descripcion_perinatal"
+                                          disabled></textarea>
+                                <h6>Postnatal (después del nacimiento 0-1 año ):</h6>
+                                <input type="radio" value="Si" name="respuesta_postnatal"
+                                       onchange="habilitarP2L3(this.value);"> Si
+                                <input type="radio" value="No" name="respuesta_postnatal"
+                                       onchange="habilitarP2L3(this.value);"> No
+                                <input type="radio" value="Desconozco" name="respuesta_postnatal"
+                                       onchange="habilitarP2L3(this.value);" checked> Desconozco
+                                <textarea class="form-control" id="descripcion_postnatal"
+                                          name="descripcion_postnatal"
+                                          disabled></textarea>
+                            </dd>
 
-                                        <input type="radio" value="Si" name="respuesta_prenatal"
-                                               onchange="habilitarP2L1(this.value);"> Si
-                                        <br>
-                                        <input type="radio" value="No" name="respuesta_prenatal"
-                                               onchange="habilitarP2L1(this.value);"> No
-                                        <br>
-                                        <input type="radio" value="Desconozco" name="respuesta_prenatal"
-                                               onchange="habilitarP2L1(this.value);" checked> Desconozco
-                                        <br>
-                                        <textarea class="form-control" type="text" id="descripcion_prenatal"
-                                                  name="descripcion_prenatal"
-                                                  disabled></textarea>
+                            <li><b>Tipo de Familia:</b></li>
+                            <dd>
+                                <input type="radio" value="Nuclear" name="tipoFamilia"
+                                       onchange="habilitarP3(this.value);" required> Nuclear (Progenitores e hijos)
+                                <br>
+                                <input type="radio" value="Extendida" name="tipoFamilia"
+                                       onchange="habilitarP3(this.value);"> Extendida (Abuelos, tíos, primos y otros parientes consanguíneos o afines que viven juntos)
+                                <br>
+                                <input type="radio" value="Monoparental" name="tipoFamilia"
+                                       onchange="habilitarP3(this.value);"> Monoparental (Un solo progenitor ya sea la madre o el padre)
+                                <br>
+                                <input type="radio" value="Otro" name="tipoFamilia"
+                                       onchange="habilitarP3(this.value);"> Otro (indique)
+                                <br>
+                                <textarea class="form-control" id="descripcion_tipoFamilia"
+                                          name="descripcion_tipoFamilia"
+                                          disabled></textarea>
+                            </dd>
 
-                                        <h6>Perinatal (durante el nacimiento):</h6>
+                            <li><b>Desde su perspectiva la dinámica familiar del niño(a) es:</b></li>
+                            <dd>
+                                <select name="dinamicaFamiliar" id="dinamicaFamiliar"
+                                        class="selectpicker" required>
+                                    <option value="" disabled selected>Seleccione una opción</option>
+                                    <option value="Excelente">Excelente</option>
+                                    <option value="Muy Buena">Muy Buena</option>
+                                    <option value="Buena">Buena</option>
+                                    <option value="Regular">Regular</option>
+                                </select>
+                            </dd>
 
-                                        <input type="radio" value="Si" name="respuesta_perinatal"
-                                               onchange="habilitarP2L2(this.value);"> Si
-                                        <br>
-                                        <input type="radio" value="No" name="respuesta_perinatal"
-                                               onchange="habilitarP2L2(this.value);"> No
-                                        <br>
-                                        <input type="radio" value="Desconozco" name="respuesta_perinatal"
-                                               onchange="habilitarP2L2(this.value);" checked> Desconozco
-                                        <br>
-                                        <textarea class="form-control" type="text" id="descripcion_perinatal"
-                                                  name="descripcion_perinatal"
-                                                  disabled></textarea>
+                            <li><b>Existen antecedentes familiares patológicos significativos:</b></li>
+                            <dd>
+                                <input type="radio" value="Si" name="antecedentesFPatologicos"
+                                       onchange="habilitarP5(this.value);"/> Si (indique)
+                                <input type="radio" value="No" name="antecedentesFPatologicos"
+                                       onchange="habilitarP5(this.value);"/> No
+                                <input type="radio" value="Desconozco" name="antecedentesFPatologicos"
+                                       onchange="habilitarP5(this.value);" checked/> Desconozco
+                                <textarea class="form-control" id="descripcionAntecedentesFPatologicos"
+                                          name="descripcionAntecedentesFPatologicos" disabled></textarea>
+                            </dd>
 
+                            <li><b>El Diagnóstico médico(Información proporcionada por un especialista de salud)
+                                (se presenta la lista si marca afirmativo)</b></li>
+                            <dd>
+                                <input type="radio" value="Si" name="diagnosticoMedicoRespuesta"
+                                       onchange="habilitarP6(this.value);"> Si &nbsp;
+                                <select class="selectpicker" onchange="habilitarP6(this.value);"
+                                        name="diagnosticoMedicoOpcion"
+                                        id="diagnosticoMedicoOpcion"
+                                        disabled required>
+                                    <option value="" disabled selected>Seleccione una opción</option>
+                                    <option value="Visual">Visual</option>
+                                    <option value="Auditivo">Auditivo</option>
+                                    <option value="Motriz">Motriz</option>
+                                    <option value="Fisico">Físico</option>
+                                    <option value="Neurologico">Neurológico</option>
+                                    <option value="Sindrome">Síndrome (indique)</option>
+                                </select> &nbsp;
+                                <br>
+                                <input type="radio" value="No" name="diagnosticoMedicoRespuesta"
+                                       id="diagnosticoMedicoRespuesta"
+                                       onchange="habilitarP6(this.value);" checked> No
+                                <textarea class="form-control" name="diagnosticoMedicoDescripcion"
+                                          id="diagnosticoMedicoDescripcion" disabled></textarea>
+                            </dd>
 
-                                        <h6>Postnatal (después del nacimiento 0-1 año ):</h6>
+                            <li><b>Diagnóstico sindrómico funcional:</b></li>
+                            <dd>
+                                <input type="radio" value="Si" name="diagnosticoSindromicoRespuesta"
+                                       onchange="habilitarP7(this.value);"> Si &nbsp;
+                                <select onchange="habilitarP7(this.value);"
+                                        name="diagnosticoSindromicoOpcion"
+                                        id="diagnosticoSindromicoOpcion"
+                                        class="selectpicker" disabled required>
+                                    <option value="" disabled selected>Seleccione una opción</option>
+                                    <option value="Intelectual">Intelectual</option>
+                                    <option value="Comunicación">Comunicación</option>
+                                    <option value="Retraso en las áreas de desarrollo">Retraso en las áreas de
+                                        desarrollo
+                                    </option>
+                                    <option value="Trastorno">Trastorno (indique)</option>
+                                </select> &nbsp;
+                                <br>
+                                <input type="radio" value="No" name="diagnosticoSindromicoRespuesta"
+                                       id="diagnosticoSindromicoRespuesta"
+                                       onchange="habilitarP7(this.value);" checked> No
+                                <textarea class="form-control" name="diagnosticoSindromicoDescripcion"
+                                          id="diagnosticoSindromicoDescripcion" disabled></textarea>
+                            </dd>
 
-                                        <input type="radio" value="Si" name="respuesta_postnatal"
-                                               onchange="habilitarP2L3(this.value);"> Si
-                                        <br>
-                                        <input type="radio" value="No" name="respuesta_postnatal"
-                                               onchange="habilitarP2L3(this.value);"> No
-                                        <br>
-                                        <input type="radio" value="Desconozco" name="respuesta_postnatal"
-                                               onchange="habilitarP2L3(this.value);" checked> Desconozco
-                                        <br>
-                                        <textarea class="form-control" id="descripcion_postnatal"
-                                                  name="descripcion_postnatal"
-                                                  disabled></textarea>
-                                    </dd>
+                            <li><b>El diagnóstico sindrómico funcional fue emitido por:</b></li>
+                            <dd>
+                                <select onchange="habilitarP8(this.value);"
+                                        name="emisionDiagnosticoSindromico"
+                                        id="emisionDiagnosticoSindromico"
+                                        class="selectpicker" required>
+                                    <option value="" disabled selected>Seleccione una opción</option>
+                                    <option value="DECE">DECE</option>
+                                    <option value="UDAI">UDAI</option>
+                                    <option value="Equipo multidisciplinario">Equipo multidisciplinario
+                                    </option>
+                                    <option value="Otro">Otro (indique)</option>
+                                </select>
+                                <textarea class="form-control" name="detalleDiagnosticoSindromico"
+                                          id="detalleDiagnosticoSindromico" disabled></textarea>
+                            </dd>
 
-
-                                    <li>Tipo de Familia:</li>
-                                    <dd>
-
-                                        <input type="radio" value="Nuclear" name="tipoFamilia"
-                                               onchange="habilitarP3(this.value);"> Nuclear (Progenitores e hijos)
-                                        <br>
-                                        <input type="radio" value="Extendida" name="tipoFamilia"
-                                               onchange="habilitarP3(this.value);"> Extendida (Abuelos, tíos, primos
-                                        y
-                                        otros parientes consanguíneos o afines que viven juntos)
-                                        <br>
-                                        <input type="radio" value="Monoparental" name="tipoFamilia"
-                                               onchange="habilitarP3(this.value);"> Monoparental (Un solo progenitor
-                                        ya
-                                        sea la madre o el padre)
-                                        <br>
-                                        <input type="radio" value="Otro" name="tipoFamilia"
-                                               onchange="habilitarP3(this.value);"> Otro (indique)
-                                        <br>
-                                        <textarea class="form-control" id="descripcion_tipoFamilia"
-                                                  name="descripcion_tipoFamilia"
-                                                  disabled></textarea>
-                                    </dd>
-
-                                    <li>Desde su perspectiva la dinámica familiar del niño/a es:</li>
-                                    <dd>
-                                        <select name="dinamicaFamiliar" id="dinamicaFamiliar"
-                                                class="selectpicker" required>
-                                            <option value="" disabled selected>Seleccione una opción</option>
-                                            <option value="Excelente">Excelente</option>
-                                            <option value="Muy Buena">Muy Buena</option>
-                                            <option value="Buena">Buena</option>
-                                            <option value="Regular">Regular</option>
-                                        </select>
-                                    </dd>
-
-                                    <li>Existen antecedentes familiares patológicos significativos:</li>
-                                    <dd>
-                                        <input type="radio" value="Si" name="antecedentesFPatologicos"
-                                               onchange="habilitarP5(this.value);"/> Si(Indique)
-                                        <br>
-                                        <input type="radio" value="No" name="antecedentesFPatologicos"
-                                               onchange="habilitarP5(this.value);"/> No
-                                        <br>
-                                        <input type="radio" value="Desconozco" name="antecedentesFPatologicos"
-                                               onchange="habilitarP5(this.value);" checked/> Desconozco
-                                        <br>
-                                        <textarea class="form-control" id="descripcionAntecedentesFPatologicos"
-                                                  name="descripcionAntecedentesFPatologicos" disabled></textarea>
-
-                                    </dd>
-
-                                    <li>El Diagnóstico médico(Información proporcionada por un especialista de
-                                        salud)
-                                        (se
-                                        presenta la lista si marca afirmativo)
-                                    </li>
-
-                                    <dd>
-                                        <input type="radio" value="Si" name="diagnosticoMedicoRespuesta"
-                                               onchange="habilitarP6(this.value);"> Si &nbsp;
-                                        <select class="selectpicker" onchange="habilitarP6(this.value);"
-                                                name="diagnosticoMedicoOpcion"
-                                                id="diagnosticoMedicoOpcion"
-                                                disabled required>
-                                            <option value="" disabled selected>Seleccione una opción</option>
-                                            <option value="Visual">Visual</option>
-                                            <option value="Auditivo">Auditivo</option>
-                                            <option value="Motriz">Motriz</option>
-                                            <option value="Fisico">Físico</option>
-                                            <option value="Neurologico">Neurológico</option>
-                                            <option value="Sindrome">Síndrome (indique)</option>
-                                        </select> &nbsp;
-                                        <br>
-                                        <input type="radio" value="No" name="diagnosticoMedicoRespuesta"
-                                               id="diagnosticoMedicoRespuesta"
-                                               onchange="habilitarP6(this.value);" checked> No
-                                        <textarea class="form-control" name="diagnosticoMedicoDescripcion"
-                                                  id="diagnosticoMedicoDescripcion" disabled></textarea>
-
-
-                                    </dd>
-
-                                    <li>Diagnóstico sindrómico funcional:</li>
-                                    <dd>
-
-                                        <input type="radio" value="Si" name="diagnosticoSindromicoRespuesta"
-                                               onchange="habilitarP7(this.value);"> Si &nbsp;
-                                        <select onchange="habilitarP7(this.value);"
-                                                name="diagnosticoSindromicoOpcion"
-                                                id="diagnosticoSindromicoOpcion"
-                                                class="selectpicker" disabled required>
-                                            <option value="" disabled selected>Seleccione una opción</option>
-                                            <option value="Intelectual">Intelectual</option>
-                                            <option value="Comunicación">Comunicación</option>
-                                            <option value="Retraso en las áreas de desarrollo">Retraso en las áreas
-                                                de
-                                                desarrollo
-                                            </option>
-                                            <option value="Trastorno">Trastorno (indique)</option>
-                                        </select> &nbsp;
-                                        <br>
-                                        <input type="radio" value="No" name="diagnosticoSindromicoRespuesta"
-                                               id="diagnosticoSindromicoRespuesta"
-                                               onchange="habilitarP7(this.value);" checked> No
-
-                                        <textarea class="form-control" name="diagnosticoSindromicoDescripcion"
-                                                  id="diagnosticoSindromicoDescripcion" disabled></textarea>
-                                        <br>
-
-
-                                    </dd>
-
-                                    <li>El diagnóstico sindrómico funcional fue emitido por:</li>
-                                    <dd>
-                                        <select onchange="habilitarP8(this.value);"
-                                                name="emisionDiagnosticoSindromico"
-                                                id="emisionDiagnosticoSindromico"
-                                                class="selectpicker" required>
-                                            <option value="" disabled selected>Seleccione una opción</option>
-                                            <option value="DECE">DECE</option>
-                                            <option value="UDAI">UDAI</option>
-                                            <option value="Equipo multidisciplinario">Equipo multidisciplinario
-                                            </option>
-                                            <option value="Otro">Otro (indique)</option>
-                                        </select>
-                                        <br>
-                                        <br>
-                                        <input type="text" class="form-control" name="detalleDiagnosticoSindromico"
-                                               id="detalleDiagnosticoSindromico" disabled/>
-
-                                    </dd>
-
-                                    <li>Detalle de signos y síntomas que requieren asesoría</li>
-
-                                    <dd>
+                            <li><b>Detalle de signos y síntomas que requieren asesoría:</b></li>
+                            <dd>
                                     <textarea class="form-control" name="detalleDificultades" rows="10"
                                               cols="50"></textarea>
+                            </dd>
+                        </ol>
 
-                                    </dd>
-
-                                </ol>
-
-                                <div>
-                                    <h6>Enviar a:</h6>
-                                    <div>
-                                        <label><input type="checkbox" id="todos" name="todos" value="todos">
-                                            Todos/a</label><br>
-                                        <label><input type="checkbox" id="psicologo" name="psicologo" value="psicologo">
-                                            Liliana Peñafiel (Psicóloga)</label><br>
-                                        <label><input type="checkbox" id="terapistaLenguaje" name="terapistaLenguaje"
-                                                      value="terapistaLenguaje">
-                                            Adriana Leon (Terapista de Lenguaje)</label><br>
-                                        <label><input type="checkbox" id="terapistaFisico" name="terapistaFisico"
-                                                      value="terapistaFisico">
-                                            Soledad Rivera (Terapista Física)</label><br>
-                                        <label><input type="checkbox" id="educador" name="educador" value="educador">
-                                            Jenny Vèlez (Educadora)</label><br>
-                                        <label><input type="checkbox" id="estimuladorTemprano"
-                                                      name="estimuladorTemprano"
-                                                      value="estimuladorTemprano">
-                                            Cayetana Palacios (Estimuladora temprana)</label><br>
-                                    </div>
-                                </div>
-                                <div align="center">
-                                    <button type="submit" class="btn btn btn-primary btn-user">Guardar
-                                    </button>
-                                    <a class="btn btn btn-danger btn-user"
-                                       href="{% url 'appdocente:base' %}">Cancelar</a>
-                                </div>
+                        <div>
+                            <h6>Enviar a:</h6>
+                            <div>
+                                <label><input type="checkbox" id="todos" name="todos" value="todos">
+                                    Todos/a</label><br>
+                                <label><input type="checkbox" id="psicologo" name="psicologo" value="psicologo">
+                                    Liliana Peñafiel (Psicóloga)</label><br>
+                                <label><input type="checkbox" id="terapistaLenguaje" name="terapistaLenguaje"
+                                              value="terapistaLenguaje">
+                                    Adriana Leon (Terapista de Lenguaje)</label><br>
+                                <label><input type="checkbox" id="terapistaFisico" name="terapistaFisico"
+                                              value="terapistaFisico">
+                                    Soledad Rivera (Terapista Física)</label><br>
+                                <label><input type="checkbox" id="educador" name="educador" value="educador">
+                                    Jenny Vélez (Educadora)</label><br>
+                                <label><input type="checkbox" id="estimuladorTemprano"
+                                              name="estimuladorTemprano"
+                                              value="estimuladorTemprano">
+                                    Cayetana Palacios (Estimuladora temprana)</label><br>
                             </div>
                         </div>
-                    </form>
+                        <div align="center">
+                            <button type="submit" class="btn btn btn-primary btn-user">Guardar
+                            </button>
+                            <a class="btn btn btn-danger btn-user"
+                               href="{% url 'appdocente:base' %}">Cancelar</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 {% endblock %}

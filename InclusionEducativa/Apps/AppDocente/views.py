@@ -49,11 +49,11 @@ def buscarEstudiante(request):
                     if FichaInformativaDocente.objects.filter(docente_id=docente.id,
                                                               estudiante_id=estudiante.id).exists() is False:
                         return redirect('appdocente:crearFichaInformativa', estudiante_cedula=estudiante.cedula)
-                    else:
-                        if FichaInformativaDocente.objects.filter(estudiante_id=estudiante.id).exists():
-                            messages.error(request, 'Ya ha ingresado la ficha del estudiante otro docente')
-                        else:
-                            messages.error(request, 'Usted ha ingresado la ficha del estudiante')
+                    elif FichaInformativaDocente.objects.filter(docente_id=docente.id,
+                                                                estudiante_id=estudiante.id).exists():
+                        messages.error(request, 'Usted ya ha ingresado la ficha del estudiante')
+                    elif FichaInformativaDocente.objects.filter(estudiante_id=estudiante.id).exists():
+                        messages.error(request, 'Otro docente ya ha ingresado la ficha del estudiante')
                 else:
                     return redirect('appdocente:crearFichaInformativa', estudiante_cedula=ced)
             else:
@@ -144,7 +144,7 @@ def crearFichaInformativa(request, estudiante_cedula):
             fichaInformativaDocente.docente = docente
             estudiante = crearEstudiante(request, cedula)
             fichaInformativaDocente.estudiante = estudiante
-            crear_room(estudiante)
+            # crear_room(estudiante)
             fichaInformativaDocente.save()
             # if (request.POST['todos'] == 'todos'):
             if Experto.objects.all().exists():
