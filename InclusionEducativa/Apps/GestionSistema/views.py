@@ -50,13 +50,10 @@ def verCurriculum(request, usuario_id):
 
 
 def index(request):
-    usuario_logueado = None
-    expertos = None
+    expertos = ''
     if Experto.objects.all().exists():
         expertos = Experto.objects.all()
-    if request.user.is_authenticated:
-        usuario_logueado = Usuario.objects.get(id=request.user.id)
-    return render(request, 'index.html', {'usuario_logueado': usuario_logueado, 'expertos': expertos})
+    return render(request, 'index.html', {'expertos': expertos})
 
 
 @login_required

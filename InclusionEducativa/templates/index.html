@@ -57,23 +57,23 @@
                 <li><a href="#team">Equipo Interdisciplinario</a></li>
                 <li><a href="#services">Sistemas Expertos</a></li>
                 <li><a href="#footer">Contáctanos</a></li>
-                {% if usuario_logueado.is_authenticated %}
-                    {% if usuario_logueado.tipo_usuario == 'experto' %}
+                {% if request.user.is_authenticated %}
+                    {% if request.user.tipo_usuario == 'experto' %}
                         <li class="text-lowercase"><a href="{% url 'appexperto:base' %}"><i class="fa fa-user"></i> Mi
                             cuenta</a>
                         </li>
                     {% endif %}
-                    {% if usuario_logueado.tipo_usuario == 'administrador' %}
+                    {% if request.user.tipo_usuario == 'administrador' %}
                         <li class="text-lowercase"><a href="{% url 'gestionsistema:base' %}"><i class="fa fa-user"></i>
                             Mi cuenta</a>
                         </li>
                     {% endif %}
-                    {% if usuario_logueado.tipo_usuario == 'docente' %}
+                    {% if request.user.tipo_usuario == 'docente' %}
                         <li class="text-lowercase"><a href="{% url 'appdocente:base' %}"><i class="fa fa-user"></i>
                             Mi cuenta</a>
                         </li>
                     {% endif %}
-                    {% if usuario_logueado.tipo_usuario == 'representante' %}
+                    {% if request.user.tipo_usuario == 'representante' %}
                         <li class="text-lowercase"><a href="{% url 'apprepresentante:base' %}"><i
                                 class="fa fa-user"></i>
                             Mi cuenta</a>
@@ -85,7 +85,6 @@
                     </li>
                 {% endif %}
             </ul>
-
 
         </nav><!-- .main-nav -->
     </div>
@@ -102,17 +101,17 @@
             <div class="col-md-6 intro-info order-md-first order-last">
                 <h2 align="center">Plataforma de Inclusión <span>Educativa</span></h2>
                 <div>
-                    {% if usuario_logueado.is_authenticated %}
-                        {% if usuario_logueado.tipo_usuario == 'experto' %}
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.tipo_usuario == 'experto' %}
                             <a href="{% url 'appexperto:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
                         {% endif %}
-                        {% if usuario_logueado.tipo_usuario == 'administrador' %}
+                        {% if request.user.tipo_usuario == 'administrador' %}
                             <a href="{% url 'gestionsistema:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
                         {% endif %}
-                        {% if usuario_logueado.tipo_usuario == 'docente' %}
+                        {% if request.user.tipo_usuario == 'docente' %}
                             <a href="{% url 'appdocente:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
                         {% endif %}
-                        {% if usuario_logueado.tipo_usuario == 'representante' %}
+                        {% if request.user.tipo_usuario == 'representante' %}
                             <a href="{% url 'apprepresentante:base' %}" class="btn-get-started scrollto">Mi cuenta</a>
                         {% endif %}
                     {% else %}
@@ -186,9 +185,17 @@
                     {% for experto in expertos %}
                         <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="member">
-                                <a target="_blank" href="{% url 'gestionsistema:curriculum' experto.usuario.id %}"><img
-                                        src="{{ experto.usuario.foto.url }}"
-                                        class="img-fluid" alt=""></a>
+                                {% if experto.usuario.foto %}
+                                    <a target="_blank"
+                                       href="{% url 'gestionsistema:curriculum' experto.usuario.id %}"><img
+                                            src="{{ experto.usuario.foto.url }}"
+                                            class="img-fluid" alt=""></a>
+                                {% else %}
+                                    <a target="_blank"
+                                       href="{% url 'gestionsistema:curriculum' experto.usuario.id %}"><img
+                                            src="https://www.jdevoto.cl/web/wp-content/uploads/2018/04/default-user-img.jpg"
+                                            class="img-fluid" alt=""></a>
+                                {% endif %}
                                 <div class="member-info">
                                     <div class="member-info-content">
                                         <h4>{{ experto.usuario.nombres }}</h4>
@@ -315,8 +322,9 @@
                                                                           style="color: #3fcdc7;"></i></div>
                         <h4 class="title"><a href="{% url 'automata:datosTest' %}" target="_blank">Área Lenguaje</a>
                         </h4>
-                        <p class="description">Esta ficha de evaluación para padres le permitirá a usted adquirir un programa específico para
-                        su hijo(a) con actividades de refuerzo en el hogar </p>
+                        <p class="description">Esta ficha de evaluación para padres le permitirá a usted adquirir un
+                            programa específico para
+                            su hijo(a) con actividades de refuerzo en el hogar </p>
                     </div>
                 </div>
                 {#                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">#}
