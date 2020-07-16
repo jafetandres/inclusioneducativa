@@ -154,7 +154,6 @@ def crearFichaInformativa(request, estudiante_cedula):
                                                               estudiante_id=fichaInformativaDocente.estudiante.id).exists():
                         fichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
                                                                                     estudiante_id=fichaInformativaDocente.estudiante.id)
-
                         for fichaInformativa in fichasInformativas:
                             if bool(fichaInformativa.fichaInformativaDocente) == False:
                                 fichaInformativa.fichaInformativaDocente = fichaInformativaDocente
