@@ -1,0 +1,237 @@
+{% extends 'experto/base.html' %}
+{% block contenido %}
+    <h1 class="h3 mb-2 text-gray-800" align="center">Mi perfil</h1>
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-2">
+                <div class="container-fluid">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-danger" role="alert">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <form method="post" class="user" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group text-center">
+                            {% if request.user.foto %}
+                                <img src="{{ request.user.foto.url }}"
+                                     class="img-profile rounded-circle" alt="avatar" width="200"
+                                     height="200" id="img">
+                                <br>
+                                <br>
+                            {% else %}
+                                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                                     class="img-profile rounded-circle" alt="avatar" height="200" width="200" id="img">
+                                <br>
+                                <br>
+                            {% endif %}
+                            <span class="btn btn-primary btn-file">
+                                <i class="fas fa-upload"></i>
+                                <input type="file" id="file" name="file">
+                                <span class="text">Actualizar foto</span>
+                            </span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <label for="nombres">Nombres: <input type="text"
+                                                                     class="form-control form-control-user"
+                                                                     value='{{ usuario.nombres }}'
+                                                                     id="nombres" name="nombres" size="1000"
+                                                                     onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                                     required></label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="apellidos">Apellidos: <input type="text"
+                                                                         class="form-control form-control-user"
+                                                                         value="{{ usuario.apellidos }}"
+                                                                         id="apellidos" name="apellidos"
+                                                                         size="1000"
+                                                                         onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                                                         required></label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <label for="cedula">Cédula:<input type="text"
+                                                                  class="form-control form-control-user"
+                                                                  value="{{ usuario.cedula }}"
+                                                                  id="cedula" name="cedula" size="1000"
+                                                                  maxlength="10"
+                                                                  disabled
+                                                                  required></label>
+                            </div>
+                            <div class="col-sm-6">
+                                {{ form.username.errors }}
+                                <label for="username">Correo: <input type="email"
+                                                                     class="form-control form-control-user"
+                                                                     value="{{ usuario.username }}"
+                                                                     id="username" name="username"
+                                                                     size="1000"
+                                                                     required></label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <div id="confirmacion"></div>
+                                <label for="password">Contraseña:
+                                    <a href="" data-toggle="modal"
+                                       data-target="#exampleModal">
+                                        Cambiar contraseña
+                                    </a>
+                                </label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="fechaNacimiento">Fecha de Nacimiento:
+                                    <input pattern="(?:19|20)(?:(?:[13579][26]|[02468][048])-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))|(?:[0-9]{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31)))"
+                                           class="form-control form-control-user" name="fechaNacimiento"
+                                           id="fechaNacimiento" value="{{ usuario.fechaNacimiento }}"
+                                           placeholder="yyyy-mm-dd" autocomplete="off" required>
+                                </label>
+                            </div>
+                        </div>
+                        <div align="center">
+                            <button type="submit" class="btn btn btn-primary btn-user">Guardar Cambios
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cambio de contraseña</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            onclick="cancelarCambio()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="errores"></div>
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Contraseña anterior:</label>
+                            <input type="password" class="form-control" id="old_password">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Contraseña nueva:</label>
+                            <input type="password" class="form-control" name="new_password1" id="new_password1">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Contraseña nueva (confirmación):</label>
+                            <input type="password" class="form-control" name="new_password2" id="new_password2">
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cancelarCambio()">
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="cambiar">Cambiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script>
+        function cancelarCambio() {
+            document.getElementById('errores').innerHTML = '';
+            document.getElementById('old_password').value = '';
+            document.getElementById('new_password1').value = '';
+            document.getElementById('new_password2').value = '';
+            document.getElementById('errores').className = '';
+        }
+    </script>
+    <script>
+        function readImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result); // Renderizamos la imagen
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInp").change(function () {
+            // Código a ejecutar cuando se detecta un cambio de archivO
+            readImage(this);
+        });
+    </script>
+    <script>
+        document.getElementById("file").onchange = function (e) {
+            // Creamos el objeto de la clase FileReader
+            let reader = new FileReader();
+            // Leemos el archivo subido y se lo pasamos a nuestro fileReader
+            reader.readAsDataURL(e.target.files[0]);
+            // Le decimos que cuando este listo ejecute el código interno
+            reader.onload = function () {
+                let preview = document.getElementById('preview'),
+                    image = document.getElementById('img');
+                image.src = reader.result;
+                preview.innerHTML = '';
+                preview.append(image);
+            };
+        }
+    </script>
+    <script>
+        $('#cambiar').on('click', cambiarContrasena);
+
+        function cambiarContrasena() {
+            var old_password = document.getElementById('old_password').value
+            var new_password1 = document.getElementById('new_password1').value
+            var new_password2 = document.getElementById('new_password2').value
+            var errores = document.getElementById('errores')
+            var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            var html = "";
+            $.ajax({
+                url: "{% url 'gestionsistema:cambiarContrasena' %}",
+                type: "post", // or "get"
+                headers: {'X-CSRFToken': csrftoken},
+                data: {
+
+                    'old_password': old_password,
+                    'new_password1': new_password1,
+                    'new_password2': new_password2
+                },
+                success: function (data) {
+                    var ul = document.createElement('ul');
+                    document.getElementById('errores').innerHTML = '';
+                    if (data.length == 0) {
+                        $('#exampleModal').modal('hide');
+                        document.getElementById('old_password').value = '';
+                        document.getElementById('new_password1').value = '';
+                        document.getElementById('new_password2').value = '';
+                        document.getElementById('errores').className = '';
+                        document.getElementById('confirmacion').innerHTML = '<div class="alert alert-success">Cambio de contraseña exitoso</div>';
+
+                    } else {
+                        for (let error of data) {
+                            var li = document.createElement('li');
+                            li.innerHTML = '<p>' + error + '</p>';
+                            ul.appendChild(li);
+                        }
+                        document.getElementById('errores').className = 'alert alert-info';
+                        document.getElementById('errores').appendChild(ul);
+                    }
+                },
+                error: function (data) {
+                    console.log('ocurrio un error')
+                }
+            });
+        }
+    </script>
+    <script>
+        $('#fechaNacimiento').datepicker({
+            language: 'es-ES',
+            format: 'yyyy-mm-dd',
+            autoHide: true
+        });
+    </script>
+{% endblock %}

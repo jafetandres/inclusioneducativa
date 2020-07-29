@@ -1,0 +1,230 @@
+{% extends 'AppRepresentante/base.html' %}
+{% block contenido %}
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-5">
+            <div align="right">
+                {% if estudiante.actividadesRepresentante %}
+                    <a href="{{ estudiante.actividadesRepresentante.url }}" download="plainced_actividades.pdf"
+                       class="btn btn-success btn-icon-split">
+                        <span class="icon text-white-50"><i class="fas fa-download"></i></span>
+                        <span class="text">Descargar Actividades</span>
+                    </a>
+                {% else %}
+                    <button type="submit" class="btn btn-secondary btn-icon-split" disabled>
+                        <span class="icon text-white-50"><i class="fas fa-download"></i></span>
+                        <span class="text">Descargar Actividades</span>
+                    </button>
+                {% endif %}
+            </div>
+            <h1 class="h3 mb-2 text-gray-800 text-center py-3">Datos personales del niño(a)</h1>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label><b>Nombres:</b>
+                        <p>
+                            {{ estudiante.nombres }}
+                        </p>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label><b>Apellidos:</b>
+                        <p>
+                            {{ estudiante.apellidos }}
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label><b>Cédula:</b>
+                        <p>
+                            {{ estudiante.cedula }}
+                        </p>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label><b>Fecha de Nacimiento:</b>
+                        <p>
+                            {{ estudiante.fechaNacimiento }}
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label><b>Institucion:</b>
+                        <p>
+                            {{ estudiante.institucion.nombre }}
+                        </p>
+                    </label>
+                </div>
+                <div class="col-sm-6">
+                    <label><b>Nivel:</b>
+                        <p>
+                            {{ estudiante.nivel }}
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <hr>
+            <h1 class="h3 mb-2 text-gray-800" align="center">Ficha informativa realizada por el Representante</h1>
+            <label><b>Dificultad Prenatal:</b>
+                <p>
+                    Respuesta: {{ fichaInformativaRepresentante.dificultad.respuesta_prenatal }} <br/>
+                    Descripción: {{ fichaInformativaRepresentante.dificultad.descripcion_prenatal }}
+                </p>
+            </label>
+            <br>
+            <label><b>Dificultad Perinatal:</b>
+                <p>
+                    Respuesta: {{ fichaInformativaRepresentante.dificultad.respuesta_perinatal }} <br/>
+                    Descripción: {{ fichaInformativaRepresentante.dificultad.descripcion_perinatal }}
+                </p>
+            </label>
+            <br>
+            <label><b>Dificultad Postnatal:</b>
+                <p>
+                    Respuesta: {{ fichaInformativaRepresentante.dificultad.respuesta_postnatal }} <br/>
+                    Descripción: {{ fichaInformativaRepresentante.dificultad.descripcion_postnatal }}
+                </p>
+            </label>
+            <br>
+            <label><b>Tipo de Familia:</b>
+                <p>
+                    {{ fichaInformativaRepresentante.tipoFamilia }}
+                </p>
+            </label>
+            <br>
+            <label><b>Dinamica Familiar:</b>
+                <p>
+                    {{ fichaInformativaRepresentante.dinamicaFamiliar }}
+                </p>
+            </label>
+            <br>
+            <label><b>Antecedentes familiares patológicos significativos:</b>
+                <p>
+                    {{ fichaInformativaRepresentante.antecedentesFPatologicos }}
+                </p>
+            </label>
+            <br>
+            <label><b>Diagnóstico médico:</b>
+                <p>
+                    Respuesta: {{ fichaInformativaRepresentante.diagnosticoMedico.diagnosticoMedicoRespuesta }}<br/>
+                    Opcion: {{ fichaInformativaRepresentante.diagnosticoMedico.diagnosticoMedicoOpcion }}<br/>
+                    Descripción: {{ fichaInformativaRepresentante.diagnosticoMedico.diagnosticoMedicoDescripcion }}
+                </p>
+            </label>
+            <br>
+
+            <label><b>Detalle de Dificultades:</b>
+                <p>
+                    {{ fichaInformativaRepresentante.detalleDificultades }}<br/>
+                </p>
+            </label>
+        </div>
+    </div>
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-3">
+            <form method="post" id="formulario" class="user">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-2">
+                        {% if request.user.foto %}
+                            <img src="{{ request.user.foto.url }}" class="img-fluid rounded-circle"/>
+                        {% else %}
+                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img-fluid rounded-circle"/>
+                        {% endif %}
+                        <p class="text-center">{{ request.user.nombres }}</p>
+                    </div>
+                    <div class="col-lg-10">
+                        <div id="summernote"></div>
+                    </div>
+                </div>
+            </form>
+            <div>
+                <button id="comentar" class="float-right btn btn-outline-primary ml-2">Comentar</button>
+            </div>
+            <div id="comentarios" class="py-5"></div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script>
+        $('#comentar').on('click', crearComentario);
+
+        function crearComentario() {
+            var contenidoComentario = $('#summernote').summernote('code');
+            $.ajax({
+                url: "{% url 'gestionsistema:crearComentario' %}",
+                type: "post",
+                data: {
+                    'contenidoComentario': contenidoComentario,
+                    'id': {{ estudiante.id }},
+                    'receptor': 'representante'
+
+                },
+                success: function () {
+                },
+                error: function () {
+                    {#$('#summernote').summernote('reset');#}
+                }
+            });
+        }
+    </script>
+    <script>
+        $('#summernote').summernote({
+            placeholder: 'Escribe un comentario aqui ...',
+            tabsize: 2,
+            height: 120,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            function cargarComentarios() {
+                $.ajax({
+                    url: "{% url 'gestionsistema:cargarComentariosRepresentante' %}",
+                    type: "get",
+                    data: {
+                        'id': {{ estudiante.id }}
+                    },
+                    success: function (data) {
+                        var html = "";
+                        for (var i = 0; i < data['comentarios'].length; i++) {
+                            html += '<div class="card card-inner my-3">\n' +
+                                '            <div class="card-body">\n' +
+                                '        <div class="row">\n' +
+                                '                <div class="col-lg-2">\n' +
+                                '                        <img src="' + data['comentarios'][i].foto + '" class="img-fluid rounded-circle"/>\n' +
+                                '                    <p class="text-center">' + data['comentarios'][i].nombre + '</p>\n' +
+                                '                </div>\n' +
+                                '                <div class="col-lg-10">\n' +
+                                '                    <p>' + data['comentarios'][i].contenido + '</p>\n' +
+                                '                </div>\n' +
+                                '            </div>\n' +
+                                '        </div>\n' +
+                                '    </div>';
+                        }
+                        $('#comentarios').html(html);
+
+                    },
+                    error: function () {
+                    }
+                });
+            }
+
+            setInterval(cargarComentarios, 1000);
+        });
+    </script>
+{% endblock %}
+
+
+
