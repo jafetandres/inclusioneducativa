@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '0r9u3z=w6j2mq$vbus@(ppx5%f+c63pgmsnum10=!_jvl7i@2h'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
-ADMINS = [('Jafet', 'jafetandres@hotmail.com')]
+ADMINS = [('Jafet', 'plainced@gmail.com')]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -77,23 +77,20 @@ CHANNEL_LAYERS = {
     },
 }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'plainced.db',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'inclusion',
-#         'USER': 'inclusion',
-#         'PASSWORD': 'jagq1995',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'plainced.db',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'plainced',
+        'USER': 'plainced',
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
