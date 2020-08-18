@@ -2,12 +2,11 @@ import os
 import dj_database_url
 from plainced.settings import *
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '0r9u3z=w6j2mq$vbus@(ppx5%f+c63pgmsnum10=!_jvl7i@2h'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
-ADMINS = [('Jafet', 'plainced@gmail.com')]
+ADMINS = [('Jafet', 'inclusioneducativa@ups.edu.ec')]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,7 +21,6 @@ INSTALLED_APPS = [
     'representante',
     'experto',
     'automata',
-
     'channels',
     'notifications',
     'chat',
