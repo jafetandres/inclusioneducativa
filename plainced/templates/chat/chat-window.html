@@ -1,0 +1,333 @@
+{% extends 'chat/base.html' %}
+{% load static %}
+{% block content %}
+    {{ block.super }}
+    {% include 'chat/chatroom-list.html' %}
+    <div class="col-md-8 col-xl-6 chat">
+        <div class="card">
+            <div class="card-header msg_head">
+                <div class="d-flex bd-highlight">
+{#                    <div class="img_cont">#}
+{#                        <img src="{% static 'chat/img/group.png' %}"#}
+{#                             class="rounded-circle user_img">#}
+{#                        <span class="online_icon"></span>#}
+{#                    </div>#}
+                    <div class="user_info">
+                        <span>Caso: {{ room_name }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body msg_card_body" id="chat-dialog">
+                {% for message in latest_messages_curr_room reversed %}
+                    {% if message.sender.username == user.username %}
+                        <div class="d-flex justify-content-end mb-4">
+                            <div class="msg_cotainer_send">
+                                {{ message.text }}
+                                <span class="msg_time_send"> {{ message.date_created|date:"h:i A" }}</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="d-flex justify-content-start mb-4">
+                            <div class="img_cont_msg">
+                                <img src="{{ message.sender.foto.url }}"
+                                     class="rounded-circle user_img_msg">
+                            </div>
+                            <div class="msg_cotainer">
+                                {{ message.text }}
+                                <span class="msg_time">{{ message.date_created|date:"h:i A" }}</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="card-footer">
+                <div class="input-group">
+                    <div class="input-group-append">
+                        <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                    </div>
+                    <textarea id="send-message" name="" class="form-control type_msg"
+                              placeholder="Escribe aqui..."></textarea>
+                    <div class="input-group-append">
+                            <span id="send-button" class="input-group-text send_btn"><i
+                                    class="fas fa-location-arrow"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script>
+        var ws_or_wss = window.location.protocol == "https:" ? "wss://" : "ws://";
+        websocket_url = ws_or_wss + window.location.host
+            + '/ws/chat/chatrooms/' + room_id + '/';
+        var chatSocket = new WebSocket(
+            websocket_url
+        );
+        chatSocket.onopen = function (e) {
+            console.log('Websocket connected.');
+        }
+        chatSocket.onmessage = function (e) {
+
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            var sender = data['sender'];
+            var foto = data['foto'];
+            var received_room_id = data['room_id'];
+            var date_created = dateFormatter(data['date_created']);
+            $last_room = $('#' + received_room_id);
+            $last_room.parent().prepend($last_room);
+            if (username === sender) {
+                {#addSenderMessage(message, sender, received_room_id, date_created, 'append');#}
+                var msgListTag = document.createElement('div');
+                var msgContainer = document.createElement('div');
+                var msgTime = document.createElement('span');
+                msgContainer.textContent = message;
+                msgTime.textContent = date_created;
+                msgListTag.className = 'd-flex justify-content-end  mb-4';
+                msgContainer.className = 'msg_cotainer_send';
+                msgTime.className = 'msg_time_send';
+                msgListTag.appendChild(msgContainer);
+                msgContainer.appendChild(msgTime);
+                document.querySelector('#chat-dialog').appendChild(msgListTag);
+                console.log("entro");
+
+                $("#" + received_room_id)
+                    .find('#chat-list-last-message')
+                    .text("Tu: " + message);
+
+
+            } else {
+
+                $last_room.css('font-weight', 'bold');
+                var msgListTag = document.createElement('div');
+                var msgContainer = document.createElement('div');
+                var imgContainer = document.createElement('div');
+                var msgTime = document.createElement('span');
+                var imgTag = document.createElement('img');
+                msgContainer.textContent = message;
+                msgTime.textContent = date_created;
+                msgListTag.className = 'd-flex justify-content-start mb-4';
+                msgContainer.className = 'msg_cotainer';
+                msgTime.className = 'msg_time';
+                imgContainer.className = 'img_cont_msg';
+                imgTag.className = 'rounded-circle user_img_msg';
+                imgTag.src = foto;
+
+                msgListTag.appendChild(imgContainer);
+                msgListTag.appendChild(msgContainer);
+                msgContainer.appendChild(msgTime);
+                imgContainer.appendChild(imgTag);
+                document.querySelector('#chat-dialog').appendChild(msgListTag);
+
+
+                {#addOpponentMessage(message, sender, received_room_id, date_created, 'append');#}
+            }
+            document.getElementById('chat-dialog').scrollTop
+                = document.getElementById('chat-dialog').scrollHeight;
+        }
+        chatSocket.onclose = function () {
+            console.log('WebSocket disconnected.');
+            //setTimeout(function(){startWebSocket(websocket_url)}, 5000);
+        }
+
+        //When the enter key is pressed on the textarea, trigger a click
+        //on the Send button.
+        $('#send-message').keyup(function (e) {
+            if (e.which === 13) {
+                $('#send-button').trigger('click');
+                $('#send-message').val('');
+            }
+        });
+
+        //When the Send button is clicked, check if its just an empty message (i.e. only spaces).
+        //If it is, don't send the message. Otherwise, send it to the websocket.
+        $('#send-button').click(function () {
+            if ($.trim($("#send-message").val())) {
+                var message = $('#send-message').val();
+                chatSocket.send(JSON.stringify({
+                    'message_type': 'text',
+                    'message': message,
+                    'room_id': room_id,
+                    'sender': username
+                }));
+            }
+        });
+
+    </script>
+    <script>
+        /*
+      This websocket connects to a group named by the current user. Whenever the current
+      user is in a chatroom but a message appears in a different chatroom that the
+      user belongs to, the user gets an alert and a snippet of that message displayed
+      to them.
+
+      dateFormatter.js
+      websocketHelpers.js
+    */
+
+        //Global variable to modify HREF to tailor to secure or non-secure connections.
+        var ws_or_wss = window.location.protocol == "https:" ? "wss://" : "ws://";
+
+        websocket_url = ws_or_wss + window.location.host
+            + '/ws/chat/users/' + username + '/'; // username variable in chat-window23.html
+
+
+        /*
+        AI-------------------------------------------------------------------
+            The following opens a websocket with the current URL,
+            sends messages to that websocket, receives and processes messages
+            that are sent back from the server.
+        -------------------------------------------------------------------AI
+        */
+        var alertSocket = new WebSocket(
+            websocket_url
+        );
+        //Notify when the websocket is connected.
+        alertSocket.onopen = function (e) {
+            console.log('Alert socket connected.');
+        }
+
+        /*
+        AI-------------------------------------------------------------------
+            When a new alert arrives, add it to the chatroom preview
+        -------------------------------------------------------------------AI
+        */
+        alertSocket.onmessage = function (e) {
+            console.log("entro alerte");
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            var sender = data['sender'];
+            var received_room_id = data['room_id'];
+            var date_created = dateFormatter(data['date_created']);
+
+            // Below line adds the chatroom that got a new message to the top
+            $last_room = $('#' + received_room_id);
+            $last_room.parent().prepend($last_room);
+
+            // Highlight it
+            $last_room.css('font-weight', 'bold');
+
+            // Add the new message preview
+            updateOpponentMessagePreview(received_room_id, sender, message);
+        }
+
+        //Notify when the websocket closes abruptly.
+        alertSocket.onclose = function () {
+            console.log('Alert WebSocket disconnected.');
+            //setTimeout(function(){startWebSocket(websocket_url)}, 5000);
+        }
+
+    </script>
+    <script>
+        /*
+    AI-------------------------------------------------------------------
+        When the document is loaded, scroll down to the bottom to
+        reveal the latest messages.
+
+        Depends on: date-formatter.js
+    -------------------------------------------------------------------AI
+    */
+        $(function () {
+
+            // Bubble modifications on messages sent by same people on load
+            messages = $('.message').not('.message-date-created');
+            messages.each(function (index, el) {
+                if (index !== messages.length - 1) {
+                    $current = messages.eq(index);
+                    $next = messages.eq(index + 1);
+                    if ($current.hasClass('message-received')) {
+                        if ($next.hasClass('message-received')) {
+                            $current.prev().hide(); // Hide the username bubble
+                            $current.css('margin-left', '45px'); // Add margin to make up for the absence of bubble
+                            $current.addClass('received-reduced-bottom-margin');
+                            $next.addClass('received-reduced-top-margin');
+                        }
+                    } else if ($current.hasClass('message-sent')) {
+                        if ($next.hasClass('message-sent')) {
+                            $current.addClass('sent-reduced-bottom-margin');
+                            $next.addClass('sent-reduced-top-margin');
+                        }
+                    }
+                }
+            });
+
+            // Formats the time a message was sent in a more chat-style manner like Android Messages or Messenger
+            times = $('.message-date-created');
+            times.each(function (index, el) {
+                $this = times.eq(index);
+                time_human_readable = dateFormatter($this.text());
+                $this.text(time_human_readable);
+            });
+
+            // Set the latest message as visible
+            document.getElementById('chat-dialog').scrollTop
+                = document.getElementById('chat-dialog').scrollHeight;
+
+
+            // Mark active room with grey focus color
+            $active_room = $("#" + room_id); // room_id from chat-window23.html
+            $active_room.addClass('active');
+
+            // Focus message input on load
+            $('#send-message').focus();
+        });
+
+
+        // Animation to slide up chat window and slide down user list in mobile devices
+        $('#back-button').click(function () {
+            $(this).hide();
+            $('.dialog-container').hide(400, function () {
+                $chatroom_list = $('.chatroom-list-container');
+                $chatroom_list.css('width', '100%');
+                $chatroom_list.css('max-width', '100%');
+                $chatroom_list.css('border', '2px solid var(--bg-grey)');
+                $chatroom_list.show();
+            });
+        });
+
+
+        // When user clicks on the chat dialog, focus the input
+        // and change chatroom-list text to normal if it was bold before
+        $('#chat-dialog').click(function () {
+            $('#send-message').focus(); // Focus message input
+            $('#' + room_id).css('font-weight', 'normal');
+        });
+
+
+        // Don't select the input field when user clicks on message to enable selecting
+        // text
+        $('.message').click(function (e) {
+            e.stopPropagation();
+        });
+
+
+        // Change chatroom lists's room's font to normal on text input click
+        $('#send-message').click(function () {
+            $('#' + room_id).css('font-weight', 'normal');
+        });
+
+        // When a user clicks on a message, show the time underneath that message
+        $('body').on('click', '.message-sent', function () {
+            $(this).next().slideToggle(200);
+        });
+
+        $('.message-sent').click(function () {
+            $(this).next().slideToggle(200);
+        });
+
+        $('body').on('click', '.message-received', function () {
+            $this = $(this);
+            if (!$this.hasClass('message-received-date-created'))
+                $(this).parent().next().slideToggle(200);
+        });
+
+        $('.message-received').click(function () {
+            $this = $(this);
+            if (!$this.hasClass('message-received-date-created'))
+                $(this).parent().next().slideToggle(200);
+        });
+
+    </script>
+{% endblock %}

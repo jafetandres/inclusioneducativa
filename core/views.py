@@ -3,7 +3,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import get_default_password_validators, validate_password
-from django.core.exceptions import ValidationError
 from django.core.mail import send_mail, EmailMessage
 from django.db import IntegrityError
 from django.http import HttpResponse, JsonResponse
@@ -14,7 +13,6 @@ from notifications.models import Notification
 from plainced import settings
 from core.forms import *
 from .models import *
-from django_chatter.models import UserProfile
 from datetime import datetime, date
 from notifications.signals import notify
 from django.core import serializers
@@ -39,13 +37,13 @@ def perfil(request):
         except IntegrityError as e:
             messages.error(request, 'El correo electronico ya esta en uso')
         return redirect('gestionsistema:perfil')
-    return render(request, 'GestionSistema/perfil.html')
+    return render(request, 'core/perfil.html')
 
 
 def verCurriculum(request, usuario_id):
     usuario = Usuario.objects.get(id=usuario_id)
     audio = textToSpeech(usuario)
-    return render(request, 'GestionSistema/verCurriculum.html', {'usuario': usuario, 'audio': audio})
+    return render(request, 'core/verCurriculum.html', {'usuario': usuario, 'audio': audio})
 
 
 def index(request):
@@ -83,7 +81,7 @@ def index(request):
 def base(request):
     usuario_logueado = request.user
     usuarios = Usuario.objects.all().order_by('is_active', '-is_active')
-    return render(request, 'GestionSistema/base.html',
+    return render(request, 'core/base.html',
                   {'usuario_logueado': usuario_logueado, 'notificaciones': notificaciones, 'usuarios': usuarios})
 
 
@@ -104,41 +102,48 @@ def notificaciones(request):
 def crearUsuario(request):
     instituciones = Institucion.objects.all()
     if request.method == 'POST':
-        form_usuario = UsuarioForm(request.POST)
-        form_experto = ExpertoForm(request.POST)
-        form_docente = DocenteForm(request.POST)
-        form_representante = RepresentanteForm(request.POST)
+        form_experto = ''
+        form_docente = ''
+        form_representante = ''
         if request.POST['tipo_usuario'] == 'experto':
+            form_usuario = UsuarioForm(request.POST)
+            form_experto = ExpertoForm(request.POST)
             if form_usuario.is_valid() and form_experto.is_valid():
                 usuario = form_usuario.save(commit=False)
-                usuario.is_active = True
+                usuario.is_active = False
                 usuario.set_password(form_usuario.cleaned_data.get('password'))
                 usuario.email = request.POST['username']
-                messages.success(request, 'Cuenta creada con exito inicia sesion')
+                messages.success(request,
+                                 'Gracias por querer formar parte de nuestra plataforma, '
+                                 'tu perfil está en revisión te avisaremos cuando culmine el proceso ')
                 usuario.save()
                 experto = form_experto.save(commit=False)
                 experto.usuario = usuario
                 experto.save()
                 return redirect('gestionsistema:login')
         if request.POST['tipo_usuario'] == 'docente':
+            form_usuario = UsuarioForm(request.POST)
+            form_docente = DocenteForm(request.POST)
             if form_usuario.is_valid() and form_docente.is_valid():
                 usuario = form_usuario.save(commit=False)
                 usuario.is_active = True
                 usuario.set_password(form_usuario.cleaned_data.get('password'))
                 usuario.email = request.POST['username']
-                messages.success(request, 'Cuenta creada con exito inicia sesion')
+                messages.success(request, 'Cuenta creada con éxito puedes iniciar sesión')
                 usuario.save()
                 docente = form_docente.save(commit=False)
                 docente.usuario = usuario
                 docente.save()
                 return redirect('gestionsistema:login')
         if request.POST['tipo_usuario'] == 'representante':
+            form_usuario = UsuarioForm(request.POST)
+            form_representante = RepresentanteForm(request.POST)
             if form_usuario.is_valid() and form_representante.is_valid():
                 usuario = form_usuario.save(commit=False)
                 usuario.is_active = True
                 usuario.set_password(form_usuario.cleaned_data.get('password'))
                 usuario.email = request.POST['username']
-                messages.success(request, 'Cuenta creada con exito inicia sesion')
+                messages.success(request, 'Cuenta creada con éxito puedes iniciar sesión')
                 usuario.save()
                 representante = form_representante.save(commit=False)
                 representante.usuario = usuario
@@ -254,7 +259,7 @@ def InstitucionCrear(request):
         return redirect('gestionsistema:institucion_listar')
     else:
         form = InstitucionForm()
-    return render(request, 'GestionSistema/institucion_crear.html',
+    return render(request, 'core/institucion_crear.html',
                   {'form': form, 'usuario_logueado': usuario_logueado})
 
 
@@ -262,7 +267,7 @@ def InstitucionListar(request):
     usuario_logueado = request.user
     institucion = Institucion.objects.all()
 
-    return render(request, 'GestionSistema/institucion_listar.html',
+    return render(request, 'core/institucion_listar.html',
                   {'instituciones': institucion, 'usuario_logueado': usuario_logueado})
 
 
@@ -274,7 +279,7 @@ def InstitucionEditar(request, id_institucion):
         if form.is_valid():
             form.save()
         return redirect('gestionsistema:institucion_listar')
-    return render(request, 'GestionSistema/institucion_crear.html',
+    return render(request, 'core/institucion_crear.html',
                   {'form_institucion': institucion, 'usuario_logueado': usuario_logueado})
 
 
@@ -284,7 +289,7 @@ def InstitucionEliminar(request, id_institucion):
     if request.method == 'POST':
         institucion.delete()
         return redirect('gestionsistema:institucion_listar')
-    return render(request, 'GestionSistema/institucion_eliminar.html',
+    return render(request, 'core/institucion_eliminar.html',
                   {'institucion': institucion, 'usuario_logueado': usuario_logueado})
 
 
@@ -316,17 +321,17 @@ def ExpertoCrear(request):
     else:
         form_usuario = UsuarioForm()
         form_experto = Experto()
-    return render(request, 'GestionSistema/experto_crear.html', {'form_usuario': form_usuario,
-                                                                 'form_experto': form_experto,
-                                                                 'instituciones': instituciones,
-                                                                 'usuario_logueado': usuario_logueado})
+    return render(request, 'core/experto_crear.html', {'form_usuario': form_usuario,
+                                                       'form_experto': form_experto,
+                                                       'instituciones': instituciones,
+                                                       'usuario_logueado': usuario_logueado})
 
 
 def ExpertoListar(request):
     usuario_logueado = request.user
     expertos = Experto.objects.all()
 
-    return render(request, 'GestionSistema/experto_listar.html',
+    return render(request, 'core/experto_listar.html',
                   {'usuario_logueado': usuario_logueado, 'expertos': expertos})
 
 
@@ -357,7 +362,7 @@ def ExpertoEditar(request, id_experto):
             doc.usuario = usu
             doc.save()
         return redirect('gestionsistema:experto_listar')
-    return render(request, 'GestionSistema/experto_crear.html',
+    return render(request, 'core/experto_crear.html',
                   {'form_experto': experto, 'usuario_logueado': usuario_logueado})
 
 
@@ -369,7 +374,7 @@ def ExpertoEliminar(request, id_experto):
         experto.delete()
         usuario.delete()
         return redirect('gestionsistema:experto_listar')
-    return render(request, 'GestionSistema/experto_eliminar.html',
+    return render(request, 'core/experto_eliminar.html',
                   {'experto': experto, 'usuario_logueado': usuario_logueado})
 
 
@@ -395,17 +400,17 @@ def DocenteCrear(request):
     else:
         form_usuario = UsuarioForm()
         form_docente = Docente()
-    return render(request, 'GestionSistema/docente_crear.html', {'form_usuario': form_usuario,
-                                                                 'form_docente': form_docente,
-                                                                 'instituciones': instituciones,
-                                                                 'usuario_logueado': usuario_logueado})
+    return render(request, 'core/docente_crear.html', {'form_usuario': form_usuario,
+                                                       'form_docente': form_docente,
+                                                       'instituciones': instituciones,
+                                                       'usuario_logueado': usuario_logueado})
 
 
 def DocenteListar(request):
     usuario_logueado = request.user
     docentes = Docente.objects.all()
 
-    return render(request, 'GestionSistema/docente_listar.html',
+    return render(request, 'core/docente_listar.html',
                   {'usuario_logueado': usuario_logueado, 'docentes': docentes})
 
 
@@ -424,9 +429,9 @@ def DocenteEditar(request, id_docente):
             doc.usuario = usu
             doc.save()
         return redirect('gestionsistema:docente_listar')
-    return render(request, 'GestionSistema/docente_crear.html', {'form_docente': docente,
-                                                                 'instituciones': instituciones,
-                                                                 'usuario_logueado': usuario_logueado})
+    return render(request, 'core/docente_crear.html', {'form_docente': docente,
+                                                       'instituciones': instituciones,
+                                                       'usuario_logueado': usuario_logueado})
 
 
 def DocenteEliminar(request, id_docente):
@@ -437,7 +442,7 @@ def DocenteEliminar(request, id_docente):
         docente.delete()
         usuario.delete()
         return redirect('gestionsistema:docente_listar')
-    return render(request, 'GestionSistema/docente_eliminar.html',
+    return render(request, 'core/docente_eliminar.html',
                   {'docente': docente, 'usuario_logueado': usuario_logueado})
 
 
@@ -465,7 +470,7 @@ def representanteCrear(request):
 
         return redirect('gestionsistema:representante_listar')
 
-    return render(request, 'GestionSistema/representante_crear.html', {
+    return render(request, 'core/representante_crear.html', {
         'form_representante': form_representante,
         'form_usuario': form_usuario,
         'instituciones': instituciones,
@@ -476,7 +481,7 @@ def RepresentanteListar(request):
     usuario_logueado = request.user
     representantes = Representante.objects.all()
 
-    return render(request, 'GestionSistema/representante_listar.html',
+    return render(request, 'core/representante_listar.html',
                   {'usuario_logueado': usuario_logueado, 'representantes': representantes})
 
 
@@ -495,9 +500,9 @@ def RepresentanteEditar(request, id_representante):
             doc.usuario = usu
             doc.save()
         return redirect('gestionsistema:representante_listar')
-    return render(request, 'GestionSistema/representante_crear.html', {'form_representante': representante,
-                                                                       'instituciones': instituciones,
-                                                                       'usuario_logueado': usuario_logueado})
+    return render(request, 'core/representante_crear.html', {'form_representante': representante,
+                                                             'instituciones': instituciones,
+                                                             'usuario_logueado': usuario_logueado})
 
 
 def RepresentanteEliminar(request, id_representante):
@@ -508,7 +513,7 @@ def RepresentanteEliminar(request, id_representante):
         representante.delete()
         usuario.delete()
         return redirect('gestionsistema:representante_listar')
-    return render(request, 'GestionSistema/representante_eliminar.html',
+    return render(request, 'core/representante_eliminar.html',
                   {'representante': representante, 'usuario_logueado': usuario_logueado})
 
 

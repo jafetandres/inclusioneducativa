@@ -21,25 +21,51 @@ class UsuarioForm(forms.ModelForm):
             raise forms.ValidationError("La fecha de nacimiento es incorrecta")
         return fechaNacimiento
 
-
     class Meta:
         model = Usuario
         fields = "__all__"
 
 
 class DocenteForm(forms.ModelForm):
+    def clean_cedula(self):
+        cedula = self.cleaned_data['cedula']
+        valores = [int(cedula[x]) * (2 - x % 2) for x in range(9)]
+        suma = sum(map(lambda x: x > 9 and x - 9 or x, valores))
+        if int(cedula[9]) == 10 - int(str(suma)[-1:]):
+            return cedula
+        else:
+            raise forms.ValidationError("Cédula incorrecta")
+
     class Meta:
         model = Docente
         fields = "__all__"
 
 
 class ExpertoForm(forms.ModelForm):
+    def clean_cedula(self):
+        cedula = self.cleaned_data['cedula']
+        valores = [int(cedula[x]) * (2 - x % 2) for x in range(9)]
+        suma = sum(map(lambda x: x > 9 and x - 9 or x, valores))
+        if int(cedula[9]) == 10 - int(str(suma)[-1:]):
+            return cedula
+        else:
+            raise forms.ValidationError("Cédula incorrecta")
+
     class Meta:
         model = Experto
         fields = "__all__"
 
 
 class RepresentanteForm(forms.ModelForm):
+    def clean_cedula(self):
+        cedula = self.cleaned_data['cedula']
+        valores = [int(cedula[x]) * (2 - x % 2) for x in range(9)]
+        suma = sum(map(lambda x: x > 9 and x - 9 or x, valores))
+        if int(cedula[9]) == 10 - int(str(suma)[-1:]):
+            return cedula
+        else:
+            raise forms.ValidationError("Cédula incorrecta")
+
     class Meta:
         model = Representante
         fields = "__all__"

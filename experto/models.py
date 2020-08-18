@@ -12,8 +12,4 @@ class ExpertoFichaInformativa(models.Model):
     experto = models.ForeignKey(Experto, on_delete=models.CASCADE, null=True, blank=True)
 
 
-@receiver(post_save, sender=ExpertoFichaInformativa)
-def ensure_room_exists(sender, instance, **kwargs):
-    if kwargs.get('created', False):
-        Room.objects.create(name=sender.estudiante.nombres)
-        print('Room creada')
+

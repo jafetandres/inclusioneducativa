@@ -1,71 +1,71 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Plainced|Chat</title>
-    <!-- Favicons -->
-    <link href="{% static 'img/favicon.ico' %}" rel="icon">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="{% static 'chat/css/chat.css' %}">
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-</head>
-<body>
-<div class="container-fluid h-100">
-    {% if room %}
-        <div class="row justify-content-center h-100">
-            <div class="col-md-4 col-xl-3 chat">
-                <div class="card mb-sm-3 mb-md-0 contacts_card">
-                    <div class="card-header">
-                        <div class="input-group">
-                            <input type="text" placeholder="Buscar..." name="" class="form-control search">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body contacts_body">
-                        {% if rooms %}
-                            <ui class="contacts">
-                                {% for chat in rooms %}
-                                    {% if chat.id ==  room.id %}
-                                        <a href="{% url 'chat:room' chat.id %}">
-                                            <li class="active">
-                                                <div class="d-flex bd-highlight">
-                                                    <div class="img_cont">
-                                                        <img src="{% static 'chat/img/group.png' %}"
-                                                             class="rounded-circle user_img">
-                                                        <span class="online_icon"></span>
-                                                    </div>
-                                                    <div class="user_info">
-                                                        <span>{{ chat.name }}</span>
-                                                        <p>Kalid is online</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </a>
-                                    {% else %}
-                                        <a href="{% url 'chat:room' chat.id %}">
-                                            <li>
-                                                <div class="d-flex bd-highlight">
-                                                    <div class="img_cont">
-                                                        <img src="{% static 'chat/img/group.png' %}"
-                                                             class="rounded-circle user_img">
-                                                        <span class="online_icon"></span>
-                                                    </div>
-                                                    <div class="user_info">
-                                                        <span>{{ chat.name }}</span>
-                                                        <p>Kalid is online</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </a>
-                                    {% endif %}
-                                {% endfor %}
+{#{% load static %}#}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Plainced|Chat</title>#}
+{#    <!-- Favicons -->#}
+{#    <link href="{% static 'img/favicon.ico' %}" rel="icon">#}
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"#}
+{#          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">#}
+{#    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"#}
+{#          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">#}
+{#    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">#}
+{#    <link rel="stylesheet" href="{% static 'chat/css/chat.css' %}">#}
+{#    <link rel="stylesheet" type="text/css"#}
+{#          href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">#}
+{#</head>#}
+{#<body>#}
+{#<div class="container-fluid h-100">#}
+{#    {% if room %}#}
+{#        <div class="row justify-content-center h-100">#}
+{#            <div class="col-md-4 col-xl-3 chat">#}
+{#                <div class="card mb-sm-3 mb-md-0 contacts_card">#}
+{#                    <div class="card-header">#}
+{#                        <div class="input-group">#}
+{#                            <input type="text" placeholder="Buscar..." name="" class="form-control search">#}
+{#                            <div class="input-group-prepend">#}
+{#                                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="card-body contacts_body">#}
+{#                        {% if rooms %}#}
+{#                            <ui class="contacts">#}
+{#                                {% for chat in rooms %}#}
+{#                                    {% if chat.id ==  room.id %}#}
+{#                                        <a href="{% url 'chat:chatroom' chat.id %}">#}
+{#                                            <li class="active">#}
+{#                                                <div class="d-flex bd-highlight">#}
+{#                                                    <div class="img_cont">#}
+{#                                                        <img src="{% static 'chat/img/group.png' %}"#}
+{#                                                             class="rounded-circle user_img">#}
+{#                                                        <span class="online_icon"></span>#}
+{#                                                    </div>#}
+{#                                                    <div class="user_info">#}
+{#                                                        <span>{{ chat.name }}</span>#}
+{#                                                        <p>Kalid is online</p>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </li>#}
+{#                                        </a>#}
+{#                                    {% else %}#}
+{#                                        <a href="{% url 'chat:chatroom' chat.id %}">#}
+{#                                            <li>#}
+{#                                                <div class="d-flex bd-highlight">#}
+{#                                                    <div class="img_cont">#}
+{#                                                        <img src="{% static 'chat/img/group.png' %}"#}
+{#                                                             class="rounded-circle user_img">#}
+{#                                                        <span class="online_icon"></span>#}
+{#                                                    </div>#}
+{#                                                    <div class="user_info">#}
+{#                                                        <span>{{ chat.name }}</span>#}
+{#                                                        <p>Kalid is online</p>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </li>#}
+{#                                        </a>#}
+{#                                    {% endif %}#}
+{#                                {% endfor %}#}
                                 {#                        <li>#}
                                 {#                            <div class="d-flex bd-highlight">#}
                                 {#                                <div class="img_cont">#}
@@ -79,40 +79,40 @@
                                 {#                                </div>#}
                                 {#                            </div>#}
                                 {#                        </li>#}
-                            </ui>
-                        {% endif %}
-                    </div>
-                    <div class="card-footer"></div>
-                </div>
-            </div>
-            <div class="col-md-8 col-xl-6 chat">
-                <div class="card">
-                    <div class="card-header msg_head">
-                        <div class="d-flex bd-highlight">
-                            <div class="img_cont">
-                                <img src="{% static 'chat/img/group.png' %}"
-                                     class="rounded-circle user_img">
-                                <span class="online_icon"></span>
-                            </div>
-                            <div class="user_info">
-                                <span>{{ room.name }}</span>
-                            </div>
+{#                            </ui>#}
+{#                        {% endif %}#}
+{#                    </div>#}
+{#                    <div class="card-footer"></div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col-md-8 col-xl-6 chat">#}
+{#                <div class="card">#}
+{#                    <div class="card-header msg_head">#}
+{#                        <div class="d-flex bd-highlight">#}
+{#                            <div class="img_cont">#}
+{#                                <img src="{% static 'chat/img/group.png' %}"#}
+{#                                     class="rounded-circle user_img">#}
+{#                                <span class="online_icon"></span>#}
+{#                            </div>#}
+{#                            <div class="user_info">#}
+{#                                <span>{{ room.name }}</span>#}
+{#                            </div>#}
                             {#                        <div class="video_cam">#}
                             {#                            <span><i class="fas fa-video"></i></span>#}
                             {#                            <span><i class="fas fa-phone"></i></span>#}
                             {#                        </div>#}
-                        </div>
-                        <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
-                        <div class="action_menu">
-                            <ul>
-                                <li><i class="fas fa-user-circle"></i> View profile</li>
-                                <li><i class="fas fa-users"></i> Add to close friends</li>
-                                <li><i class="fas fa-plus"></i> Add to group</li>
-                                <li><i class="fas fa-ban"></i> Block</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card-body msg_card_body" id="chat-log">
+{#                        </div>#}
+{#                        <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>#}
+{#                        <div class="action_menu">#}
+{#                            <ul>#}
+{#                                <li><i class="fas fa-user-circle"></i> View profile</li>#}
+{#                                <li><i class="fas fa-users"></i> Add to close friends</li>#}
+{#                                <li><i class="fas fa-plus"></i> Add to group</li>#}
+{#                                <li><i class="fas fa-ban"></i> Block</li>#}
+{#                            </ul>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="card-body msg_card_body" id="chat-log">#}
                         {#                    <div class="d-flex justify-content-start mb-4">#}
                         {#                        <div class="img_cont_msg">#}
                         {#                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"#}
@@ -133,130 +133,140 @@
                         {#                                 class="rounded-circle user_img_msg">#}
                         {#                        </div>#}
                         {#                    </div>#}
-                    </div>
-                    <div class="card-footer">
-                        <div class="input-group">
-                            <div class="input-group-append">
-                                <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
-                            </div>
-                            <textarea id="chat-message-input" name="" class="form-control type_msg"
-                                      placeholder="Escribe aqui..."></textarea>
-                            <div class="input-group-append">
-                            <span id="chat-message-submit" class="input-group-text send_btn"><i
-                                    class="fas fa-location-arrow"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% else %}
-        <div align="center">
-            <div class="col-lg-4 col-sm-12">
-                <a style="text-decoration: none;" href="{% url 'index' %}"><h1 class="text-gray-100 m-2">PLAINCED</h1>
-                </a>
-            </div>
-            <div class="row">
-                <div class="col align-self-center">
-                    <h1 class="">Lo sentimos, no formas parte de ningun chat por el momento</h1>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-</div>
-<script src="{% static 'chat/js/reconnecting-websocket.js' %}"></script>
-<script src="{% static 'chat/js/dateFormatter.js' %}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script>
-    var room_id = "{{ room.id }}";
-    var username = "{{ username }}";
-    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-    var ws_path = ws_scheme + '://' + window.location.host + '/ws/chat/' + room_id;
-    var chatSocket = new ReconnectingWebSocket(ws_path);
-    chatSocket.onopen = function (e) {
-        console.log('Websocket connected' + ws_path);
-        fetchMessages();
-    }
-
-    chatSocket.onmessage = function (e) {
-        var data = JSON.parse(e.data);
-        if (data['command'] === 'messages') {
-            for (let i = 0; i < data['messages'].length; i++) {
-                createMessage(data['messages'][i]);
-            }
-        } else if (data['command'] === 'new_message') {
-            createMessage(data['message']);
-        }
-    };
-
-    chatSocket.onclose = function (e) {
-        console.error('Chat socket closed unexpectedly');
-    };
-
-    document.querySelector('#chat-message-input').onkeyup = function (e) {
-        if (e.keyCode === 13) {  // enter, return
-            document.querySelector('#chat-message-submit').click();
-        }
-    };
-
-    document.querySelector('#chat-message-submit').onclick = function (e) {
-        var messageInputDom = document.querySelector('#chat-message-input');
-        var message = messageInputDom.value;
-        if (message.replace(/\s/g, "") != "") {
-            chatSocket.send(JSON.stringify({
-                'command': 'new_message',
-                'message': message,
-                'from': username,
-                'room_id': room_id
-            }));
-        }
-
-        messageInputDom.value = '';
-    };
-
-    function fetchMessages() {
-        chatSocket.send(JSON.stringify({'command': 'fetch_messages', 'room_id': room_id}));
-    }
-
-    function createMessage(data) {
-        var author = data['author'];
-        var msgListTag = document.createElement('div');
-        var msgContainer = document.createElement('div');
-        var imgContainer = document.createElement('div');
-        var msgTime = document.createElement('span');
-        var imgTag = document.createElement('img');
-        msgContainer.textContent = data.content;
-        msgTime.textContent = dateFormatter(data.timestamp);
-
-
-        if (author === username) {
-            msgListTag.className = 'd-flex justify-content-end mb-4';
-            msgContainer.className = 'msg_cotainer_send';
-            msgTime.className = 'msg_time';
-
-        } else {
-            msgListTag.className = 'd-flex justify-content-start mb-4';
-            msgContainer.className = 'msg_cotainer';
-            msgTime.className = 'msg_time_send';
-            imgContainer.className = 'img_cont_msg';
-            imgTag.className = 'rounded-circle user_img_msg';
-            imgTag.src = data.foto;
-
-
-        }
-
-        msgListTag.appendChild(imgContainer);
-        msgListTag.appendChild(msgContainer);
-        msgContainer.appendChild(msgTime);
-        imgContainer.appendChild(imgTag);
-        document.querySelector('#chat-log').appendChild(msgListTag);
-        var element = document.getElementById("chat-log");
-        element.scrollTop = element.scrollHeight - element.clientHeight;
-    }
-</script>
-</body>
-</html>
+{#                    </div>#}
+{#                    <div class="card-footer">#}
+{#                        <div class="input-group">#}
+{#                            <div class="input-group-append">#}
+{#                                <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>#}
+{#                            </div>#}
+{#                            <textarea id="chat-message-input" name="" class="form-control type_msg"#}
+{#                                      placeholder="Escribe aqui..."></textarea>#}
+{#                            <div class="input-group-append">#}
+{#                            <span id="chat-message-submit" class="input-group-text send_btn"><i#}
+{#                                    class="fas fa-location-arrow"></i></span>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    {% else %}#}
+{#        <div align="center">#}
+{#            <div class="col-lg-4 col-sm-12">#}
+{#                <a style="text-decoration: none;" href="{% url 'index' %}"><h1 class="text-gray-100 m-2">PLAINCED</h1>#}
+{#                </a>#}
+{#            </div>#}
+{#            <div class="row">#}
+{#                <div class="col align-self-center">#}
+{#                    <h1 class="">Lo sentimos, no formas parte de ningun chat por el momento</h1>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    {% endif %}#}
+{#</div>#}
+{#<script src="{% static 'chat/js/reconnecting-websocket.js' %}"></script>#}
+{#<script src="{% static 'chat/js/dateFormatter.js' %}"></script>#}
+{#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
+{#<script type="text/javascript"#}
+{#        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>#}
+{#<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
+{#<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>#}
+{#<script src="{% static 'chat/js/alert.js' %}"></script>#}
+{#<script>#}
+{#    //Global variable to modify HREF to tailor to secure or non-secure connections.#}
+{#    var ws_or_wss = window.location.protocol == "https:" ? "wss://" : "ws://";#}
+{##}
+{#    websocket_url = ws_or_wss + window.location.host#}
+{#        + '/ws/chat/user/' + username + '/'; // username variable in chat-window.html#}
+{#</script>#}
+{#<script>#}
+{#    var room_id = "{{ room.id }}";#}
+{#    var username = "{{ username }}";#}
+{#    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";#}
+{#    var ws_path = ws_scheme + '://' + window.location.host + '/ws/chat/chatrooms/' + room_id + '/';#}
+{#    var chatSocket = new ReconnectingWebSocket(ws_path);#}
+{#    chatSocket.onopen = function (e) {#}
+{#        console.log('Websocket connected' + ws_path);#}
+{#        playAlert('purr');#}
+{#        fetchMessages();#}
+{#    }#}
+{##}
+{#    chatSocket.onmessage = function (e) {#}
+{#        var data = JSON.parse(e.data);#}
+{#        if (data['command'] === 'messages') {#}
+{#            for (let i = 0; i < data['messages'].length; i++) {#}
+{#                createMessage(data['messages'][i]);#}
+{#            }#}
+{#        } else if (data['command'] === 'new_message') {#}
+{##}
+{#            createMessage(data['message']);#}
+{#        }#}
+{#    };#}
+{##}
+{#    chatSocket.onclose = function (e) {#}
+{#        console.error('Chat socket closed unexpectedly');#}
+{#    };#}
+{##}
+{#    document.querySelector('#chat-message-input').onkeyup = function (e) {#}
+{#        if (e.keyCode === 13) {  // enter, return#}
+{#            document.querySelector('#chat-message-submit').click();#}
+{#        }#}
+{#    };#}
+{##}
+{#    document.querySelector('#chat-message-submit').onclick = function (e) {#}
+{#        var messageInputDom = document.querySelector('#chat-message-input');#}
+{#        var message = messageInputDom.value;#}
+{#        if (message.replace(/\s/g, "") != "") {#}
+{#            chatSocket.send(JSON.stringify({#}
+{#                'command': 'new_message',#}
+{#                'message': message,#}
+{#                'from': username,#}
+{#                'room_id': room_id#}
+{#            }));#}
+{#        }#}
+{##}
+{#        messageInputDom.value = '';#}
+{#    };#}
+{##}
+{#    function fetchMessages() {#}
+{#        chatSocket.send(JSON.stringify({'command': 'fetch_messages', 'room_id': room_id}));#}
+{#    }#}
+{##}
+{#    function createMessage(data) {#}
+{#        var author = data['author'];#}
+{#        var msgListTag = document.createElement('div');#}
+{#        var msgContainer = document.createElement('div');#}
+{#        var imgContainer = document.createElement('div');#}
+{#        var msgTime = document.createElement('span');#}
+{#        var imgTag = document.createElement('img');#}
+{#        msgContainer.textContent = data.content;#}
+{#        msgTime.textContent = dateFormatter(data.timestamp);#}
+{##}
+{##}
+{#        if (author === username) {#}
+{#            msgListTag.className = 'd-flex justify-content-end mb-4';#}
+{#            msgContainer.className = 'msg_cotainer_send';#}
+{#            msgTime.className = 'msg_time';#}
+{##}
+{#        } else {#}
+{#            msgListTag.className = 'd-flex justify-content-start mb-4';#}
+{#            msgContainer.className = 'msg_cotainer';#}
+{#            msgTime.className = 'msg_time_send';#}
+{#            imgContainer.className = 'img_cont_msg';#}
+{#            imgTag.className = 'rounded-circle user_img_msg';#}
+{#            imgTag.src = data.foto;#}
+{##}
+{##}
+{#        }#}
+{##}
+{#        msgListTag.appendChild(imgContainer);#}
+{#        msgListTag.appendChild(msgContainer);#}
+{#        msgContainer.appendChild(msgTime);#}
+{#        imgContainer.appendChild(imgTag);#}
+{#        document.querySelector('#chat-log').appendChild(msgListTag);#}
+{#        var element = document.getElementById("chat-log");#}
+{#        element.scrollTop = element.scrollHeight - element.clientHeight;#}
+{#    }#}
+{#</script>#}
+{#</body>#}
+{#</html>#}

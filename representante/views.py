@@ -3,9 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-from django_chatter.models import Room
-from django_chatter.utils import create_room
 from notifications.models import Notification
+from chat.utils import create_room
 from experto.models import ExpertoFichaInformativa
 from representante.forms import *
 from representante.models import *
@@ -17,6 +16,7 @@ from core.models import *
 @login_required
 def perfil(request):
     usuario = Usuario.objects.get(id=request.user.id)
+    representante=Representante.objects.get(usuario=usuario)
     if request.method == 'POST':
         try:
             usuario.nombres = request.POST['nombres']
@@ -30,7 +30,7 @@ def perfil(request):
         except IntegrityError as e:
             messages.error(request, 'El correo electronico ya esta en uso')
         return redirect('apprepresentante:perfil')
-    return render(request, 'AppRepresentante/perfil.html')
+    return render(request, 'representante/perfil.html', {'representante':representante})
 
 
 @login_required
@@ -59,7 +59,7 @@ def buscarEstudiante(request):
                 messages.error(request, "La cédula introducida no es válida")
     else:
         messages.error(request, "Lo sentimos no contamos con expertos disponibles por el momento")
-    return render(request, 'AppRepresentante/buscarEstudiante.html')
+    return render(request, 'representante/buscarEstudiante.html')
 
 
 @login_required
@@ -70,12 +70,12 @@ def base(request):
     for fichaInformativaRepresentante in fichasInformativas:
         if fichaInformativaRepresentante.representante_id == representante.id:
             estudiantes.append(Estudiante.objects.get(id=fichaInformativaRepresentante.estudiante_id))
-    return render(request, 'AppRepresentante/base.html',
+    return render(request, 'representante/base.html',
                   {'estudiantes': estudiantes})
 
 
 @login_required
-def crearEstudiante(request, cedula):
+def crearEstudiante(request, cedula, user_list):
     if request.method == 'POST':
         if Estudiante.objects.filter(cedula=cedula).exists():
             estudiante = Estudiante.objects.get(cedula=cedula)
@@ -87,17 +87,9 @@ def crearEstudiante(request, cedula):
                 estudiante.cedula = cedula
                 estudiante.estado = 'nuevo'
                 estudiante = form_estudiante.save()
-                # crear_room(estudiante, 'nuevo')
+                create_room(user_list, str(estudiante.nombres + " " + estudiante.apellidos))
                 return estudiante
 
-
-# @login_required
-# def crear_room(estudiante, estado):
-#     usuarios = Usuario.objects.filter(tipo_usuario='experto')
-#     room_id = create_room(usuarios, estado)
-#     room = Room.objects.get(id=room_id)
-#     room.name = 'Caso ' + estudiante.nombres + ' ' + estudiante.apellidos
-#     room.save()
 
 @login_required
 def crearFichaInformativa(request, estudiante_cedula):
@@ -113,16 +105,17 @@ def crearFichaInformativa(request, estudiante_cedula):
         form_dificultad = DificultadForm(request.POST)
         form_diagnosticoMedico = DiagnosticoMedicoForm(request.POST)
         if form_fichaInformativaRepresentante.is_valid() and form_dificultad.is_valid() and form_diagnosticoMedico.is_valid():
-            form_dificultad.save()
-            form_diagnosticoMedico.save()
-            fichaInformativaRepresentante = form_fichaInformativaRepresentante.save(commit=False)
-            fichaInformativaRepresentante.dificultad = form_dificultad.instance
-            fichaInformativaRepresentante.diagnosticoMedico = form_diagnosticoMedico.instance
-            fichaInformativaRepresentante.representante = representante
-            fichaInformativaRepresentante.estudiante = crearEstudiante(request, cedula)
-            fichaInformativaRepresentante.save()
-            expertos = Experto.objects.all()
             if request.POST.get('todos', False):
+                user_list = Usuario.objects.filter(tipo_usuario='experto')
+                form_dificultad.save()
+                form_diagnosticoMedico.save()
+                fichaInformativaRepresentante = form_fichaInformativaRepresentante.save(commit=False)
+                fichaInformativaRepresentante.dificultad = form_dificultad.instance
+                fichaInformativaRepresentante.diagnosticoMedico = form_diagnosticoMedico.instance
+                fichaInformativaRepresentante.representante = representante
+                fichaInformativaRepresentante.estudiante = crearEstudiante(request, cedula, user_list)
+                fichaInformativaRepresentante.save()
+                expertos = Experto.objects.all()
                 for experto in expertos:
                     if ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
                                                               estudiante_id=fichaInformativaRepresentante.estudiante.id).exists():
@@ -141,9 +134,20 @@ def crearFichaInformativa(request, estudiante_cedula):
                         expertoFichaInformativa.save()
                 return redirect('apprepresentante:base')
             elif request.POST.getlist('experto'):
+                user_list = []
                 expertos = []
                 for id in request.POST.getlist('experto'):
                     expertos.append(Experto.objects.get(id=id))
+                    user_list.append(Experto.objects.get(id=id).usuario)
+                form_dificultad.save()
+                form_diagnosticoMedico.save()
+                fichaInformativaRepresentante = form_fichaInformativaRepresentante.save(commit=False)
+                fichaInformativaRepresentante.dificultad = form_dificultad.instance
+                fichaInformativaRepresentante.diagnosticoMedico = form_diagnosticoMedico.instance
+                fichaInformativaRepresentante.representante = representante
+                fichaInformativaRepresentante.estudiante = crearEstudiante(request, cedula, user_list)
+                fichaInformativaRepresentante.save()
+
                 for experto in expertos:
                     if ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
                                                               estudiante_id=fichaInformativaRepresentante.estudiante.id).exists():
@@ -163,7 +167,7 @@ def crearFichaInformativa(request, estudiante_cedula):
 
     else:
         instituciones = Institucion.objects.all()
-    return render(request, 'AppRepresentante/crearFichaInformativa.html',
+    return render(request, 'representante/crearFichaInformativa.html',
                   {'instituciones': instituciones, 'estudiante': estudiante, 'cedula': cedula, 'expertos': expertos})
 
 
@@ -176,7 +180,7 @@ def verFichaInformativa(request, cedula):
             for notificacion in notificaciones:
                 notificacion.mark_as_read()
         fichaInformativaRepresentante = FichaInformativaRepresentante.objects.get(estudiante_id=estudiante.id)
-    return render(request, 'AppRepresentante/verFichaInformativa.html',
+    return render(request, 'representante/verFichaInformativa.html',
                   {'estudiante': estudiante, 'fichaInformativaRepresentante': fichaInformativaRepresentante})
 
 
@@ -205,6 +209,6 @@ def editarFichaInformativa(request, estudiante_id):
         return redirect('apprepresentante:editarFichaInformativa', estudiante_id=estudiante_id)
     else:
         fichaInformativa = FichaInformativaRepresentante.objects.get(estudiante_id=estudiante_id)
-    return render(request, 'AppRepresentante/crearFichaInformativa.html', {'fichaInformativa': fichaInformativa,
+    return render(request, 'representante/crearFichaInformativa.html', {'fichaInformativa': fichaInformativa,
                                                                            'estudiante': fichaInformativa.estudiante
                                                                            })

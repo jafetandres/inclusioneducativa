@@ -21,24 +21,26 @@ notificaciones = None
 @csrf_exempt
 @login_required
 def perfil(request, id_usuario):
-    usuario_logueado = request.user
     usuario = Usuario.objects.get(id=request.user.id)
+    experto = Experto.objects.get(usuario=usuario)
     if request.method == 'POST':
         try:
             usuario.nombres = request.POST['nombres']
             usuario.apellidos = request.POST['apellidos']
             usuario.username = request.POST['username']
+            experto.tituloUniversitario = request.POST['tituloUniversitario']
+            experto.experienciaProfesional = request.POST['experienciaProfesional']
             if bool(request.FILES.get('file', False)) == True:
                 usuario.foto = request.FILES['file']
             usuario.email = usuario.username
             usuario.fechaNacimiento = request.POST['fechaNacimiento']
             usuario.save()
+            experto.save()
         except IntegrityError as e:
             messages.error(request, 'El correo electronico ya esta en uso')
 
         return redirect('appexperto:perfil', id_usuario=usuario.id)
-    return render(request, 'experto/perfil.html', {'usuario': usuario,
-                                                      'usuario_logueado': usuario_logueado})
+    return render(request, 'experto/perfil.html', {'experto': experto})
 
 
 @login_required

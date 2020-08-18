@@ -1,25 +1,49 @@
-from django.contrib.auth import get_user_model
+import uuid
 from django.db import models
-from django_chatter.models import DateTimeModel
 from core.models import Usuario
 
-User = Usuario
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(Usuario,
+                                on_delete=models.CASCADE, related_name='profile')
+    last_visit = models.DateTimeField()
 
 
-class Message(models.Model):
-    author = models.ForeignKey(User, related_name='author_messages', on_delete=models.CASCADE)
-    content = models.TextField(blank=True, null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+# This model is used to give date and time when a message was created/modified.
+class DateTimeModel(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.author.username
+    class Meta:
+        abstract = True
 
 
 class Room(DateTimeModel):
-    name = models.CharField(max_length=100, blank=True, null=True)
-    participants = models.ManyToManyField(
-        User, related_name='chats')
-    messages = models.ManyToManyField(Message, blank=True, null=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
+    id = models.UUIDField(primary_key=True,
+                          default=uuid.uuid4,
+                          editable=False)
+    members = models.ManyToManyField(Usuario)
 
     def __str__(self):
-        return "{}".format(self.name)
+        memberset = self.members.all()
+        members_list = []
+        for member in memberset:
+            members_list.append(member.username)
+
+        return ", ".join(members_list)
+
+
+class Message(DateTimeModel):
+    sender = models.ForeignKey(Usuario,
+                               on_delete=models.CASCADE, related_name='sender')
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    text = models.TextField()
+    recipients = models.ManyToManyField(Usuario,
+                                        related_name='recipients')
+
+    def __str__(self):
+        return f'{self.text} sent by "{self.sender.nombres}" in Room "{self.room}"'
+
+    class Meta:
+        ordering = ['-id']

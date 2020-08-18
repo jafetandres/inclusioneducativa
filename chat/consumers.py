@@ -1,100 +1,216 @@
 from django.contrib.auth import get_user_model
-from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
+from django.db import connection
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from channels.db import database_sync_to_async
+import bleach
+
+from .models import Room, Message
 import json
-from .models import Message, Room
-from .views import get_current_chat, get_last_10_messages
-
-User = get_user_model()
+from uuid import UUID
 
 
-class ChatConsumer(WebsocketConsumer):
-    def fetch_messages(self, data):
-        # print('este', data['room_id'])
-        room = Room.objects.filter(id=data['room_id'])
-        messages = Message.objects.filter(room__in=room)
-        # messages = get_last_10_messages(12)
-        content = {
-            'command': 'messages',
-            'messages': self.messages_to_json(messages)
-        }
-        self.send_message(content)
+@database_sync_to_async
+def get_room(room_id, multitenant=False, schema_name=None):
+    if multitenant:
+        if not schema_name:
+            raise AttributeError("Multitenancy support error: \
+                scope does not have multitenancy details added. \
+                did you forget to add ChatterMTMiddlewareStack to your routing?")
+        else:
+            from django_tenants.utils import schema_context
+            with schema_context(schema_name):
+                return Room.objects.get(id=room_id)
+    else:
+        return Room.objects.get(id=room_id)
 
-    def new_message(self, data):
-        author = data['from']
-        author_user = User.objects.filter(username=author)[0]
-        message = Message.objects.create(
-            author=author_user,
-            content=data['message'],
-        )
-        current_chat = get_current_chat(data['room_id'])
-        current_chat.messages.add(message)
-        current_chat.save()
 
-        content = {
-            'command': 'new_message',
-            'message': self.message_to_json(message)
-        }
+'''
+AI-------------------------------------------------------------------
+    1. Select the Room
+    2. Select the user who sent the message
+    3. Select the message to be saved
+    4. Save message
+    5. Set room update time to message date_modified
+-------------------------------------------------------------------AI
+'''
 
-        return self.send_chat_message(content)
 
-    def messages_to_json(self, messages):
-        result = []
-        for message in messages:
-            result.append(self.message_to_json(message))
-        return result
+@database_sync_to_async
+def save_message(room, sender, text, multitenant=False, schema_name=None):
+    if multitenant:
+        if not schema_name:
+            raise AttributeError("Multitenancy support error: \
+                scope does not have multitenancy details added. \
+                did you forget to add ChatterMTMiddlewareStack to your routing?")
+        else:
+            from django_tenants.utils import schema_context
+            with schema_context(schema_name):
+                new_message = Message(room=room, sender=sender, text=text)
+                new_message.save()
+                new_message.recipients.add(sender)
+                new_message.save()
+                room.date_modified = new_message.date_modified
+                room.save()
+                return new_message.date_created
+    else:
+        new_message = Message(room=room, sender=sender, text=text)
+        new_message.save()
+        new_message.recipients.add(sender)
+        new_message.save()
+        room.date_modified = new_message.date_modified
+        room.save()
+        return new_message.date_created
 
-    #
-    def message_to_json(self, message):
-        foto = 'http://emilcarlsson.se/assets/mikeross.png'
-        if message.author.foto:
-            foto = message.author.foto.url
-        return {
-            'author': message.author.username,
-            'foto': foto,
-            'nombres': message.author.nombres,
-            'content': message.content,
-            'timestamp': str(message.timestamp),
 
-        }
+class ChatConsumer(AsyncJsonWebsocketConsumer):
+    '''
+    AI-------------------------------------------------------------------
+        WebSocket methods below
+    -------------------------------------------------------------------AI
+    '''
 
-    commands = {
-        'fetch_messages': fetch_messages,
-        'new_message': new_message
-    }
+    async def connect(self):
+        self.user = self.scope['user']
 
-    def connect(self):
-        print("conectandose")
-        self.room_id = self.scope['url_route']['kwargs']['room_id']
-        self.room_group_name = 'chat_%s' % self.room_id
-        async_to_sync(self.channel_layer.group_add)(
+        self.room_username_list = []  # Cache room usernames to send alerts
+
+        self.schema_name = self.scope.get('schema_name', None)
+        self.multitenant = self.scope.get('multitenant', False)
+        for param in self.scope['path'].split('/'):
+            try:
+                room_id = UUID(param, version=4)
+                break
+            except ValueError:
+                pass
+
+        # Check if the user connecting to the room's websocket belongs in the room
+        try:
+            self.room = await get_room(room_id, self.multitenant, self.schema_name)
+            if self.multitenant:
+                from django_tenants.utils import schema_context
+                with schema_context(self.schema_name):
+                    if self.user in self.room.members.all():
+                        self.room_group_name = 'chat_%s' % self.room.id
+                        await self.channel_layer.group_add(
+                            self.room_group_name,
+                            self.channel_name
+                        )
+                        await self.accept()
+
+                        for user in self.room.members.all():
+                            self.room_username_list.append(user.username)
+                    else:
+                        await self.disconnect(403)
+            else:
+                if self.user in self.room.members.all():
+                    self.room_group_name = 'chat_%s' % self.room.id
+                    await self.channel_layer.group_add(
+                        self.room_group_name,
+                        self.channel_name
+                    )
+                    await self.accept()
+
+                    for user in self.room.members.all():
+                        self.room_username_list.append(user.username)
+                else:
+                    await self.disconnect(403)
+        except Exception as ex:
+            raise ex
+            await self.disconnect(500)
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
-        self.accept()
 
-    def disconnect(self, close_code):
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name,
+    async def receive_json(self, data):
+        if (data['sender'] != self.user.username) \
+                or data['room_id'] != str(self.room.id):
+            await self.disconnect(403)
+
+        message_type = data['message_type']
+        if message_type == "text":
+            message = data['message']
+            room_id = data['room_id']
+
+            # Clean code off message if message contains code
+            self.message_safe = bleach.clean(message)
+
+            # try:
+            #     # room = await self.get_room(room_id)
+            #     room_group_name = 'chat_%s' % room_id
+            # except Exception as ex:
+            #     raise ex
+            #     await self.disconnect(500)
+
+            time = await save_message(self.room,
+                                      self.user,
+                                      self.message_safe,
+                                      self.multitenant,
+                                      self.schema_name
+                                      )
+            time = time.strftime("%d %b %Y %H:%M:%S %Z")
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'send_to_websocket',
+                    'message_type': 'text',
+                    'message': self.message_safe,
+                    'date_created': time,
+                    'sender': self.user.username,
+                    'foto': self.user.foto.url,
+                    'room_id': room_id,
+                }
+            )
+
+            for username in self.room_username_list:
+                if username != self.user.username:
+                    await self.channel_layer.group_send(
+                        f'user_{username}',
+                        {
+                            'type': 'receive_json',
+                            'message_type': 'text',
+                            'message': self.message_safe,
+                            'date_created': time,
+                            'sender': self.user.nombres,
+                            'foto': self.user.foto.url,
+                            'room_id': room_id,
+                        }
+                    )
+
+    async def send_to_websocket(self, event):
+        await self.send_json(event)
+
+
+class AlertConsumer(AsyncJsonWebsocketConsumer):
+    '''
+    AI-------------------------------------------------------------------
+        WebSocket methods below
+    -------------------------------------------------------------------AI
+    '''
+
+    async def connect(self):
+        self.user = self.scope['user']
+        self.user_group_name = f'user_{self.user.username}'
+        await self.channel_layer.group_add(
+            self.user_group_name,
+            self.channel_name
+        )
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.user_group_name,
             self.channel_name
         )
 
-    def receive(self, text_data):
-        data = json.loads(text_data)
-        self.commands[data['command']](self, data)
+    async def receive_json(self, data):
+        # Check if the data has been sent to this consumer by the currently
+        # logged in user
 
-    def send_chat_message(self, message):
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
+        data['type'] = 'send_to_websocket'
+        await self.channel_layer.group_send(self.user_group_name, data)
 
-    def send_message(self, message):
-        self.send(text_data=json.dumps(message))
-
-    def chat_message(self, event):
-        message = event['message']
-        self.send(text_data=json.dumps(message))
+    async def send_to_websocket(self, event):
+        await self.send_json(event)

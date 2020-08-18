@@ -17,7 +17,7 @@ urlpatterns = [
     path('appdocente/', include('docente.urls', namespace='appdocente')),
     path('apprepresentante/', include('representante.urls', namespace='apprepresentante')),
     path('page/', include('pages.urls')),
-    # path('Chat/', include('django_chatter.urls')),
+
     url('^', include('django.contrib.auth.urls')),
 ]
 

@@ -1,0 +1,126 @@
+{%  extends 'docente/base.html' %}
+{%  block content %}
+    <h1 class="h3 mb-2 text-gray-800" align="center">TEST EVALUATIVO</h1>
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="container-fluid">
+                    <br>
+                    <br>
+                    <form method="post" class="user">
+                        {%  csrf_token %}
+                        <div class="form-group row">
+                            <div class="container">
+                                <br>
+                                <br>
+                                <div class="form-group">
+                                    <div class="">
+                                        <h4>¿Su niño presenta alguna alteración anatómica de órganos bucoarticulatorios?</h4>
+                                        <br>
+                                        <input type="checkbox" name="p1r1" value="p1"/> Labios (ejm labio leporino)<br>
+                                        <input type="checkbox" name="p1r2" value="p2"/> Lengua (ejm frenillo lingual)<br>
+                                        <input type="checkbox" name="p1r3" value="p3"/> Maxilar (prognatismo)<br>
+                                        <input type="checkbox" name="p1r4" value="p4"/> Paladar (fisuras)<br>
+                                        <input type="checkbox" name="p1r5" value="p5"/> Dental (piezas incompletas)<br><br>
+                                    </div>
+
+                                    <div class="">
+                                        <h4>Su niño presenta disminución en la movilidad de los órganos bucoarticulatorios </h4>
+                                        <br>
+                                        <input type="checkbox" name="p2r1" value="p6"/> Labios (ejm protuir)<br>
+                                        <input type="checkbox" name="p2r2" value="p7"/> Lengua  (ejm vibrar)<br>
+                                        <input type="checkbox" name="p2r3" value="p8"/> Maxilar (ejm abrir /cerrar)<br><br>
+                                    </div>
+                                    {##}
+                                    <div class="">
+                                        <h4>Señale el tipo de respiración del niño</h4>
+                                        <input type="checkbox" name="p3r1" value="p9"> Bucal<br>
+                                        <input type="checkbox" name="p3r2" value="p10"> Nasal<br><br>
+                                    </div>
+                                    {##}
+                                    <div class="">
+                                        <h4>Alimentación</h4>
+                                        <br>
+                                        <input type="checkbox" name="p4r1" value="p11"/> Mastica con dificultad<br>
+                                        <input type="checkbox" name="p4r2" value="p12"/> Deglute con dificultad <br>
+                                        <input type="checkbox" name="p4r3" value="p13"/> Bebe líquidos con dificultad<br><br>
+                                    </div>
+
+                                    <div class="">
+                                        <h4>COMUNICACIÓN</h4>
+                                        <br>
+                                        <input type="checkbox" name="p5r1" value="p14"/> No hay intención comunicativa<br>
+                                        <input type="checkbox" name="p5r2" id="p5r2" value="p15"   onchange="habilitaP7();"/> Se comunica mediante lenguaje oral <br>
+                                        <input type="checkbox" name="p5r3" value="p16"/> Se comunica mediante lengua de señas<br>
+                                        <input type="checkbox" name="p5r4" value="p17"/> Se comunica mediante un sistema alternativo/aumentativo<br>
+                                        <input type="checkbox" name="p5r5" value="p18"/> Se comunica mediante gestos<br><br>
+                                    </div>
+
+
+                                    <div class="">
+                                        <h4>EXPRESIÓN (se despliega si el niño usa leng. Oral preg 2)
+                                            (si resp NO interfiere neg)</h4>
+                                        <br>
+                                        <input type="checkbox" id="p7r11" name="p7r1" value="p29" disabled/> Estructura oraciones de 2 a 3 palabras<br>
+                                        <input type="checkbox" id="p7r21" name="p7r2" value="p30" disabled/> Utiliza pronombres personales y posesivos Yo, Tu, Mío<br>
+                                        <input type="checkbox" id="p7r31" name="p7r3" value="p31" disabled/> Realiza preguntas con ¿qué?, ¿quién?, ¿dónde? ¿por qué?<br>
+                                        <input type="checkbox" id="p7r41" name="p7r4" value="p32" disabled/> Relata experiencias<br>
+                                        <input type="checkbox" id="p7r51" name="p7r5" value="p33" disabled/> Responde a preguntas simples<br>
+                                        <input type="checkbox" id="p7r61" name="p7r6" value="p34" disabled/> Responde a preguntas complejas<br>
+                                        <input type="checkbox" id="p7r71" name="p7r7" value="p35" disabled/> Pronuncia adecuadamente todos los fonemas (m, p, b, d, t, k, ,g, j, f)<br>
+                                        <input type="checkbox" id="p7r81" name="p7r8" value="p36" disabled/> Pronuncia adecuadamente todos los fonemas (n, l ,y, ll, ch)<br>
+                                        <input type="checkbox" id="p7r91" name="p7r9" value="p37" disabled/> Pronuncia adecuadamente todos los fonemas (r, s, sínfones con l, sínfones con r)<br>
+                                        <input type="checkbox" id="p7r101" name="p7r10" value="p38" disabled/> Posee un aproximado de 300 – 1000<br>
+                                        <input type="checkbox" id="p7r111" name="p7r11" value="p39" disabled/> Posee un aproximado de 1000 – 1500<br>
+                                        <input type="checkbox" id="p7r121" name="p7r12" value="p40" disabled/> Posee un aproximado de  1500 – 2000<br>
+                                        <input type="checkbox" id="p7r131" name="p7r13" value="p41" disabled/> Estructura oraciones 4 o más palabras<br>
+                                        <input type="checkbox" id="p7r141" name="p7r14" value="p42" disabled/> Utiliza tiempos verbales<br>
+                                        <input type="checkbox" id="p7r151" name="p7r15" value="p43" disabled/> La fluidez con la que el niño habla es la adecuada  <br><br>
+
+                                    </div>
+
+                                    <div class="">
+                                        <h4>COMPRENSIÓN (si responde NO interfiere neg.)</h4>
+                                        <br>
+                                        <input type="checkbox" name="p6r1" value="p19"/> Identifica sonidos de lenguaje<br>
+                                        <input type="checkbox" name="p6r2" value="p20"/> Entiende cuando se le habla<br>
+                                        <input type="checkbox" name="p6r3" value="p21"/> Comprende preguntas simples<br>
+                                        <input type="checkbox" name="p6r4" value="p22"/> Sigue órdenes simples<br>
+                                        <input type="checkbox" name="p6r5" value="p23"/> Identifica objetos comunes por nombre<br>
+                                        <input type="checkbox" name="p6r6" value="p24"/> Identifica objetos comunes por su uso<br>
+                                        <input type="checkbox" name="p6r7" value="p25"/> Identifica verbos <br>
+                                        <input type="checkbox" name="p6r8" value="p26"/> Comprende preguntas complejas<br>
+                                        <input type="checkbox" name="p6r9" value="p27"/> Completa analogías<br>
+                                        <input type="checkbox" name="p6r10" value="p28"/> Comprende relatos de cuentos<br><br>
+                                    </div>
+
+                                    <div class="">
+                                        <h4>PRAGMÁTICA (si la resp es NO afecta negativamente)</h4>
+                                        <br>
+                                        <input type="checkbox" name="p8r1" value="p44"/> Se comunica con padres<br>
+                                        <input type="checkbox" name="p8r2" value="p45"/> Se comunica con adultos<br>
+                                        <input type="checkbox" name="p8r3" value="p46"/> Mantiene adecuado contacto visual<br>
+                                        <input type="checkbox" name="p8r4" value="p47"/> Respeta turnos en la comunicación<br>
+                                        <input type="checkbox" name="p8r5" value="p48"/> Presenta verborrea (habla sin parar)<br>
+                                        <input type="checkbox" name="p8r6" value="p49"/> Juega con pares<br>
+                                        <input type="checkbox" name="p8r7" value="p50"/> Realiza juego simbólico (juegos imaginativos) <br>
+
+                                    </div>
+
+
+                                    <div align="center">
+
+                                        <button type="submit" class="btn btn btn-primary btn-user">Realizar Test</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

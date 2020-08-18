@@ -30,7 +30,7 @@ class PersonalizadoBaseUserManager(BaseUserManager):
 
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
-    foto = models.ImageField(upload_to='img_perfil', null=True, blank=True)
+    foto = models.ImageField(upload_to='img_perfil', null=True, blank=True, default='img_perfil/default-avatar.jpg')
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
     username = models.EmailField(unique=True)
@@ -72,7 +72,7 @@ class Experto(models.Model):
 
 
 class Estudiante(models.Model):
-    estado = models.CharField(max_length=50, null=True, blank=True)
+    estado = models.CharField(max_length=50, null=True, blank=True, default='nuevo')
     nombres = models.CharField(max_length=50, null=True, blank=True)
     apellidos = models.CharField(max_length=50, null=True, blank=True)
     cedula = models.CharField(unique=True, max_length=10, null=True, blank=True)

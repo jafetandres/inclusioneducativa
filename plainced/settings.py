@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     'representante',
     'experto',
     'automata',
-    'django_chatter',
+
     'channels',
     'notifications',
     'chat',
@@ -77,20 +77,20 @@ CHANNEL_LAYERS = {
     },
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'plainced.db',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'plainced',
-        'USER': 'plainced',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'plainced.db',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'plainced',
+#         'USER': 'plainced',
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -126,10 +126,10 @@ LOGOUT_REDIRECT_URL = 'index'
 AUTH_USER_MODEL = 'core.Usuario'
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'plainced@gmail.com'
-EMAIL_HOST_PASSWORD = 'qdfhegyiymbdvzcm'
-EMAIL_PORT = 587
+EMAIL_HOST = 'mail.ups.edu.ec'
+EMAIL_HOST_USER = 'inclusioneducativa@ups.edu.ec'
+EMAIL_HOST_PASSWORD = 'incluEdu2020'
+EMAIL_PORT = 25
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # SECURE_HSTS_SECONDS = 0

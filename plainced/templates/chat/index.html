@@ -1,27 +1,13 @@
-<!-- chat/templates/chat/index.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Rooms</title>
-</head>
-<body>
-What chat room would you like to enter?<br>
-<input id="room-name-input" type="text" size="100"><br>
-<input id="room-name-submit" type="button" value="Enter">
+{% extends 'chat/base.html' %}
+{% block content %}
+    {{ block.super }}
+    {% include 'chatroom-list.html' %}
+    <div class="chat-section">
+        <h3>Select a Chat to get started.</h3>
+        <h6>Or type in a user's username you want to chat with.</h6>
+    </div>
+    <!--AI==========================================================
+        JS that generates list of users for the user to search.
+    ===========================================================AI-->
+{% endblock %}
 
-<script>
-    document.querySelector('#room-name-input').focus();
-    document.querySelector('#room-name-input').onkeyup = function (e) {
-        if (e.keyCode === 13) {  // enter, return
-            document.querySelector('#room-name-submit').click();
-        }
-    };
-
-    document.querySelector('#room-name-submit').onclick = function (e) {
-        var roomName = document.querySelector('#room-name-input').value;
-        window.location.pathname = '/chat/' + roomName + '/';
-    };
-</script>
-</body>
-</html>

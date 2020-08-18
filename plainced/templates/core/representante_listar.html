@@ -1,0 +1,70 @@
+{% extends 'core/base.html' %}
+{% block usuario %}
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
+{% endblock %}
+{% block contenido %}
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800" align="center">REPRESENTANTES</h1>
+    <div class="table-responsive">
+        <form method="post">
+            {% csrf_token %}
+            <a class="btn btn-success" href="{% url 'gestionsistema:representante_crear' %}">Nuevo Registro <i class="far fa-file"></i></a>
+            <br/>
+            <br/>
+            <br/>
+        </form>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Lista de Representantes</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <td><b>ID</b></td>
+                            <td><b>Nombres</b></td>
+                            <td><b>Apellidos</b></td>
+                            <td><b>Cédula</b></td>
+                            <td><b>Nivel de Instrucción</b></td>
+                            <td><b>Institución</b></td>
+                            <td><b>Ocupación</b></td>
+                            <td><b>Fecha de Nacimiento</b></td>
+                            <td><b>Correo</b></td>
+                            <td><b>Acciones</b></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if representantes %}
+                            {% for representante in representantes %}
+                                <tr>
+                                    <td>{{ representante.usuario.id }}</td>
+                                    <td>{{ representante.usuario.nombres }}</td>
+                                    <td>{{ representante.usuario.apellidos }}</td>
+                                    <td>{{ representante.usuario.cedula }}</td>
+                                    <td>{{ representante.nivelInstrucion }}</td>
+                                    <td>{{ representante.institucion.nombre }}</td>
+                                    <td>{{ representante.ocupacion }}</td>
+                                    <td>{{ representante.usuario.fechaNacimiento }}</td>
+                                    <td>{{ representante.usuario.username }}</td>
+                                    <td>
+                                        <a class="btn btn-primary"
+                                           href="{% url 'gestionsistema:representante_editar' representante.id %}">Editar <i class="fas fa-cogs"></i></a>
+                                        <a class="btn btn-danger"
+                                           href="{% url 'gestionsistema:representante_eliminar' representante.id %}">Eliminar <i class="far fa-trash-alt"></i></a>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <h4>No hay registros de Representantes.</h4>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
