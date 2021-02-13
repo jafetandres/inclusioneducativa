@@ -24,41 +24,41 @@ styles = getSampleStyleSheet()
 titulo = "Actividades para "
 
 
-def analizarComentarios(comentario):
-    authenticator = IAMAuthenticator('KFAYXhNr5Os1b-nRzDzejstDR7S6HqN_G7fa4l5rGLID')
-    natural_language_understanding = NaturalLanguageUnderstandingV1(
-        version='2018-11-16',
-        authenticator=authenticator
-    )
-    natural_language_understanding.set_service_url(
-        'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/34915bb8-8d7e-4b9b-a2c5-2139bd5fb1a0')
-    response = natural_language_understanding.analyze(
-        text=comentario,
-        features=Features(keywords=KeywordsOptions(sentiment=True, emotion=True, limit=6))).get_result()
-    if response['keywords']:
-        for resultado in response['keywords']:
-            print(resultado['text'])
-
-
-def textToSpeech(usuario):
-    experto = Experto.objects.get(id=usuario.id)
-    text = usuario.nombres + " " + usuario.apellidos + " tiene " + \
-           str(round(calcularEdad(usuario.fechaNacimiento))) + " años de edad, es " + experto.tituloUniversitario
-    authenticator = IAMAuthenticator('VzfJJw1lJX6tCfxNa_lMjG4iEjcmS2nH0pkJZiuXf3pg')
-    text_to_speech = TextToSpeechV1(
-        authenticator=authenticator
-    )
-    audio_name = "media/audio/" + str(usuario.id) + ".mp3"
-    nombre = "/media/audio/" + str(usuario.id) + ".mp3"
-    text_to_speech.set_service_url('https://stream.watsonplatform.net/text-to-speech/api')
-    with open(audio_name, 'wb') as audio_file:
-        audio_file.write(
-            text_to_speech.synthesize(
-                text,
-                voice='es-LA_SofiaV3Voice',
-                accept='audio/mp3'
-            ).get_result().content)
-    return nombre
+# def analizarComentarios(comentario):
+#     authenticator = IAMAuthenticator('KFAYXhNr5Os1b-nRzDzejstDR7S6HqN_G7fa4l5rGLID')
+#     natural_language_understanding = NaturalLanguageUnderstandingV1(
+#         version='2018-11-16',
+#         authenticator=authenticator
+#     )
+#     natural_language_understanding.set_service_url(
+#         'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/34915bb8-8d7e-4b9b-a2c5-2139bd5fb1a0')
+#     response = natural_language_understanding.analyze(
+#         text=comentario,
+#         features=Features(keywords=KeywordsOptions(sentiment=True, emotion=True, limit=6))).get_result()
+#     if response['keywords']:
+#         for resultado in response['keywords']:
+#             print(resultado['text'])
+#
+#
+# def textToSpeech(usuario):
+#     experto = Experto.objects.get(id=usuario.id)
+#     text = usuario.nombres + " " + usuario.apellidos + " tiene " + \
+#            str(round(calcularEdad(usuario.fechaNacimiento))) + " años de edad, es " + experto.tituloUniversitario
+#     authenticator = IAMAuthenticator('VzfJJw1lJX6tCfxNa_lMjG4iEjcmS2nH0pkJZiuXf3pg')
+#     text_to_speech = TextToSpeechV1(
+#         authenticator=authenticator
+#     )
+#     audio_name = "media/audio/" + str(usuario.id) + ".mp3"
+#     nombre = "/media/audio/" + str(usuario.id) + ".mp3"
+#     text_to_speech.set_service_url('https://stream.watsonplatform.net/text-to-speech/api')
+#     with open(audio_name, 'wb') as audio_file:
+#         audio_file.write(
+#             text_to_speech.synthesize(
+#                 text,
+#                 voice='es-LA_SofiaV3Voice',
+#                 accept='audio/mp3'
+#             ).get_result().content)
+#     return nombre
 
 
 # def resumenExperto(descripcion):
@@ -105,10 +105,6 @@ def test(request):
     actividades_expre_com = []
     actividades_fluidez = []
     actividades_voz = []
-    # hoy = datetime.today()
-    # fechaNacimiento = datetime.strptime(str(request.session.get('fechaNacimiento')), '%Y-%m-%d')
-    # dias = hoy - fechaNacimiento
-    # edad = dias.days / 365
     edad = calcularEdad(request.session.get('fechaNacimiento'))
     if request.method == 'POST':
         form_testLenguaje = TestLenguajeForm(request.POST)
@@ -690,6 +686,318 @@ def test(request):
             request.session['actividades_voz'] = actividades_voz
             return redirect('automata:resultadoTest')
     return render(request, 'automata/test.html', {'edad': edad})
+
+#
+# from experta import KnowledgeEngine, Rule, Fact
+#
+# contador = 0
+#
+#
+# class P1(Fact):
+#     """informacion hacerca de la primera posibilidad"""
+#     pass
+#
+#
+# class P2(Fact):
+#     """informacion hacerca de la segunda posibilidad"""
+#     pass
+#
+#
+# class P3(Fact):
+#     """informacion hacerca de la primera posibilidad"""
+#     pass
+#
+#
+# class P4(Fact):
+#     """informacion hacerca de la segunda posibilidad"""
+#     pass
+#
+#
+# class P5(Fact):
+#     """informacion hacerca de la segunda posibilidad"""
+#     pass
+#
+#
+# class P6(Fact):
+#     """informacion hacerca de la segunda posibilidad"""
+#     pass
+#
+#
+# class P7(Fact):
+#     """informacion hacerca de la segunda posibilidad"""
+#     pass
+#
+#
+# class P8(Fact):
+#     """informacion hacerca de la segunda posibilidad"""
+#     pass
+#
+#
+# class P8(Fact):
+#     """informacion hacerca de la segunda posibilidad"""
+#     pass
+#
+#
+# class P10(Fact):
+#     """informacion hacerca de la segunda posibilidad"""
+#     pass
+#
+#
+# class P11(Fact):
+#     """informacion hacerca de la segunda posibilidad"""
+#     pass
+#
+#
+# class P12(Fact):
+#     """informacion hacerca de la segunda posibilidad"""
+#     pass
+#
+#
+# actividades_alimentacion = []
+# actividades_comprension = []
+
+
+# class RobotCrossStreet(KnowledgeEngine):
+#
+#     @Rule((P1(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador = 1
+#         actividades_alimentacion.append(
+#             'Servir los alimentos en porciones pequeñas cuando estos no son de agrado para su hijo(a) '
+#             'para incrementar paulatinamente la cantidad, siendo recomendable anticipar el menú del día '
+#             '(sin embargo descartar con un especialista o pediatra si no existe alguna '
+#             'condición médica o requerimiento de suplementos alimenticios antes de iniciar '
+#             'este programa conductual)')
+#         actividades_alimentacion.append(
+#             'Establecer rutinas de las actividades del día para regular a su hijo(a) en el hábito de la '
+#             'hora de comer')
+#         actividades_alimentacion.append(
+#             'Implementar indicadores temporales para graduar el tiempo que el niño(a) '
+#             'debe terminar (reloj, cronómetro)')
+#         actividades_alimentacion.append(
+#             'Presentar agendas/calendarios visuales (fotos, gráficos, pictogramas) de la secuencia de '
+#             'alimentos en el orden en que se servirá los alimentos <b>(ej. sopa + ensalada y pollo + '
+#             'postre)</b> este último puede ser utilizado como reforzador positivo')
+#
+#     @Rule((P2(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_alimentacion.append(
+#             'Usar la participación parcial de los familiares al momento de utilizar los cubiertos '
+#             '<b>(ej. colocarse detrás del niño(a) y ayudar con sus manos a utilizar los utensilios '
+#             'sosteniendo las  manos de su hijo por la parte dorsal y realizar la actividad como '
+#             'si  él/ella lo realizara, posteriormente disminuir este apoyo tocando su codo, hombro '
+#             'e indicación verbal paulatinamente)</b>')
+#         actividades_alimentacion.append(
+#             'Enseñar en casa por medio de objetos reales y asociación de gráficos el uso correcto '
+#             'de los utensilios para la alimentación <b>(ej. utilizar el objeto real CUCHILLO y gráfico '
+#             'SOPA , CARNE y asociar a qué elemento corresponde el utensilio)</b>')
+#         actividades_alimentacion.append(
+#             'Implementar indicadores temporales para graduar el tiempo que el niño(a) '
+#             'debe terminar (reloj, cronómetro)')
+#         actividades_alimentacion.append(
+#             'Si el niño presenta conductas como lanzar los utensilios o rechazarlos, iniciar '
+#             'el proceso por utensilios básicos (cuchara, vaso plato que sean de su agrado o q '
+#             'el haya seleccionado en cuanto a colores o formas) y pictogramas de conducta, para '
+#             'posteriormente incorporar otras opciones, no forzar el uso hasta que el niño(a) tolere '
+#             'el manejo de instrumentos básicos de alimentación.')
+#         actividades_alimentacion.append(
+#             'Reforzar en casa con  ejercicios de motricidad fina para fomentar  la habilidad del '
+#             'manejo de los utensilios')
+#         actividades_alimentacion.append(
+#             'Motivar el uso de utensilios, por medio de la presentación repetitiva de '
+#             'alimentos que requieran el manejo de los mismos.')
+#         actividades_alimentacion.append(
+#             'Incorporar un mantel o individual con velcro con la forma de los utensilios '
+#             'para que el niño(a) aprenda la colocación correcta de los mismos')
+#
+#     @Rule((P3(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_alimentacion.append(
+#             'Presentar los alimentos sólidos en trozos pequeños cuando estos no son de agrado para '
+#             'su hijo(a), para incrementar paulatinamente la cantidad (sin embargo descartar con un '
+#             'especialista o pediatra si no existe alguna condición médica o requerimiento de suplementos'
+#             ' alimenticios antes de iniciar este programa conductual)')
+#         actividades_alimentacion.append(
+#             'Realizar ejercicios maxilares como abrir y cerrar la'
+#             ' boca para estimular el proceso de masticación')
+#
+#     @Rule((P4(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_alimentacion.append(
+#             'Motivar a su hijo(a) mediante tazas de su agrado(dibujos, colores) correspondientes a '
+#             'su edad para la incorporación de bebidas no agradables para el niño(a)')
+#         actividades_alimentacion.append(
+#             'Cuando los líquidos que queremos incorporar no son de agrado para el niño iniciar con medidas pequeñas '
+#             'para incrementar gradualmente con el tiempo ')
+#         actividades_alimentacion.append(
+#             'Motivar al niño al terminar la ingesta por medio de reforzadores <b>(ej. aplausos, '
+#             'festejos verbales ¡Muy bien!)</b>')
+#
+#     @Rule((P5(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_alimentacion.append(
+#             'Ejercitar los labios para mejorar la ingesta (uso de sorbetes, soplo, apretar los '
+#             'labios, simular a enviar besos, etc.)')
+#         actividades_alimentacion.append(
+#             'Si la retención o derrame de alimentos se debe a dificultades conductuales se recomienda '
+#             'emplear pictogramas de conducta sobre las normas de alimentación')
+#         actividades_alimentacion.append(
+#             'Descartar con un especialista si no existe alguna condición médica que impide el '
+#             'control de los órganos de la boca')
+#
+#     @Rule((P6(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_alimentacion.append(
+#             'Presentar los alimentos en porciones pequeñas hasta incorporar la cantidad de los mismo, '
+#             'en presentaciones agradables a la vista del niño(a) y en utensilios q él o ella haya '
+#             'seleccionado  ')
+#         actividades_alimentacion.append(
+#             'Combinar alimentos que son de agrado con los que no lo son para motivar la '
+#             'ingesta ejemplo:<br/><b>Fruta que queremos incorporar:</b> Fresa'
+#             '<br/><b>Alimento de agrado:</b> Yogurt')
+#         actividades_alimentacion.append(
+#             'Alternar al momento de la comida entre alimentos de agrado y desagrado ejemplo:'
+#             '<br/><b>Alimento a incorporar:</b> carne'
+#             '<br/><b>Alimento de agrado:</b> espagueti'
+#             '<br/>Así, se dará un trozo de carne y dos porciones de espagueti después que haya probado '
+#             'el alimento no deseado hasta ir incorporando gradualmente el alimento')
+#
+#     @Rule((P7(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_comprension.append(
+#             'Utilizar los objetos reales de lo que queremos enseñar, dándole el uso y la función '
+#             'correcta siendo modelo para que nuestro hijo(a) imite ejemplo:'
+#             '<br/><b>Pelota</b> (hacerla rodar )'
+#             '<br/><b>Peinilla</b> (peinar un cabello)')
+#         actividades_comprension.append(
+#             'Seleccionar los objetos que queremos enseñar, de preferencia objetos de uso diario y de '
+#             'interés para el niño(a) ')
+#         actividades_comprension.append(
+#             'Reforzar las actividades con el objeto real y fotografías de la acción para que el niño(a) '
+#             'los asocie')
+#         actividades_comprension.append(
+#             'Utilizar juguetes que generen la reacción causa-efecto ejemplo: <b>Woki toki, carros con rampas '
+#             'de carrera, etc.</b>')
+#         actividades_comprension.append(
+#             'Dar el nombre de los objetos cuando se realiza una acción ejemplo: <b>al momento del lavado de'
+#             'dientes dar el nombre al colocar la PASTA DENTAL, tomar el CEPILLO, etc.</b>')
+#
+#     @Rule((P8(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_comprension.append(
+#             'Descartar con un especialista si no existe alguna condición médica como problemas '
+#             'auditivos antes de iniciar este programa')
+#         actividades_comprension.append(
+#             'Utilizar información clara evitando utilizar un lenguaje confuso o de doble sentido'
+#             '(bromas, metáforas, etc.)')
+#         actividades_comprension.append(
+#             'Presentar actividades de  interés para su hijo(a) con el fin de establecer bases de  interacción')
+#         actividades_comprension.append(
+#             'Hacer inicialmente todo de la mima forma (rutina), para posteriormente ir cambiando '
+#             'o incorporando más actividades')
+#         actividades_comprension.append(
+#             'Utilizar apoyo visual (tarjetas, fotos, etc.) para mejorar la comprensión cuando se da '
+#             'una orden a realizar')
+#
+#     @Rule((P9(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_comprension.append(
+#             'Eliminar los ruidos externos o distracciones ')
+#         actividades_comprension.append(
+#             'Utilizar un tono de voz normal, suave y relajado, siempre de frente, tocándole ocasionalmente ')
+#         actividades_comprension.append(
+#             'Iniciar con actividades de juego de interacción como cosquillas, burbujas, etc. para mejorar  su atención')
+#         actividades_comprension.append(
+#             'Reforzar ejercicios de contacto visual, sentándose frente al niño y colocando ocasionalmente '
+#             'objetos y el material a la altura de los ojos mientras le damos indicaciones del mismo ')
+#         actividades_comprension.append(
+#             'Utilizar indicaciones simples evitando el exceso de información que pueden crear confusión ej. '
+#             'Toma la pelota')
+#
+#     @Rule((P10(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_comprension.append(
+#             'Preparar juguetes que sean del interés del niño(a) para motivar el uso correcto de ellos, si no '
+#             'los utiliza correctamente se sugiere se lo tome de las manos y enseñarle cómo usarlos')
+#         actividades_comprension.append(
+#             'Enseñar la participación con la entrega de juguetes, mediante la indicación TOMA-DAME '
+#             'entregándole el juguete al niño(a) mientras se usa la palabra TOMA y tomarle del brazo '
+#             'para que entregue el juguete, festejando como si él/ella lo hubiera entregado')
+#         actividades_comprension.append(
+#             'Hazlo partícipe de actividades cotidianas del hogar de acuerdo a su edad '
+#             '(ej. ayudar a colocar la mesa, etc.) ya que incrementará el vocabulario y '
+#             'brindará más opciones a la hora de seleccionar sus preferencias y juguetes')
+#         actividades_comprension.append(
+#             'Usar apoyos visuales (objeto/juguete) para que el niño(a) seleccione con qué desea jugar ')
+#         actividades_comprension.append(
+#             'Delimitar el espacio establecido para jugar (incorporar un espacio en casa que sea '
+#             'sólo para esa actividad)')
+#
+#     @Rule((P11(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_comprension.append(
+#             'Brindar la orden de manera clara y concisa con la acción que queremos que realice'
+#             ' en pasos de secuencia ejemplo: Queremos que pinte todos los círculos de color amarillo '
+#             'del libro, por lo tanto la secuencia sería '
+#             '<br/><b>1.</b> Toma la pintura amarilla'
+#             '<br/><b>2.</b> Pinta los '
+#             'círculos'
+#             '<br/><b>3.</b> Cierra el libro <b>(pueden presentarse la secuencia con apoyo visual o de '
+#             'forma verbal mientras realiza paso por paso)</b>')
+#         actividades_comprension.append(
+#             'Enseñar inicialmente a clasificar por similitudes ejemplo: en una caja colocar fichas de '
+#             'diferentes colores y en otra colocar envases para ordenar de esta manera podrá '
+#             'emparejar cada ficha por su color ')
+#         actividades_comprension.append(
+#             'Presentar objetos que varíen sólo en la noción que queremos enseñar y solicitar '
+#             'al niño(a) con la palabra que queremos que identifique ej. dos manzanas de la misma '
+#             'forma y color que varíen solo en el tamaño, pedir al niño(a) “Grande” para que lo '
+#             'entregue, si no sabe que hacer ayudarle manipulando su mano para que entregue el'
+#             ' objeto y festejar como si él/ella hubiera realizado la actividad')
+#         actividades_comprension.append(
+#             'Utilizar material como plantillas con diferentes temáticas como animales, colores, '
+#             'objetos, etc. para que el niño(a) encierre y marque las categorías solicitadas')
+#         actividades_comprension.append(
+#             'Iniciar el uso con material concreto (objetos) para posteriormente cambiarlos por '
+#             'fotografías, gráficos /pictogramas')
+#
+#     @Rule((P12(respuesta='no')))
+#     def resp_no(self):
+#         global contador
+#         contador += 1
+#         actividades_comprension.append(
+#             'Utilizar las fotografías de los personajes del cuento, presentando con 2 – 3'
+#             ' acciones para que el niño(a) identifique o asocie en cuál participó el personajes  ')
+#         actividades_comprension.append(
+#             'Realizar preguntas claves para que pueda identificar el cuento, iniciar con Qué es, y cuando '
+#             'este sea adquirido continuar con Quién es, Qué hace?')
+#         actividades_comprension.append(
+#             'Utilizar cuentos que contengan número limitado de gráficos y personajes, '
+#             'no sobrecargados de estímulos')
+#         actividades_comprension.append(
+#             'Utilizar objetos/gráficos que se encontraron y NO en el cuento para que el niño(a) '
+#             'seleccione cuales estuvieron presentes en la historia  ')
 
 
 def resultadoTest(request):

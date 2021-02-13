@@ -17,7 +17,7 @@ from datetime import datetime, date
 from notifications.signals import notify
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
-from automata.views import textToSpeech
+
 
 
 @csrf_exempt

@@ -5,6 +5,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from experta import KnowledgeEngine, Rule, Fact
 from notifications.models import Notification
 from chat.utils import create_room
 from docente.forms import *
@@ -235,32 +236,8 @@ def editarFichaInformativa(request, estudiante_id):
                                                                   'estudiante': fichaInformativa.estudiante
                                                                   })
 
-# contador = 0
-# class Pregunta1(Fact):
-#     """informacion hacerca de la primera posibilidad"""
-#     pass
-#
-#
-# class Pregunta2(Fact):
-#     """informacion hacerca de la segunda posibilidad"""
-#     pass
-#
-#
-# class RobotCrossStreet(KnowledgeEngine):
-#
-#     @Rule((Pregunta1(respuesta=['p1', 'p4', 'p6', 'p7', 'p8', 'p9', 'p11', 'p12', 'p13', 'p14', 'p19',
-#                                 'p20', 'p21', 'p22', 'p23', 'p24', 'p25', 'p26', 'p27', 'p28', 'p29', 'p31',
-#                                 'p32', 'p33', 'p34', 'p35', 'p36', 'p38', 'p39', 'p40', 'p43', 'p44', 'p45', 'p46',
-#                                 'p47', 'p48', 'p49', 'p50'])))
-#     def a(self):
-#         global contador
-#         contador = 1
-#
-#     @Rule((Pregunta2(respuesta=['p2', 'p3', 'p5', 'p10', 'p15', 'p16', 'p17', 'p18', 'p30', 'p37', 'p41',
-#                                 'p42'])))
-#     def b(self):
-#         global contador
-#         contador = 2
+
+
 # elif (request.POST['psicologo'] == 'psicologo'):
 #     experto = Experto.objects.get(tituloUniversitario='psicologo')
 #     expertoFichaInformativa = ExpertoFichaInformativa()
@@ -392,12 +369,9 @@ def editarFichaInformativa(request, estudiante_id):
 #
 #         engenie = RobotCrossStreet()
 #         engenie.reset()
-#         engenie.declare(Pregunta1(respuesta=[p1, p4, p6, p7, p8, p9, p11, p12, p13, p14, p19,
-#                                              p20, p21, p22, p23, p24, p25, p26, p27, p28, p29, p31,
-#                                              p32, p33, p34, p35, p36, p38, p39, p40, p43, p44, p45, p46,
-#                                              p47, p48, p49, p50]))
+#         engenie.declare(P1(respuesta=p1))
 #
-#         engenie.declare(Pregunta2(respuesta=[p2, p3, p5, p10, p15, p16, p17, p18, p30, p37, p41,
+#         engenie.declare(P2(respuesta=[p2, p3, p5, p10, p15, p16, p17, p18, p30, p37, p41,
 #                                              p42]))
 #
 #         engenie.run()
