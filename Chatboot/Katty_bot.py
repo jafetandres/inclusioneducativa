@@ -99,9 +99,9 @@ class Chatbot:
         cursor1 = conexion1.cursor()
         import mysql.connector
 
-        cnx = mysql.connector.connect(user='root', password='root1234',
+        cnx = mysql.connector.connect(user='plainced',
                                       host='localhost',
-                                      database='chatbot')
+                                      database='plainced')
 
         sql = "insert into usuario(usuario_nombre, usuario_fecha) values (%s,%s)"
         datos = (usuario, fecha)
