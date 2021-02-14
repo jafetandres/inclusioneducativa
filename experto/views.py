@@ -51,7 +51,7 @@ def base(request):
         expertoFichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id)
         for expertoFichaInformativa in expertoFichasInformativas:
             estudiantes.append(Estudiante.objects.get(id=expertoFichaInformativa.estudiante.id))
-    return render(request, 'experto/base.html',
+    return render(request, 'experto/home.html',
                   {'estudiantes': estudiantes})
 
 

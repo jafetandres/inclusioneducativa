@@ -1,0 +1,295 @@
+{% extends 'automata/base.html' %}
+{% block contenido %}
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <div class="container">
+                <div class="p-lg-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Ficha de evaluación de Lenguaje para Padres</h1>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="alert alert-info">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <h1 class="h4 text-gray-900 mb-4">Alimentación</h1>
+                        <ol>
+                            <li class="">Come solo:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p1" required> Si
+                                <input type="radio" value="no" name="p1"> No
+                            </dd>
+                            <li>Utiliza cubiertos para alimentarse <b>(cuchara, vaso)</b>:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p2" required> Si
+                                <input type="radio" value="no" name="p2"> No
+                            </dd>
+                            <li>Mastica todo tipo de alimentos:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p3" required> Si
+                                <input type="radio" value="no" name="p3"> No
+                            </dd>
+                            <li>Bebe diferentes líquidos:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p4" required> Si
+                                <input type="radio" value="no" name="p4"> No
+                            </dd>
+                            <li>Controla el cierre bucal para evitar la salivación y(o) retener los alimentos sin
+                                derramarlos:
+                            </li>
+                            <dd>
+                                <input type="radio" value="si" name="p5" required> Si
+                                <input type="radio" value="no" name="p5"> No
+                            </dd>
+                            <li>Disfruta de una variedad de texturas y bebidas:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p6" required> Si
+                                <input type="radio" value="no" name="p6"> No
+                            </dd>
+                        </ol>
+                        <h1 class="h4 text-gray-900 mb-4">Comprensión</h1>
+                        <ol>
+                            <li>Conoce para qué sirven los objetos:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p7" required> Si
+                                <input type="radio" value="no" name="p7"> No
+                            </dd>
+                            <li>Aparenta entender cuando usted le habla:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p8" required> Si
+                                <input type="radio" value="no" name="p8"> No
+                            </dd>
+                            <li>Presta atención ante conversaciones:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p9" required> Si
+                                <input type="radio" value="no" name="p9"> No
+                            </dd>
+                            <li>Utiliza juguetes de acuerdo a su edad correctamente:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p10" required> Si
+                                <input type="radio" value="no" name="p10"> No
+                            </dd>
+                            <li>Identifica contenidos pedagógicos que trabajan en su nivel escolar como <b>cantidad,
+                                tamaño, colores, etc</b>:
+                            </li>
+                            <dd>
+                                <input type="radio" value="si" name="p11" required> Si
+                                <input type="radio" value="no" name="p11"> No
+                            </dd>
+                            <li>Identifica <b>objetos, personajes y acciones</b> de un cuento:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p12" required> Si
+                                <input type="radio" value="no" name="p12"> No
+                            </dd>
+                            <li>Responde a preguntas sencillas con lógica:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p13" required> Si
+                                <input type="radio" value="no" name="p13"> No
+                            </dd>
+                            <li>Identifica verbos en acción <b>(correr, saltar, dar, etc)</b>:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p14" required> Si
+                                <input type="radio" value="no" name="p14"> No
+                            </dd>
+                            <li>Comprende cuando usted le hace preguntas de <b>¿qué, quién?</b>:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p15" required> Si
+                                <input type="radio" value="no" name="p15"> No
+                            </dd>
+                            <li>Ejecuta órdenes de comandos simples <b>(ej. guarda)</b>:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p16" required> Si
+                                <input type="radio" value="no" name="p16"> No
+                            </dd>
+                            <li>Ejecuta órdenes de comando más complejos <b>(ej. toma las llaves y colócalas en la caja
+                                de mi habitación)</b>:
+                            </li>
+                            <dd>
+                                <input type="radio" value="si" name="p17" required> Si
+                                <input type="radio" value="no" name="p17"> No
+                            </dd>
+                            {% if edad >= 4 %}
+                                <li>Puede deducir situaciones <b>(ej. qué pasaría si me como muchos dulces)</b>:
+                                </li>
+                                <dd>
+                                    <input type="radio" value="si" name="p18" required> Si
+                                    <input type="radio" value="no" name="p18"> No
+                                </dd>
+                                <li>Interpreta situaciones <b>(ej. la mamá toma su cartera y se pone un suéter ¿A dónde
+                                    va?)</b>:
+                                </li>
+                                <dd>
+                                    <input type="radio" value="si" name="p19" required> Si
+                                    <input type="radio" value="no" name="p19"> No
+                                </dd>
+                            {% endif %}
+                        </ol>
+                        <h1 class="h4 text-gray-900 mb-4">Expresión y Comunicación</h1>
+                        <ol>
+                            <li>Solicita deseos y necesidades <b>(puede ser de manera oral, gestos, señas, etc)</b>:
+                            </li>
+                            <dd>
+                                <input type="radio" value="si" name="p20" required> Si
+                                <input type="radio" value="no" name="p20"> No
+                            </dd>
+                            <li>Utiliza <b>gestos, señas,</b> etc. claros y con significado para mencionar a objetos <b>(en
+                                caso de no utilizar leng. Oral)</b>:
+                            </li>
+                            <dd>
+                                <input type="radio" value="si" name="p21" required> Si
+                                <input type="radio" value="no" name="p21"> No
+                            </dd>
+                            <li>Utiliza un vocabulario espontáneo superior a
+                                {#                                {% if edad >= 1 and edad < 2 %}#}
+                                {#                                    2 – 20 palabras:#}
+                                {#                                {% endif %}#}
+                                {% if edad >= 2 and edad < 3 %}
+                                    <b>100 palabras:</b>
+                                {% endif %}
+                                {% if edad >= 3 and edad < 4 %}
+                                    <b>900 palabras:</b>
+                                {% endif %}
+                                {% if edad >= 4 and edad < 5 %}
+                                    <b>1500 palabras:</b>
+                                {% endif %}
+                                {% if edad >= 5 %}
+                                    <b>2500 palabras:</b>
+                                {% endif %}
+                                <dd>
+                                    <input type="radio" value="si" name="p22" required> Si
+                                    <input type="radio" value="no" name="p22"> No
+                                </dd>
+                            </li>
+                            {% if edad >= 3 %}
+                                <li>Utiliza pronombres personales y posesivos <b>(yo, tú, mío, tuyo)</b>:
+                                </li>
+                                <dd>
+                                    <input type="radio" value="si" name="p23" required> Si
+                                    <input type="radio" value="no" name="p23"> No
+                                </dd>
+                            {% endif %}
+                            <li>Estructura oraciones en su conversación
+                                {% if edad >= 2 and edad < 3 %}
+                                    <b>(ej. mamá dame agua)</b>:
+                                {% endif %}
+                                {% if edad >= 3 and edad < 4 %}
+                                    <b>(ej. quiero ir al parque)</b>:
+                                {% endif %}
+                                {% if edad >= 4 %}
+                                    <b>(ej. mamá, comí un helado en la escuela)</b>:
+                                {% endif %}
+                            </li>
+                            <dd>
+                                <input type="radio" value="si" name="p24" required> Si
+                                <input type="radio" value="no" name="p24"> No
+                            </dd>
+                            <li>Se comunica con todos los miembros de la familia:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p25" required> Si
+                                <input type="radio" value="no" name="p25"> No
+                            </dd>
+                            <li>Se comunica con compañeros y amigos de la escuela o barrio:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p26" required> Si
+                                <input type="radio" value="no" name="p26"> No
+                            </dd>
+                            <li>Se comunica con <b>docentes, terapeutas y otros</b> de su entorno:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p27" required> Si
+                                <input type="radio" value="no" name="p27"> No
+                            </dd>
+                            <li>Expresa sus sentimientos, ideas y(o) emociones:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p28" required> Si
+                                <input type="radio" value="no" name="p28"> No
+                            </dd>
+                            <li>Hace preguntas:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p29" required> Si
+                                <input type="radio" value="no" name="p29"> No
+                            </dd>
+                            <li>Mantiene conversaciones dentro de un tema:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p30" required> Si
+                                <input type="radio" value="no" name="p30"> No
+                            </dd>
+                            <li>Respeta turnos en la conversación:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p31" required> Si
+                                <input type="radio" value="no" name="p31"> No
+                            </dd>
+                            {% if edad >= 3 %}
+                                <li>Utiliza tiempos verbales <b>(pasado, presente)</b>:</li>
+                                <dd>
+                                    <input type="radio" value="si" name="p32" required> Si
+                                    <input type="radio" value="no" name="p32"> No
+                                </dd>
+                            {% endif %}
+                            {% if edad >= 2.5 %}
+                                <li>Su niño/a pronuncia correctamente estas letras cuando habla
+                                    {% if edad >= 2.5 and edad < 3 %}
+                                        <b>m-p-b-t-d-k-n</b>:
+                                    {% endif %}
+                                    {% if edad >= 3 and edad < 4.5 %}
+                                        <b>m-p-b-t-d-k-g-j-n-l-y-ll-ch</b>:
+                                    {% endif %}
+                                    {% if edad >= 4.5 and edad < 5 %}
+                                        <b>m-p-b-t-d-k-g-j-n-l-y-ll-ch-r-s) sínfones con l ej. plato, globo,etc</b>:
+                                    {% endif %}
+                                    {% if edad >= 5 %}
+                                        <b>Pronuncia todas las letras correctamente</b>:
+                                    {% endif %}
+                                </li>
+                                <dd>
+                                    <input type="radio" value="si" name="p33" required> Si
+                                    <input type="radio" value="no" name="p33"> No
+                                </dd>
+                            {% endif %}
+                        </ol>
+                        <h1 class="h4 text-gray-900 mb-4">Fluidez</h1>
+                        <ol>
+                            <li>Conversa de manera fluida <b>(tiempo adecuado y continuo)</b>:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p34" required> Si
+                                <input type="radio" value="no" name="p34"> No
+                            </dd>
+                            <li>Conversa de manera fluida <b>(sin repetir sílabas, palabras ni frases)</b>:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p35" required> Si
+                                <input type="radio" value="no" name="p35"> No
+                            </dd>
+                        </ol>
+                        <h1 class="h4 text-gray-900 mb-4">Voz</h1>
+                        <ol>
+                            <li>Cuando habla, su voz suena clara y relajada <b>( No nasalizada o tensa)</b>:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p36" required> Si
+                                <input type="radio" value="no" name="p36"> No
+                            </dd>
+                            <li>Realiza cambios en la entonación al usar <b>exclamaciones, frases, etc.</b> acordes a la
+                                situación:
+                            </li>
+                            <dd>
+                                <input type="radio" value="si" name="p37" required> Si
+                                <input type="radio" value="no" name="p37"> No
+                            </dd>
+                            <li>Puede realizar modificaciones de intensidad <b>(susurrada, normal, alto)</b>:</li>
+                            <dd>
+                                <input type="radio" value="si" name="p38" required> Si
+                                <input type="radio" value="no" name="p38"> No
+                            </dd>
+                        </ol>
+                        <div align="center">
+                            <button type="submit" class="btn btn-success btn-icon-split">
+                                <span class="icon text-white-50"><i class="fas fa-check"></i></span>
+                                <span class="text">Finalizar</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

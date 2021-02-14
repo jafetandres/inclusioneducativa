@@ -9,16 +9,17 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include('chat.urls', namespace='chat')),
+    path('', include('core.urls', namespace='core')),
+    path('registration', include('registration.urls', namespace='registration')),
+
     path('automata/', include('automata.urls', namespace='automata')),
-    path('', index, name='index'),
     url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),
     path('appexperto/', include('experto.urls', namespace='appexperto')),
-    path('gestionsistema/', include('core.urls', namespace='gestionsistema')),
+    path('core/', include('core.urls', namespace='core')),
     path('appdocente/', include('docente.urls', namespace='appdocente')),
     path('apprepresentante/', include('representante.urls', namespace='apprepresentante')),
     path('page/', include('pages.urls')),
-
-    url('^', include('django.contrib.auth.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

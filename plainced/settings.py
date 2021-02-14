@@ -1,4 +1,6 @@
 import os
+from os.path import join
+
 import dj_database_url
 from plainced.settings import *
 
@@ -9,6 +11,7 @@ ALLOWED_HOSTS = ['*']
 ADMINS = [('Jafet', 'inclusioneducativa@ups.edu.ec')]
 
 INSTALLED_APPS = [
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,11 +42,11 @@ MIDDLEWARE = [
 
 ]
 ROOT_URLCONF = 'plainced.urls'
-# TEMPLATE_DEBUG = False
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'plainced/templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,20 +78,20 @@ CHANNEL_LAYERS = {
     },
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'plainced.db',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'plainced',
-        'USER': 'plainced',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'plainced.db',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'plainced',
+#         'USER': 'plainced',
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -113,13 +116,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'plainced/static/')), ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10242880
 
-LOGIN_URL = '/gestionsistema/login/'
-LOGOUT_REDIRECT_URL = 'index'
+# LOGIN_URL = '/gestionsistema/login/'
+# LOGOUT_REDIRECT_URL = 'index'
+LOGIN_URL = 'registration:login'
+LOGIN_REDIRECT_URL = 'registration:login'
+LOGOUT_REDIRECT_URL = 'registration:login'
 
 AUTH_USER_MODEL = 'core.Usuario'
 

@@ -1,0 +1,381 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Plainced|Registro</title>
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <!-- Datepicker styles for this template-->
+    <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+</head>
+<body class="bg-gradient-primary">
+<div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Regístrate!</h1>
+                        </div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-info">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        <form class="user" method="post">
+                            {% csrf_token %}
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control form-control-user" name="nombres"
+                                           placeholder="Nombres" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user" name="apellidos"
+                                           placeholder="Apellidos" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="email" class="form-control form-control-user" name="username"
+                                           placeholder="Correo electrónico" required>
+                                    {% if form_usuario.username.errors %}
+                                        <div class="alert alert-danger my-1">
+                                            {% for error in form_usuario.username.errors %}
+                                                <small>{{ error|escape }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-user color" name="cedula"
+                                           id="cedula"
+                                           placeholder="Cédula" onkeypress="return validarCedula(event)" maxlength="10"
+                                           required>
+                                    {% if form_experto.cedula.errors %}
+                                        <div class="alert alert-danger my-1">
+                                            {% for error in form_experto.cedula.errors %}
+                                                <small>{{ error|escape }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if form_docente.cedula.errors %}
+                                        <div class="alert alert-danger my-1">
+                                            {% for error in form_docente.cedula.errors %}
+                                                <small>{{ error|escape }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if form_representante.cedula.errors %}
+                                        <div class="alert alert-danger my-1">
+                                            {% for error in form_representante.cedula.errors %}
+                                                <small>{{ error|escape }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label>Fecha de Nacimiento: <input
+                                            pattern="(?:19|20)(?:(?:[13579][26]|[02468][048])-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))|(?:[0-9]{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31)))"
+                                            class="form-control form-control-user" name="fechaNacimiento"
+                                            id="fechaNacimiento"
+                                            placeholder="aaaa-mm-dd" autocomplete="off"
+                                            required></label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="password" class="form-control form-control-user"
+                                           name="password" id="password"
+                                           placeholder="Contraseña"
+                                           required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="password" class="form-control form-control-user"
+                                           name="password2" id="password2"
+                                           placeholder="Repita la contraseña" required>
+                                    {% if form_usuario.password.errors %}
+                                        <div class="alert alert-danger my-1">
+                                            {% for error in form_usuario.password.errors %}
+                                                <small>{{ error|escape }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="text-gray-900">La contraseña debe cumplir lo siguiente:</h6>
+                                <p id="letter" class="text-danger">Una <b>letra</b> minuscula</p>
+                                <p id="capital" class="text-danger">Una <b>letra</b> mayuscula</p>
+                                <p id="number" class="text-danger">Un <b>numero</b></p>
+                                <p id="length" class="text-danger">Minimo debe contener <b>8 caracteres</b>
+                                <p id="same" class="text-danger">Las contraseñas coinciden</p>
+                                </p>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label class="text-md-center font-weight-bold text-primary">ROL &nbsp
+                                        <select class="selectpicker" name="tipo_usuario" id="tipo_usuario" required>
+                                            <option value="" disabled selected>Escoger una opción</option>
+                                            <option value="experto">Experto</option>
+                                            <option value="docente">Docente</option>
+                                            <option value="representante">Representante</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6" id="id_institucion" hidden>
+                                    <label class="text-md-center font-weight-bold text-primary">INSTITUCIÓN
+                                        &nbsp
+                                        <select class="selectpicker" name="institucion" id="institucion" required>
+                                            <option value="" disabled selected>Escoger una opción</option>
+                                            {% if instituciones %}
+                                                {% for institucion in instituciones %}
+                                                    <option value="{{ institucion.id }}">{{ institucion.nombre }}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="profesional-form" hidden>
+                                <div class="form-group">
+                                    <input type="text"
+                                           class="form-control form-control-user"
+                                           id="tituloUniversitario" name="tituloUniversitario"
+                                           placeholder="Título Universitario"
+                                           required/>
+                                </div>
+                                <div class="form-group">
+                                        <textarea class="form-control form-control-user"
+                                                  id="experienciaProfesional" name="experienciaProfesional"
+                                                  placeholder="Describa su experiencia profesional" rows="5"
+                                                  required></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <button type="submit" id="btn-submit" class="btn btn-primary btn-user btn-block">
+                                Registrarme
+                            </button>
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="{% url 'password_reset' %}">Olvidaste tu contraseña?</a>
+                        </div>
+                        <div class="text-center">
+                            <a class="small" href="{% url 'login' %}">Ya tengo una cuenta? Iniciar
+                                sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+<!-- DatePicker core JavaScript-->
+<script src="{% static 'dist/datepicker.js' %}"></script>
+<script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="{% static 'js/i18n/defaults-es_ES.min.js' %}"></script>
+
+<script>
+    $('#fechaNacimiento').datepicker({
+        language: 'es-ES',
+        format: 'yyyy-mm-dd',
+        autoHide: true
+    });
+</script>
+
+<script>
+    $('select').selectpicker();
+</script>
+
+<script>
+    $('#tipo_usuario').on('change', habilitarProfesionalForm);
+
+    function habilitarProfesionalForm() {
+        var tipo_usuario = document.getElementById("tipo_usuario")
+        if (tipo_usuario.value === 'docente') {
+            document.getElementById("profesional-form").hidden = false;
+            document.getElementById("id_institucion").hidden = false;
+            document.getElementById("tituloUniversitario").disabled = false;
+            document.getElementById("experienciaProfesional").disabled = false;
+        } else if (tipo_usuario.value === 'experto') {
+            document.getElementById("profesional-form").hidden = false;
+            document.getElementById("id_institucion").hidden = true;
+            document.getElementById("institucion").disabled = true;
+            document.getElementById("tituloUniversitario").disabled = false;
+            document.getElementById("experienciaProfesional").disabled = false;
+
+        } else if (tipo_usuario.value === 'representante') {
+            document.getElementById("profesional-form").hidden = true;
+            document.getElementById("id_institucion").hidden = false;
+            document.getElementById("tituloUniversitario").disabled = true;
+            document.getElementById("experienciaProfesional").disabled = true;
+        }
+    }
+</script>
+
+<script>
+    var myInput = document.getElementById("password");
+    var myInput2 = document.getElementById("password2");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+    var same = document.getElementById("same");
+    var flag = false;
+    myInput.onkeyup = function () {
+        var lowerCaseLetters = /[a-z]/g;
+        if (myInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("text-danger");
+            letter.classList.add("text-success");
+            flag = true;
+        } else {
+            letter.classList.remove("text-success");
+            letter.classList.add("text-danger");
+            flag = false;
+        }
+        var upperCaseLetters = /[A-Z]/g;
+        if (myInput.value.match(upperCaseLetters)) {
+            capital.classList.remove("text-danger");
+            capital.classList.add("text-success");
+            flag = true;
+        } else {
+            capital.classList.remove("text-success");
+            capital.classList.add("text-danger");
+            flag = false;
+        }
+        var numbers = /[0-9]/g;
+        if (myInput.value.match(numbers)) {
+            number.classList.remove("text-danger");
+            number.classList.add("text-success");
+            flag = true;
+        } else {
+            number.classList.remove("text-success");
+            number.classList.add("text-danger");
+            flag = false;
+        }
+        if (myInput.value.length >= 8) {
+            length.classList.remove("text-danger");
+            length.classList.add("text-success");
+            flag = true;
+        } else {
+            length.classList.remove("text-success");
+            length.classList.add("text-danger");
+            flag = false;
+        }
+
+    }
+    myInput2.onkeyup = function () {
+        if (myInput.value === myInput2.value) {
+            same.classList.remove("text-danger");
+            same.classList.add("text-success");
+            flag = true;
+
+        } else {
+            same.classList.remove("text-success");
+            same.classList.add("text-danger");
+            flag = false;
+        }
+
+    }
+    document.getElementById("btn-submit").addEventListener("click", function (event) {
+        if (flag === false) {
+            event.preventDefault();
+        }
+
+    });
+</script>
+
+<script>
+    function validarCedula(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        } else {
+            var cedula = "";
+            $("#cedula").on('input', function () {
+                document.getElementById("spanCedula").innerHTML = ('<span class="text-danger">La cedula es incorrecta</span>');
+                cedula = $(this).val();
+                var total = 0;
+                var longitud = cedula.length;
+                var longcheck = longitud - 1;
+                if (cedula !== "") {
+                    for (i = 0; i < longcheck; i++) {
+                        if (i % 2 === 0) {
+                            var aux = cedula.charAt(i) * 2;
+                            if (aux > 9) aux -= 9;
+                            total += aux;
+                        } else {
+                            total += parseInt(cedula.charAt(i)); // parseInt o concatenará en lugar de sumar
+                        }
+                    }
+                    total = total % 10 ? 10 - total % 10 : 0;
+                    if (cedula.charAt(longitud - 1) == total) {
+                        $.ajax({
+                            url: "{% url 'core:buscarUsuario'  %}",
+                            type: "get",
+                            data: {
+                                'cedula': cedula,
+                            },
+                            success: function (data) {
+                                if (data != null) {
+                                    document.getElementById("spanCedula").innerHTML = ('<span class="text-danger">La cedula ya existe</span>');
+                                }
+                            },
+                            error: function () {
+                                console.log('No se encontraron coicidencias');
+                            }
+                        });
+                        document.getElementById("spanCedula").innerHTML = ('<span class="text-success">Cedula correcta</span>');
+                    } else {
+                        document.getElementById("spanCedula").innerHTML = ('<span class="text-danger">La cedula es incorrecta</span>');
+                    }
+                }
+            });
+        }
+    }
+</script>
+
+{#<script>#}
+{#    function mayus(e) {#}
+{#        e.value = e.value.toUpperCase();#}
+{#    }#}
+{#</script>#}
+
+</body>
+
+</html>

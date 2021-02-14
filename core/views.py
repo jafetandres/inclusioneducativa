@@ -74,14 +74,14 @@ def index(request):
         except:
             # Algo no ha ido bien, redireccionamos a FAIL
             return redirect(reverse('index') + "?fail")
-    return render(request, 'index.html', {'expertos': expertos})
+    return render(request, 'core/index.html', {'expertos': expertos})
 
 
 @login_required
-def base(request):
+def home(request):
     usuario_logueado = request.user
     usuarios = Usuario.objects.all().order_by('is_active', '-is_active')
-    return render(request, 'core/base.html',
+    return render(request, 'core/home.html',
                   {'usuario_logueado': usuario_logueado, 'notificaciones': notificaciones, 'usuarios': usuarios})
 
 
@@ -174,7 +174,7 @@ def crearUsuario(request):
         form_experto = ExpertoForm()
         form_docente = DocenteForm()
         form_representante = RepresentanteForm()
-    return render(request, 'registro.html',
+    return render(request, 'core/registro.html',
                   {'form_usuario': form_usuario,
                    'form_experto': form_experto,
                    'form_docente': form_docente,
@@ -187,7 +187,7 @@ def activarUsuario(request, id_usuario):
     usuario = Usuario.objects.get(id=id_usuario)
     usuario.is_active = True
     usuario.save()
-    return redirect('gestionsistema:base')
+    return redirect('gestionsistema:home')
 
 
 @login_required
@@ -195,7 +195,7 @@ def desactivarUsuario(request, id_usuario):
     usuario = Usuario.objects.get(id=id_usuario)
     usuario.is_active = False
     usuario.save()
-    return redirect('gestionsistema:base')
+    return redirect('gestionsistema:home')
 
 
 @login_required
@@ -517,33 +517,7 @@ def RepresentanteEliminar(request, id_representante):
                   {'representante': representante, 'usuario_logueado': usuario_logueado})
 
 
-def login_view(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if Usuario.objects.filter(username=username).exists():
-            usuario = Usuario.objects.get(username=username)
-            if usuario.is_active:
-                if user is not None:
-                    login(request, user)
-                    usuario.is_online = True
-                    usuario.save()
-                    if user.tipo_usuario == 'docente':
-                        return redirect('appdocente:base')
-                    elif user.tipo_usuario == 'experto':
-                        return redirect('appexperto:base')
-                    elif user.tipo_usuario == 'representante':
-                        return redirect('apprepresentante:base')
-                    elif user.is_superuser:
-                        return redirect('gestionsistema:base')
-                else:
-                    messages.error(request, 'Correo electronico o contraseña incorrectos')
-            else:
-                messages.error(request, 'El usuario esta desactivado')
-        else:
-            messages.error(request, 'El usuario no existe')
-    return render(request, 'login.html')
+
 
 
 def logout_view(request):

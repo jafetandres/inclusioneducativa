@@ -3,17 +3,17 @@ from core.views import *
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 
-app_name = 'gestionsistema'
+app_name = 'core'
 
 urlpatterns = [
-    path('', base, name='base'),
+    path('', index, name='index'),
+    path('home', home, name='home'),
     path('crearComentario/', crearComentario, name='crearComentario'),
     path('cargarComentarios/', cargarComentarios, name='cargarComentarios'),
     path('cargarComentariosDocente/', cargarComentariosDocente, name='cargarComentariosDocente'),
     path('cargarComentariosRepresentante/', cargarComentariosRepresentante, name='cargarComentariosRepresentante'),
     path('curriculum/<usuario_id>/', curriculum, name='curriculum'),
     path('crearUsuario/', crearUsuario, name='crearUsuario'),
-    path('login/', login_view, name='login'),
     path('notificaciones/', notificaciones, name='notificaciones'),
     path('cambiarContrasena/', cambiarContrasena, name='cambiarContrasena'),
     path('logout/', logout_view, name='logout'),
