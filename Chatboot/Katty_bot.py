@@ -95,24 +95,24 @@ class Chatbot:
         print('LLego texto')
         txt_mensaje = str(update.message.text)
 
-        conexion1 = psycopg2.connect(database="chatbot", user="postgres", password="1234")
+        conexion1 = psycopg2.connect(database="chatbot", user="postgres")
         cursor1 = conexion1.cursor()
-        import mysql.connector
-
-        cnx = mysql.connector.connect(user='plainced',
-                                      host='localhost',
-                                      database='plainced')
+        # import mysql.connector
+        #
+        # cnx = mysql.connector.connect(user='plainced',
+        #                               host='localhost',
+        #                               database='plainced')
 
         sql = "insert into usuario(usuario_nombre, usuario_fecha) values (%s,%s)"
         datos = (usuario, fecha)
-        cursor1.execute(sql, datos)
+        cursor1.execute("insert into usuario(usuario_nombre, usuario_fecha) values (%s,%s)", datos)
         conexion1.commit()
         conexion1.close()
-
-        cursor = cnx.cursor()
-        cursor.execute(sql, datos)
-        cnx.commit()
-        cnx.close()
+        #
+        # cursor = cnx.cursor()
+        # cursor.execute(sql, datos)
+        # cnx.commit()
+        # cnx.close()
 
         for orde in range(len(ordenes)):
             b = round(ratio(txt_mensaje, ordenes[orde]))

@@ -19,7 +19,6 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 
 
-
 @csrf_exempt
 @login_required
 def perfil(request):
@@ -47,8 +46,7 @@ def verCurriculum(request, usuario_id):
 
 
 def index(request):
-    expertos = ''
-
+    expertos = None
     if Experto.objects.all().exists():
         expertos = Experto.objects.all()
     if request.method == "POST":
@@ -515,9 +513,6 @@ def RepresentanteEliminar(request, id_representante):
         return redirect('gestionsistema:representante_listar')
     return render(request, 'core/representante_eliminar.html',
                   {'representante': representante, 'usuario_logueado': usuario_logueado})
-
-
-
 
 
 def logout_view(request):
