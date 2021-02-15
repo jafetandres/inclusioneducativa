@@ -34,8 +34,9 @@ def perfil(request):
             usuario.fechaNacimiento = request.POST['fechaNacimiento']
             usuario.save()
         except IntegrityError as e:
-            messages.error(request, 'El correo electronico ya esta en uso')
-        return redirect('gestionsistema:perfil')
+            messages.error(request, 'El correo electronico ya esta en uso', extra_tags='danger')
+        messages.success(request, 'Información actualizada correctamente')
+        return redirect('core:perfil')
     return render(request, 'core/perfil.html')
 
 
@@ -118,7 +119,7 @@ def crearUsuario(request):
                 experto = form_experto.save(commit=False)
                 experto.usuario = usuario
                 experto.save()
-                return redirect('gestionsistema:login')
+                return redirect('login')
         if request.POST['tipo_usuario'] == 'docente':
             form_usuario = UsuarioForm(request.POST)
             form_docente = DocenteForm(request.POST)
@@ -132,7 +133,7 @@ def crearUsuario(request):
                 docente = form_docente.save(commit=False)
                 docente.usuario = usuario
                 docente.save()
-                return redirect('gestionsistema:login')
+                return redirect('login')
         if request.POST['tipo_usuario'] == 'representante':
             form_usuario = UsuarioForm(request.POST)
             form_representante = RepresentanteForm(request.POST)
@@ -146,7 +147,7 @@ def crearUsuario(request):
                 representante = form_representante.save(commit=False)
                 representante.usuario = usuario
                 representante.save()
-                return redirect('gestionsistema:login')
+                return redirect('login')
                 # experto = Experto()
                 # experto.usuario = usuario
                 # experto.tituloUniversitario = request.POST['tituloUniversitario']
@@ -185,7 +186,7 @@ def activarUsuario(request, id_usuario):
     usuario = Usuario.objects.get(id=id_usuario)
     usuario.is_active = True
     usuario.save()
-    return redirect('gestionsistema:home')
+    return redirect('core:home')
 
 
 @login_required
@@ -193,7 +194,7 @@ def desactivarUsuario(request, id_usuario):
     usuario = Usuario.objects.get(id=id_usuario)
     usuario.is_active = False
     usuario.save()
-    return redirect('gestionsistema:home')
+    return redirect('core:home')
 
 
 @login_required
@@ -254,7 +255,7 @@ def InstitucionCrear(request):
         if form.is_valid():
             form.save()
             notify.send(request.user, recipient=request.user, verb="/")
-        return redirect('gestionsistema:institucion_listar')
+        return redirect('core:institucion_listar')
     else:
         form = InstitucionForm()
     return render(request, 'core/institucion_crear.html',
@@ -276,7 +277,7 @@ def InstitucionEditar(request, id_institucion):
         form = InstitucionForm(request.POST, instance=institucion)
         if form.is_valid():
             form.save()
-        return redirect('gestionsistema:institucion_listar')
+        return redirect('core:institucion_listar')
     return render(request, 'core/institucion_crear.html',
                   {'form_institucion': institucion, 'usuario_logueado': usuario_logueado})
 
@@ -286,7 +287,7 @@ def InstitucionEliminar(request, id_institucion):
     institucion = Institucion.objects.get(id=id_institucion)
     if request.method == 'POST':
         institucion.delete()
-        return redirect('gestionsistema:institucion_listar')
+        return redirect('core:institucion_listar')
     return render(request, 'core/institucion_eliminar.html',
                   {'institucion': institucion, 'usuario_logueado': usuario_logueado})
 
@@ -315,7 +316,7 @@ def ExpertoCrear(request):
             contenido = 'Hola bienvenido a Inclusion educativa tu para ingresar al sistema utiliza los siguiente datos Correo: ' + usuario.__str__() + 'Contraseña: ' + password_generate
             res = send_mail("Creacion de Usuario Inclusion Educativa", contenido, settings.EMAIL_HOST_USER,
                             [usuario.__str__()])
-        return redirect('gestionsistema:experto_listar')
+        return redirect('core:experto_listar')
     else:
         form_usuario = UsuarioForm()
         form_experto = Experto()
@@ -359,7 +360,7 @@ def ExpertoEditar(request, id_experto):
             doc = form_experto.save(commit=False)
             doc.usuario = usu
             doc.save()
-        return redirect('gestionsistema:experto_listar')
+        return redirect('core:experto_listar')
     return render(request, 'core/experto_crear.html',
                   {'form_experto': experto, 'usuario_logueado': usuario_logueado})
 
@@ -371,7 +372,7 @@ def ExpertoEliminar(request, id_experto):
     if request.method == 'POST':
         experto.delete()
         usuario.delete()
-        return redirect('gestionsistema:experto_listar')
+        return redirect('core:experto_listar')
     return render(request, 'core/experto_eliminar.html',
                   {'experto': experto, 'usuario_logueado': usuario_logueado})
 
@@ -394,7 +395,7 @@ def DocenteCrear(request):
             contenido = 'Hola bienvenido a Inclusion educativa tu para ingresar al sistema utiliza los siguiente datos Correo: ' + usuario.__str__() + 'Contraseña: ' + password_generate
             res = send_mail("Creacion de Usuario Inclusion Educativa", contenido, settings.EMAIL_HOST_USER,
                             [usuario.__str__()])
-        return redirect('gestionsistema:docente_listar')
+        return redirect('core:docente_listar')
     else:
         form_usuario = UsuarioForm()
         form_docente = Docente()
@@ -426,7 +427,7 @@ def DocenteEditar(request, id_docente):
             doc = form_docente.save(commit=False)
             doc.usuario = usu
             doc.save()
-        return redirect('gestionsistema:docente_listar')
+        return redirect('core:docente_listar')
     return render(request, 'core/docente_crear.html', {'form_docente': docente,
                                                        'instituciones': instituciones,
                                                        'usuario_logueado': usuario_logueado})
@@ -439,7 +440,7 @@ def DocenteEliminar(request, id_docente):
     if request.method == 'POST':
         docente.delete()
         usuario.delete()
-        return redirect('gestionsistema:docente_listar')
+        return redirect('core:docente_listar')
     return render(request, 'core/docente_eliminar.html',
                   {'docente': docente, 'usuario_logueado': usuario_logueado})
 
@@ -466,7 +467,7 @@ def representanteCrear(request):
             res = send_mail("Creacion de Usuario Inclusion Educativa", contenido, settings.EMAIL_HOST_USER,
                             [usuario.__str__()])
 
-        return redirect('gestionsistema:representante_listar')
+        return redirect('core:representante_listar')
 
     return render(request, 'core/representante_crear.html', {
         'form_representante': form_representante,
@@ -497,7 +498,7 @@ def RepresentanteEditar(request, id_representante):
             doc = form_representante.save(commit=False)
             doc.usuario = usu
             doc.save()
-        return redirect('gestionsistema:representante_listar')
+        return redirect('core:representante_listar')
     return render(request, 'core/representante_crear.html', {'form_representante': representante,
                                                              'instituciones': instituciones,
                                                              'usuario_logueado': usuario_logueado})
@@ -510,7 +511,7 @@ def RepresentanteEliminar(request, id_representante):
     if request.method == 'POST':
         representante.delete()
         usuario.delete()
-        return redirect('gestionsistema:representante_listar')
+        return redirect('core:representante_listar')
     return render(request, 'core/representante_eliminar.html',
                   {'representante': representante, 'usuario_logueado': usuario_logueado})
 

@@ -35,7 +35,7 @@ def import_base_template():
                         "set it to point to your base template in your settings file.")
             logger.info("chat.views: to turn off this message, set "
                         "your settings.CHATTER_DEBUG to False.")
-        return 'chat/base.html'
+        return 'chat/home.html'
 
 
 class IndexView(LoginRequiredMixin, View):

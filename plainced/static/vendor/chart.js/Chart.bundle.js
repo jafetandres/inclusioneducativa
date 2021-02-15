@@ -4827,7 +4827,7 @@ var controller_doughnut = core_datasetController.extend({
 
 core_defaults._set('horizontalBar', {
 	hover: {
-		mode: 'base.html',
+		mode: 'home.html',
 		axis: 'y'
 	},
 
@@ -4856,7 +4856,7 @@ core_defaults._set('horizontalBar', {
 	},
 
 	tooltips: {
-		mode: 'base.html',
+		mode: 'home.html',
 		axis: 'y'
 	}
 });

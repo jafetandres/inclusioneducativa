@@ -88,7 +88,7 @@ def datosTest(request):
             return redirect('automata:test')
         else:
             messages.error(request, 'Lo sentimos la ficha evaluativa esta diseñada para niños de 2 a 5 años de edad')
-    return render(request, 'automata/base.html')
+    return render(request, 'automata/home.html')
 
 
 def calcularEdad(fechaNacimiento):

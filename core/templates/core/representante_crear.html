@@ -1,0 +1,163 @@
+{% extends 'core/home.html' %}
+{% block usuario %}
+    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ usuario_logueado }}</span>
+{% endblock %}
+{% block contenido %}
+    <h1 class="h3 mb-2 text-gray-800" align="center">REPRESENTANTE</h1>
+
+
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="container-fluid">
+                    <br>
+                    <br>
+                    <form method="post" class="user" id="formulario" name="formulario">
+                        {% csrf_token %}
+
+
+                        <div class="form-group row">
+                            <div class="container">
+                                <br>
+                                <br>
+                                <div class="form-group">
+                                    <div class="container">
+                                        <label for="institucion">Institucion: <select name="institucion"
+                                                                                      id="institucion"
+                                                                                      class="btn btn-primary dropdown-toggle"
+                                                                                      data-toggle="dropdown"
+                                                                                      aria-haspopup="true"
+                                                                                      aria-expanded="false"
+                                                                                      required>
+
+                                            {% for institucion in instituciones %}
+                                                {% if institucion == form_representante.institucion %}
+                                                    <option value="{{ institucion.id }}"
+                                                            selected="selected">{{ institucion.nombre }}</option>
+                                                {% else %}
+                                                    <option value="{{ institucion.id }}">{{ institucion.nombre }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </select></label>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <label for="nombres">Nombres: <input type="text"
+                                                                                 class="form-control form-control-user"
+                                                                                 value='{{ form_representante.usuario.nombres }}'
+                                                                                 id="nombres" name="nombres"
+                                                                                 size="1000"
+
+                                                                                 required></label>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="col-sm-6">
+                                            <label for="apellidos">Apellidos: <input type="text"
+                                                                                     class="form-control form-control-user"
+                                                                                     value="{{ form_representante.usuario.apellidos }}"
+                                                                                     id="apellidos" name="apellidos"
+
+                                                                                     size="1000" required></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <label for="cedula">Cédula:<input type="text"
+                                                                              class="form-control form-control-user"
+                                                                              value="{{ form_representante.usuario.cedula }}"
+                                                                              id="cedula" name="cedula" size="1000"
+                                                                              maxlength="10"
+                                                                              onkeypress="return soloNumeros(event)"
+
+
+                                                                              required></label>
+
+                                            <div id="salida" class="text-danger"></div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="username">Correo: <input type="email"
+                                                                               class="form-control form-control-user"
+                                                                               value="{{ form_representante.usuario.username }}"
+                                                                               id="username" name="username" size="1000"
+                                                                               required></label>
+
+                                            <div id="salidaCorreo" class="text-danger"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <label for="nivelInstrucion">Nivel de Instrucción:<input type="text"
+                                                                                                     class="form-control form-control-user"
+                                                                                                     value="{{ form_representante.nivelInstrucion }}"
+                                                                                                     id="nivelInstrucion"
+                                                                                                     name="nivelInstrucion"
+                                                                                                     size="1000"
+
+                                                                                                     required></label>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="col-sm-6">
+                                            <label for="ocupacion">Ocupación:<input type="text"
+                                                                                    class="form-control form-control-user"
+                                                                                    value="{{ form_representante.ocupacion }}"
+                                                                                    id="ocupacion" name="ocupacion"
+                                                                                    size="1000"
+
+                                                                                    required></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="fechaNacimiento">Fecha de Nacimiento:<input type="date"
+                                                                                                class="form-control form-control-user datepicker"
+                                                                                                value="{{ form_representante.usuario.fechaNacimiento }}"
+                                                                                                data-date-format="yyyy/mm/dd"
+                                                                                                id="fechaNacimiento"
+                                                                                                name="fechaNacimiento"
+                                                                                                required></label>
+                                    </div>
+
+                                </div>
+
+                                <div align="center">
+                                    <button type="submit" class="btn btn btn-primary btn-user">Guardar</button>
+                                    <a class="btn btn btn-danger btn-user"
+                                       href="{% url 'gestionsistema:representante_listar' %}">Cancelar</a>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script>
+
+        $("#formulario").on('submit', function (evt) {
+
+            if (estadoCedula == true) {
+
+
+            } else {
+                evt.preventDefault();
+                alert('Por favor verifique que todos los campos esten correctos.')
+
+            }
+
+
+            // tu codigo aqui
+        });
+    </script>
+
+{% endblock %}

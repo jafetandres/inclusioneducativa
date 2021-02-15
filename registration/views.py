@@ -23,8 +23,8 @@ def login_view(request):
                         return redirect('appexperto:base')
                     elif user.tipo_usuario == 'representante':
                         return redirect('apprepresentante:base')
-                    elif user.is_superuser:
-                        return redirect('gestionsistema:base')
+                    elif user.tipo_usuario == 'administrador' and user.is_superuser:
+                        return redirect('core:home')
                 else:
                     messages.error(request, 'Correo electronico o contraseña incorrectos')
             else:

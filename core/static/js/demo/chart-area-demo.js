@@ -105,7 +105,7 @@ var myLineChart = new Chart(ctx, {
       yPadding: 15,
       displayColors: false,
       intersect: false,
-      mode: 'base.html',
+      mode: 'home.html',
       caretPadding: 10,
       callbacks: {
         label: function(tooltipItem, chart) {

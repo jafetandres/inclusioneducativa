@@ -25,6 +25,7 @@ class PersonalizadoBaseUserManager(BaseUserManager):
         user = self.create_user(username, password)
         user.is_staff = True
         user.is_superuser = True
+        user.tipo_usuario = 'administrador'
         user.save(using=self._db)
         return user
 

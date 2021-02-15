@@ -72,7 +72,7 @@ def base(request):
     for fichaInformativaDocente in fichasInformativas:
         if fichaInformativaDocente.docente_id == docente.id:
             estudiantes.append(Estudiante.objects.get(id=fichaInformativaDocente.estudiante_id))
-    return render(request, 'docente/base.html',
+    return render(request, 'docente/home.html',
                   {'estudiantes': estudiantes})
 
 

@@ -7837,7 +7837,7 @@
 				} );
 			}
 		}
-		else if ( order == 'base.html' || order == 'original' ) {
+		else if ( order == 'home.html' || order == 'original' ) {
 			for ( i=0, ien=settings.aoData.length ; i<ien ; i++ ) {
 				if ( search == 'none' ) {
 					a.push( i );

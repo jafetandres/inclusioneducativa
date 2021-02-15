@@ -7,9 +7,9 @@
 
     <form method="post">
         {% csrf_token %}
-        <h3>Desea eliminar el registro de {{ institucion.nombre }} ?</h3>
+        <h3>Desea eliminar el registro de {{ experto.usuario.nombres }} ?</h3>
         <button class="btn btn-danger" type="submit">Si, eliminar</button>
-        <a class="btn btn-success" href="{% url 'gestionsistema:institucion_listar' %}">Cancelar</a>
+        <a class="btn btn-success" href="{% url 'gestionsistema:experto_listar' %}">Cancelar</a>
         <br>
         <br>
     </form>
