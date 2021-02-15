@@ -63,7 +63,7 @@ def buscarEstudiante(request):
 
 
 @login_required
-def base(request):
+def home(request):
     representante = Representante.objects.get(usuario_id=request.user.id)
     fichasInformativas = FichaInformativaRepresentante.objects.filter(representante_id=representante.id)
     estudiantes = []
@@ -132,7 +132,7 @@ def crearFichaInformativa(request, estudiante_cedula):
                         expertoFichaInformativa.estudiante = fichaInformativaRepresentante.estudiante
                         expertoFichaInformativa.experto = experto
                         expertoFichaInformativa.save()
-                return redirect('apprepresentante:base')
+                return redirect('apprepresentante:home')
             elif request.POST.getlist('experto'):
                 user_list = []
                 expertos = []
@@ -163,7 +163,7 @@ def crearFichaInformativa(request, estudiante_cedula):
                         expertoFichaInformativa.estudiante = fichaInformativaRepresentante.estudiante
                         expertoFichaInformativa.experto = experto
                         expertoFichaInformativa.save()
-                return redirect('apprepresentante:base')
+                return redirect('apprepresentante:home')
 
     else:
         instituciones = Institucion.objects.all()

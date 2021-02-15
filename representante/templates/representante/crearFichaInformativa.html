@@ -1,20 +1,20 @@
-{% extends 'docente/home.html' %}
+{% extends 'representante/home.html' %}
 {% block contenido %}
     <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
             <div class="p-3 col-lg-6">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
             </div>
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-            <form method="post" class="user" id="sectionForm">
+            <form method="post" id="sectionForm" class="user ">
                 {% csrf_token %}
                 <div id="datosPersonales">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Datos personales del estudiante</h1>
+                            <h1 class="h4 text-gray-900 mb-4">Datos personales de su hijo(a)</h1>
                         </div>
                         {% if estudiante %}
                             <div class="form-group row">
@@ -22,12 +22,14 @@
                                     <label>Nombres:<input type="text" class="form-control form-control-user"
                                                           name="nombres" size="100" id="nombres"
                                                           value="{{ estudiante.nombres }}"
+
                                                           required disabled></label>
                                 </div>
                                 <div class="col-sm-6">
                                     <label>Apellidos:<input type="text" class="form-control form-control-user"
                                                             name="apellidos" size="100" id="apellidos"
                                                             value="{{ estudiante.apellidos }}"
+
                                                             required disabled></label>
                                 </div>
                             </div>
@@ -37,13 +39,14 @@
                                             pattern="(?:19|20)(?:(?:[13579][26]|[02468][048])-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))|(?:[0-9]{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31)))"
                                             class="form-control form-control-user" name="fechaNacimiento"
                                             id="fechaNacimiento" value="{{ estudiante.fechaNacimiento }}"
-                                            placeholder="aaaa-mm-dd" autocomplete="off"
+                                            placeholder="yyyy-mm-dd" autocomplete="off"
                                             required disabled></label>
                                 </div>
                                 <div class="col-sm-6">
                                     <label>Cédula:<input type="text" class="form-control form-control-user"
                                                          name="cedula" size="100" id="cedula"
                                                          value="{{ estudiante.cedula }}"
+
                                                          required disabled></label>
                                 </div>
                             </div>
@@ -76,11 +79,13 @@
                                 <div class="col-sm-6 mb-6 mb-sm-0">
                                     <label>Nombres:<input type="text" class="form-control form-control-user"
                                                           name="nombres" size="100" id="nombres"
+
                                                           required></label>
                                 </div>
                                 <div class="col-sm-6">
                                     <label>Apellidos:<input type="text" class="form-control form-control-user"
                                                             name="apellidos" size="100" id="apellidos"
+
                                                             required></label>
                                 </div>
                             </div>
@@ -90,13 +95,14 @@
                                             pattern="(?:19|20)(?:(?:[13579][26]|[02468][048])-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))|(?:[0-9]{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31)))"
                                             class="form-control form-control-user" name="fechaNacimiento"
                                             id="fechaNacimiento"
-                                            placeholder="aaaa-mm-dd" autocomplete="off"
+                                            placeholder="yyyy-mm-dd" autocomplete="off"
                                             required></label>
                                 </div>
                                 <div class="col-sm-6">
                                     <label>Cédula:<input type="text" class="form-control form-control-user"
                                                          name="cedula" size="100" id="cedula"
                                                          value="{{ cedula }}"
+
                                                          required disabled></label>
                                 </div>
                             </div>
@@ -136,10 +142,10 @@
                 </div>
                 <hr>
                 {% if fichaInformativa %}
-                    <div id="fichaInformativaDocente">
+                    <div id="fichaInformativa">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Ficha informativa del estudiante</h1>
+                                <h1 class="h4 text-gray-900 mb-4">Ficha informativa de su hijo(a)</h1>
                             </div>
                             <ol>
                                 <li><b>Se presentaron dificultades en las siguientes etapas:</b></li>
@@ -529,158 +535,6 @@
                                                   id="diagnosticoMedicoDescripcion" disabled></textarea>
                                     {% endif %}
                                 </dd>
-
-                                <li><b>Diagnóstico sindrómico funcional:</b></li>
-                                <dd>
-                                    {% if fichaInformativa.diagnosticoSindromico.diagnosticoSindromicoRespuesta == 'Si' %}
-                                        <input type="radio" value="Si" name="diagnosticoSindromicoRespuesta"
-                                               onchange="habilitarP7(this.value);" checked> Si &nbsp;
-                                        <select onchange="habilitarP7(this.value);"
-                                                name="diagnosticoSindromicoOpcion"
-                                                id="diagnosticoSindromicoOpcion"
-                                                class="selectpicker" required>
-                                            {% if fichaInformativa.diagnosticoSindromico.diagnosticoSindromicoOpcion == 'Intelectual' %}
-                                                <option value="" disabled>Seleccione una opción</option>
-                                                <option value="Intelectual" selected>Intelectual</option>
-                                                <option value="Comunicación">Comunicación</option>
-                                                <option value="Retraso en las áreas de desarrollo">Retraso en las áreas
-                                                    de
-                                                    desarrollo
-                                                </option>
-                                                <option value="Trastorno">Trastorno (indique)</option>
-                                            {% endif %}
-                                            {% if fichaInformativa.diagnosticoSindromico.diagnosticoSindromicoOpcion == 'Comunicación' %}
-                                                <option value="" disabled>Seleccione una opción</option>
-                                                <option value="Intelectual">Intelectual</option>
-                                                <option value="Comunicación" selected>Comunicación</option>
-                                                <option value="Retraso en las áreas de desarrollo">Retraso en las áreas
-                                                    de
-                                                    desarrollo
-                                                </option>
-                                                <option value="Trastorno">Trastorno (indique)</option>
-                                            {% endif %}
-                                            {% if fichaInformativa.diagnosticoSindromico.diagnosticoSindromicoOpcion == 'Retraso en las áreas de desarrollo' %}
-                                                <option value="" disabled>Seleccione una opción</option>
-                                                <option value="Intelectual">Intelectual</option>
-                                                <option value="Comunicación">Comunicación</option>
-                                                <option value="Retraso en las áreas de desarrollo" selected>Retraso en
-                                                    las áreas
-                                                    de
-                                                    desarrollo
-                                                </option>
-                                                <option value="Trastorno">Trastorno (indique)</option>
-                                            {% endif %}
-                                            {% if fichaInformativa.diagnosticoSindromico.diagnosticoSindromicoOpcion == 'Trastorno' %}
-                                                <option value="" disabled>Seleccione una opción</option>
-                                                <option value="Intelectual">Intelectual</option>
-                                                <option value="Comunicación">Comunicación</option>
-                                                <option value="Retraso en las áreas de desarrollo">Retraso en
-                                                    las áreas
-                                                    de
-                                                    desarrollo
-                                                </option>
-                                                <option value="Trastorno" selected>Trastorno (indique)</option>
-                                            {% endif %}
-                                        </select> &nbsp;
-                                        <br>
-                                        <input type="radio" value="No" name="diagnosticoSindromicoRespuesta"
-                                               id="diagnosticoSindromicoRespuesta"
-                                               onchange="habilitarP7(this.value);"> No
-                                        {% if fichaInformativa.diagnosticoSindromico.diagnosticoSindromicoOpcion == 'Trastorno' %}
-                                            <textarea class="form-control" name="diagnosticoSindromicoDescripcion"
-                                                      id="diagnosticoSindromicoDescripcion">{{ fichaInformativa.diagnosticoSindromico.diagnosticoSindromicoDescripcion }}</textarea>
-                                        {% else %}
-                                            <textarea class="form-control" name="diagnosticoSindromicoDescripcion"
-                                                      id="diagnosticoSindromicoDescripcion" disabled></textarea>
-                                        {% endif %}
-                                    {% endif %}
-                                    {% if fichaInformativa.diagnosticoSindromico.diagnosticoSindromicoRespuesta == 'No' %}
-                                        <input type="radio" value="Si" name="diagnosticoSindromicoRespuesta"
-                                               onchange="habilitarP7(this.value);"> Si &nbsp;
-                                        <select onchange="habilitarP7(this.value);"
-                                                name="diagnosticoSindromicoOpcion"
-                                                id="diagnosticoSindromicoOpcion"
-                                                class="selectpicker" required disabled>
-
-                                            <option value="" disabled selected>Seleccione una opción</option>
-                                            <option value="Intelectual">Intelectual</option>
-                                            <option value="Comunicación">Comunicación</option>
-                                            <option value="Retraso en las áreas de desarrollo">Retraso en las áreas
-                                                de
-                                                desarrollo
-                                            </option>
-                                            <option value="Trastorno">Trastorno (indique)</option>
-                                        </select> &nbsp;
-                                        <br>
-                                        <input type="radio" value="No" name="diagnosticoSindromicoRespuesta"
-                                               id="diagnosticoSindromicoRespuesta"
-                                               onchange="habilitarP7(this.value);" checked> No
-                                        <textarea class="form-control" name="diagnosticoSindromicoDescripcion"
-                                                  id="diagnosticoSindromicoDescripcion" disabled></textarea>
-                                    {% endif %}
-                                </dd>
-
-                                <li><b>El diagnóstico sindrómico funcional fue emitido por:</b></li>
-                                <dd>
-                                    <select onchange="habilitarP8(this.value);"
-                                            name="emisionDiagnosticoSindromico"
-                                            id="emisionDiagnosticoSindromico"
-                                            class="selectpicker" required>
-                                        {% if fichaInformativa.emisionDiagnosticoSindromico == 'DECE' %}
-                                            <option value="" disabled>Seleccione una opción</option>
-                                            <option value="DECE" selected>DECE</option>
-                                            <option value="UDAI">UDAI</option>
-                                            <option value="Equipo multidisciplinario">Equipo multidisciplinario
-                                            </option>
-                                            <option value="Otro">Otro (indique)</option>
-                                        {% endif %}
-                                        {% if fichaInformativa.emisionDiagnosticoSindromico == 'UDAI' %}
-                                            <option value="" disabled>Seleccione una opción</option>
-                                            <option value="DECE">DECE</option>
-                                            <option value="UDAI" selected>UDAI</option>
-                                            <option value="Equipo multidisciplinario">Equipo multidisciplinario
-                                            </option>
-                                            <option value="Otro">Otro (indique)</option>
-                                        {% endif %}
-                                        {% if fichaInformativa.emisionDiagnosticoSindromico == 'Equipo multidisciplinario' %}
-                                            <option value="" disabled>Seleccione una opción</option>
-                                            <option value="DECE">DECE</option>
-                                            <option value="UDAI">UDAI</option>
-                                            <option value="Equipo multidisciplinario" selected>Equipo multidisciplinario
-                                            </option>
-                                            <option value="Otro">Otro (indique)</option>
-                                        {% endif %}
-                                        {% if fichaInformativa.emisionDiagnosticoSindromico == 'Otro' %}
-                                            <option value="" disabled>Seleccione una opción</option>
-                                            <option value="DECE">DECE</option>
-                                            <option value="UDAI">UDAI</option>
-                                            <option value="Equipo multidisciplinario">Equipo multidisciplinario
-                                            </option>
-                                            <option value="Otro" selected>Otro (indique)</option>
-                                        {% endif %}
-                                    </select>
-                                    <br>
-                                    {% if fichaInformativa.emisionDiagnosticoSindromico == 'Otro' %}
-                                        <textarea class="form-control" name="emisionDiagnosticoSindromicoDetalle"
-                                                  id="emisionDiagnosticoSindromicoDetalle">{{ fichaInformativa.emisionDiagnosticoSindromicoDetalle }}</textarea>
-                                    {% else %}
-                                        <textarea class="form-control" name="emisionDiagnosticoSindromicoDetalle"
-                                                  id="emisionDiagnosticoSindromicoDetalle" disabled></textarea>
-                                    {% endif %}
-                                </dd>
-                                <li><b>Dificultades presentadas en el aula:</b></li>
-                                <dd>
-
-                                    {% for value,text in fichaInformativa.dificultadesAula.choices.items %}
-                                        {% if value in fichaInformativa.dificultadesAula %}
-                                            <label><input type="checkbox" name="dificultadesAula"
-                                                          value="{{ value }}" checked/> {{ text }}</label>
-                                        {% else %}
-                                            <label><input type="checkbox" name="dificultadesAula"
-                                                          value="{{ value }}"/> {{ text }}</label>
-                                        {% endif %}
-                                    {% endfor %}
-                                </dd>
                                 <li><b>Detalle de signos y síntomas que requieren asesoría:</b></li>
                                 <dd>
                                     {% if fichaInformativa.detalleDificultades %}
@@ -702,10 +556,10 @@
                         </div>
                     </div>
                 {% else %}
-                    <div id="fichaInformativaDocente">
+                    <div id="fichaInformativa">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Ficha informativa del estudiante</h1>
+                                <h1 class="h4 text-gray-900 mb-4">Ficha informativa de su hijo(a)</h1>
                             </div>
                             <ol>
                                 <li><b>Se presentaron dificultades en las siguientes etapas:</b></li>
@@ -824,70 +678,6 @@
                                     <textarea class="form-control" name="diagnosticoMedicoDescripcion"
                                               id="diagnosticoMedicoDescripcion" disabled required></textarea>
                                 </dd>
-
-                                <li><b>Diagnóstico sindrómico funcional:</b></li>
-                                <dd>
-                                    <input type="radio" value="Si" name="diagnosticoSindromicoRespuesta"
-                                           onchange="habilitarP7(this.value);"> Si &nbsp;
-                                    <select onchange="habilitarP7(this.value);"
-                                            name="diagnosticoSindromicoOpcion"
-                                            id="diagnosticoSindromicoOpcion"
-                                            class="selectpicker" disabled required>
-                                        <option value="" disabled selected>Seleccione una opción
-                                        </option>
-                                        <option value="Intelectual">Intelectual</option>
-                                        <option value="Comunicación">Comunicación</option>
-                                        <option value="Retraso en las áreas de desarrollo">Retraso en
-                                            las áreas de
-                                            desarrollo
-                                        </option>
-                                        <option value="Trastorno">Trastorno (indique)</option>
-                                    </select> &nbsp;
-                                    <br>
-                                    <input type="radio" value="No" name="diagnosticoSindromicoRespuesta"
-                                           id="diagnosticoSindromicoRespuesta"
-                                           onchange="habilitarP7(this.value);" checked> No
-                                    <textarea class="form-control"
-                                              name="diagnosticoSindromicoDescripcion"
-                                              id="diagnosticoSindromicoDescripcion" required disabled></textarea>
-                                </dd>
-
-                                <li><b>Dificultades presentadas en el aula:</b></li>
-                                <dd>
-                                    <label><input type="checkbox" name="dificultadesAula"
-                                                  value="cognicion"/> Cognición</label>
-                                    <label><input type="checkbox" name="dificultadesAula"
-                                                  value="lenguaje"/> Lenguaje</label>
-                                    <label><input type="checkbox" name="dificultadesAula"
-                                                  value="motricidadgruesa"/> Motricidad gruesa</label>
-                                    <label><input type="checkbox" name="dificultadesAula"
-                                                  value="motricidadfina"/> Motricidad fina</label>
-                                    <label><input type="checkbox" name="dificultadesAula"
-                                                  value="social"/> Social</label>
-                                    <label><input type="checkbox" name="dificultadesAula"
-                                                  value="autonomia"/> Autonomía</label>
-                                </dd>
-
-                                <li><b>El diagnóstico sindrómico funcional fue emitido por:</b></li>
-                                <dd>
-                                    <select onchange="habilitarP8(this.value);"
-                                            name="emisionDiagnosticoSindromico"
-                                            id="emisionDiagnosticoSindromico"
-                                            class="selectpicker pb-3" required>
-                                        <option value="" disabled selected>Seleccione una opción
-                                        </option>
-                                        <option value="DECE">DECE</option>
-                                        <option value="UDAI">UDAI</option>
-                                        <option value="Equipo multidisciplinario">Equipo
-                                            multidisciplinario
-                                        </option>
-                                        <option value="Otro">Otro (indique)</option>
-                                    </select>
-
-                                    <textarea class="form-control" name="emisionDiagnosticoSindromicoDetalle"
-                                              id="emisionDiagnosticoSindromicoDetalle" disabled></textarea>
-                                </dd>
-
                                 <li><b>Detalle de signos y síntomas que requieren asesoría:</b></li>
                                 <dd>
                                     <textarea class="form-control" name="detalleDificultades" rows="10"
@@ -1150,6 +940,5 @@
         })();
 
     </script>
-
 
 {% endblock %}

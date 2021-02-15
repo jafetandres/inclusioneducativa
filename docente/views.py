@@ -124,80 +124,90 @@ def crearFichaInformativa(request, estudiante_cedula):
     instituciones = Institucion.objects.all()
     expertos = Experto.objects.all().filter(usuario__is_active=True)
     cedula = estudiante_cedula
-    estudiante = ''
+    estudiante = None
     if Estudiante.objects.filter(cedula=estudiante_cedula).exists():
         estudiante = Estudiante.objects.get(cedula=estudiante_cedula)
         cedula = estudiante.cedula
     if request.method == 'POST':
-        form_fichaInformativa = FichaInformativaDocenteForm(request.POST)
-        form_dificultad = DificultadForm(request.POST)
-        form_diagnosticoMedico = DiagnosticoMedicoForm(request.POST)
-        form_diagnosticoSindromico = DiagnosticoSindromicoForm(request.POST)
-        if form_fichaInformativa.is_valid() and form_dificultad.is_valid() and form_diagnosticoMedico.is_valid() and form_diagnosticoSindromico.is_valid():
-            if request.POST.get('todos', False):
-                user_list = Usuario.objects.filter(tipo_usuario='experto')
-                form_dificultad.save()
-                form_diagnosticoMedico.save()
-                form_diagnosticoSindromico.save()
-                fichaInformativaDocente = form_fichaInformativa.save(commit=False)
-                fichaInformativaDocente.dificultad = form_dificultad.instance
-                fichaInformativaDocente.diagnosticoMedico = form_diagnosticoMedico.instance
-                fichaInformativaDocente.diagnosticoSindromico = form_diagnosticoSindromico.instance
-                fichaInformativaDocente.docente = docente
-                estudiante = crearEstudiante(request, cedula, user_list)
-                fichaInformativaDocente.estudiante = estudiante
-                fichaInformativaDocente.save()
-                expertos = Experto.objects.all()
-                for experto in expertos:
-                    if ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
-                                                              estudiante_id=fichaInformativaDocente.estudiante.id).exists():
-                        fichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
-                                                                                    estudiante_id=fichaInformativaDocente.estudiante.id)
-                        for fichaInformativa in fichasInformativas:
-                            if bool(fichaInformativa.fichaInformativaDocente) == False:
-                                fichaInformativa.fichaInformativaDocente = fichaInformativaDocente
-                                fichaInformativa.save()
-                    else:
-                        expertoFichaInformativa = ExpertoFichaInformativa()
-                        expertoFichaInformativa.fichaInformativaDocente = fichaInformativaDocente
-                        expertoFichaInformativa.estudiante = fichaInformativaDocente.estudiante
-                        expertoFichaInformativa.experto = experto
-                        expertoFichaInformativa.save()
-                return redirect('appdocente:base')
-            elif request.POST.getlist('experto'):
-                expertos = []
-                user_list = []
-                for id in request.POST.getlist('experto'):
-                    expertos.append(Experto.objects.get(id=id))
-                    user_list.append(Experto.objects.get(id=id).usuario)
-                form_dificultad.save()
-                form_diagnosticoMedico.save()
-                form_diagnosticoSindromico.save()
-                fichaInformativaDocente = form_fichaInformativa.save(commit=False)
-                fichaInformativaDocente.dificultad = form_dificultad.instance
-                fichaInformativaDocente.diagnosticoMedico = form_diagnosticoMedico.instance
-                fichaInformativaDocente.diagnosticoSindromico = form_diagnosticoSindromico.instance
-                fichaInformativaDocente.docente = docente
-                estudiante = crearEstudiante(request, cedula, user_list)
-                fichaInformativaDocente.estudiante = estudiante
-                fichaInformativaDocente.save()
-                for experto in expertos:
-                    if ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
-                                                              estudiante_id=fichaInformativaDocente.estudiante.id).exists():
-                        fichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
-                                                                                    estudiante_id=fichaInformativaDocente.estudiante.id)
-                        for fichaInformativa in fichasInformativas:
-                            if bool(fichaInformativa.fichaInformativaDocente) == False:
-                                fichaInformativa.fichaInformativaDocente = fichaInformativaDocente
-                                fichaInformativa.save()
-                    else:
-                        expertoFichaInformativa = ExpertoFichaInformativa()
-                        expertoFichaInformativa.fichaInformativaDocente = fichaInformativaDocente
-                        expertoFichaInformativa.estudiante = fichaInformativaDocente.estudiante
-                        expertoFichaInformativa.experto = experto
-                        expertoFichaInformativa.save()
-                create_room(user_list, str(estudiante.nombres + " " + estudiante.apellidos))
-                return redirect('appdocente:base')
+        if estudiante == None:
+            estudiante_id = 0
+        else:
+            estudiante_id = estudiante.id
+        if FichaInformativaDocente.objects.filter(docente_id=docente.id,
+                                                  estudiante_id=estudiante_id).exists():
+            messages.error(request, 'Usted ya ha ingresado la ficha del estudiante')
+            return redirect('appdocente:home')
+        else:
+
+            form_fichaInformativa = FichaInformativaDocenteForm(request.POST)
+            form_dificultad = DificultadForm(request.POST)
+            form_diagnosticoMedico = DiagnosticoMedicoForm(request.POST)
+            form_diagnosticoSindromico = DiagnosticoSindromicoForm(request.POST)
+            if form_fichaInformativa.is_valid() and form_dificultad.is_valid() and form_diagnosticoMedico.is_valid() and form_diagnosticoSindromico.is_valid():
+                if request.POST.get('todos', False):
+                    user_list = Usuario.objects.filter(tipo_usuario='experto')
+                    form_dificultad.save()
+                    form_diagnosticoMedico.save()
+                    form_diagnosticoSindromico.save()
+                    fichaInformativaDocente = form_fichaInformativa.save(commit=False)
+                    fichaInformativaDocente.dificultad = form_dificultad.instance
+                    fichaInformativaDocente.diagnosticoMedico = form_diagnosticoMedico.instance
+                    fichaInformativaDocente.diagnosticoSindromico = form_diagnosticoSindromico.instance
+                    fichaInformativaDocente.docente = docente
+                    estudiante = crearEstudiante(request, cedula, user_list)
+                    fichaInformativaDocente.estudiante = estudiante
+                    fichaInformativaDocente.save()
+                    expertos = Experto.objects.all()
+                    for experto in expertos:
+                        if ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
+                                                                  estudiante_id=fichaInformativaDocente.estudiante.id).exists():
+                            fichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
+                                                                                        estudiante_id=fichaInformativaDocente.estudiante.id)
+                            for fichaInformativa in fichasInformativas:
+                                if bool(fichaInformativa.fichaInformativaDocente) == False:
+                                    fichaInformativa.fichaInformativaDocente = fichaInformativaDocente
+                                    fichaInformativa.save()
+                        else:
+                            expertoFichaInformativa = ExpertoFichaInformativa()
+                            expertoFichaInformativa.fichaInformativaDocente = fichaInformativaDocente
+                            expertoFichaInformativa.estudiante = fichaInformativaDocente.estudiante
+                            expertoFichaInformativa.experto = experto
+                            expertoFichaInformativa.save()
+                    return redirect('appdocente:home')
+                elif request.POST.getlist('experto'):
+                    expertos = []
+                    user_list = []
+                    for id in request.POST.getlist('experto'):
+                        expertos.append(Experto.objects.get(id=id))
+                        user_list.append(Experto.objects.get(id=id).usuario)
+                    form_dificultad.save()
+                    form_diagnosticoMedico.save()
+                    form_diagnosticoSindromico.save()
+                    fichaInformativaDocente = form_fichaInformativa.save(commit=False)
+                    fichaInformativaDocente.dificultad = form_dificultad.instance
+                    fichaInformativaDocente.diagnosticoMedico = form_diagnosticoMedico.instance
+                    fichaInformativaDocente.diagnosticoSindromico = form_diagnosticoSindromico.instance
+                    fichaInformativaDocente.docente = docente
+                    estudiante = crearEstudiante(request, cedula, user_list)
+                    fichaInformativaDocente.estudiante = estudiante
+                    fichaInformativaDocente.save()
+                    for experto in expertos:
+                        if ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
+                                                                  estudiante_id=fichaInformativaDocente.estudiante.id).exists():
+                            fichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id,
+                                                                                        estudiante_id=fichaInformativaDocente.estudiante.id)
+                            for fichaInformativa in fichasInformativas:
+                                if bool(fichaInformativa.fichaInformativaDocente) == False:
+                                    fichaInformativa.fichaInformativaDocente = fichaInformativaDocente
+                                    fichaInformativa.save()
+                        else:
+                            expertoFichaInformativa = ExpertoFichaInformativa()
+                            expertoFichaInformativa.fichaInformativaDocente = fichaInformativaDocente
+                            expertoFichaInformativa.estudiante = fichaInformativaDocente.estudiante
+                            expertoFichaInformativa.experto = experto
+                            expertoFichaInformativa.save()
+                    create_room(user_list, str(estudiante.nombres + " " + estudiante.apellidos))
+                    return redirect('appdocente:home')
     return render(request, 'docente/crearFichaInformativa.html',
                   {'instituciones': instituciones, 'estudiante': estudiante, 'cedula': cedula, 'expertos': expertos})
 
@@ -235,8 +245,6 @@ def editarFichaInformativa(request, estudiante_id):
     return render(request, 'docente/crearFichaInformativa.html', {'fichaInformativa': fichaInformativa,
                                                                   'estudiante': fichaInformativa.estudiante
                                                                   })
-
-
 
 # elif (request.POST['psicologo'] == 'psicologo'):
 #     experto = Experto.objects.get(tituloUniversitario='psicologo')

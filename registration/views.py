@@ -6,7 +6,6 @@ from core.models import Usuario
 
 
 def login_view(request):
-    print("entro")
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -21,9 +20,9 @@ def login_view(request):
                     if user.tipo_usuario == 'docente':
                         return redirect('appdocente:home')
                     elif user.tipo_usuario == 'experto':
-                        return redirect('appexperto:base')
+                        return redirect('appexperto:home')
                     elif user.tipo_usuario == 'representante':
-                        return redirect('apprepresentante:base')
+                        return redirect('apprepresentante:home')
                     elif user.tipo_usuario == 'administrador' and user.is_superuser:
                         return redirect('core:home')
                 else:

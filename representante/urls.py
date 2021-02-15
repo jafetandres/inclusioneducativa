@@ -5,7 +5,7 @@ from representante.views import *
 
 app_name = 'apprepresentante'
 urlpatterns = [
-    path('', base, name='base'),
+    path('', home, name='home'),
     url(r'^buscarEstudiante$', buscarEstudiante, name='buscarEstudiante'),
     path('editarFichaInformativa/<int:estudiante_id>/', editarFichaInformativa, name='editarFichaInformativa'),
     path('perfil/', perfil, name='perfil'),
