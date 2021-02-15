@@ -10,7 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include('chat.urls', namespace='chat')),
     path('', include('core.urls', namespace='core')),
-    path('registration', include('registration.urls', namespace='registration')),
+    path('registration/', include('registration.urls', namespace='registration')),
 
     path('automata/', include('automata.urls', namespace='automata')),
     url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),

@@ -6,11 +6,12 @@ from core.models import Usuario
 
 
 def login_view(request):
+    print("entro")
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(username=username, password=password)
         if Usuario.objects.filter(username=username).exists():
+            user = authenticate(username=username, password=password)
             usuario = Usuario.objects.get(username=username)
             if usuario.is_active:
                 if user is not None:
@@ -26,9 +27,9 @@ def login_view(request):
                     elif user.tipo_usuario == 'administrador' and user.is_superuser:
                         return redirect('core:home')
                 else:
-                    messages.error(request, 'Correo electronico o contraseña incorrectos')
+                    messages.error(request, 'Correo electronico o contraseña incorrectos', extra_tags='danger')
             else:
-                messages.error(request, 'El usuario esta desactivado')
+                messages.error(request, 'El usuario esta desactivado', extra_tags='danger')
         else:
-            messages.error(request, 'El usuario no existe')
+            messages.error(request, 'El usuario no existe', extra_tags='danger')
     return render(request, 'registration/login.html')

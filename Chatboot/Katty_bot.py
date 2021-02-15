@@ -153,7 +153,7 @@ class Chatbot:
                                      parser='Markdown')
         elif (v.find('know') and mensajecom.find('words')) != -1:
             context.bot.send_message(chat_id=update.effective_chat.id,
-                                     text='The chosen difficulty is:\n' + mensajecom)
+                                     text='La dificultad seleccionada es:\n' + mensajecom)
             context.bot.send_message(chat_id=update.effective_chat.id, text=utils.MsgTemplate.dificultad1_msg,
                                      parser='Markdown')
         elif (v.find('escuchar') and mensajecom.find('sonidos')) != -1:

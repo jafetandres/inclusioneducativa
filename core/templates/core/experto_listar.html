@@ -9,7 +9,7 @@
         <h1 class="h3 mb-2 text-gray-800" align="center">EXPERTOS</h1>
         <form method="post">
             {% csrf_token %}
-            <a class="btn btn-success" href="{% url 'gestionsistema:experto_crear' %}">Nuevo Registro <i
+            <a class="btn btn-success" href="{% url 'core:experto_crear' %}">Nuevo Registro <i
                     class="far fa-file"></i></a>
             <br/>
             <br/>
@@ -69,10 +69,10 @@
                                     <td>{{ experto.usuario.username }}</td>
                                     <td>
                                         <a class="btn btn-primary"
-                                           href="{% url 'gestionsistema:experto_editar' experto.id %}">Editar <i
+                                           href="{% url 'core:experto_editar' experto.id %}">Editar <i
                                                 class="fas fa-cogs"></i></a>
                                         <a class="btn btn-danger"
-                                           href="{% url 'gestionsistema:experto_eliminar' experto.id %}">Eliminar <i
+                                           href="{% url 'core:experto_eliminar' experto.id %}">Eliminar <i
                                                 class="far fa-trash-alt"></i></a>
                                     </td>
 

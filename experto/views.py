@@ -44,7 +44,7 @@ def perfil(request, id_usuario):
 
 
 @login_required
-def base(request):
+def home(request):
     experto = Experto.objects.get(usuario_id=request.user.id)
     estudiantes = []
     if ExpertoFichaInformativa.objects.filter(experto_id=experto.id).exists():

@@ -155,7 +155,7 @@
         function crearComentario() {
             var contenidoComentario = $('#summernote').summernote('code');
             $.ajax({
-                url: "{% url 'gestionsistema:crearComentario' %}",
+                url: "{% url 'core:crearComentario' %}",
                 type: "post",
                 data: {
                     'contenidoComentario': contenidoComentario,
@@ -191,7 +191,7 @@
         $(document).ready(function () {
             function cargarComentarios() {
                 $.ajax({
-                    url: "{% url 'gestionsistema:cargarComentariosRepresentante' %}",
+                    url: "{% url 'core:cargarComentariosRepresentante' %}",
                     type: "get",
                     data: {
                         'id': {{ estudiante.id }}

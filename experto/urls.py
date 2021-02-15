@@ -4,7 +4,7 @@ from experto.views import *
 
 app_name = 'appexperto'
 urlpatterns = [
-    url(r'^$', base, name='base'),
+    path('', home, name='home'),
     url(r'^verFicha/(?P<cedula>\d+)/$', verFicha, name='verFicha'),
     url(r'^crearComentario/$', crearComentario, name='crearComentario'),
     url(r'^perfil/(?P<id_usuario>\d+)/$', perfil, name='perfil'),

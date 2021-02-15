@@ -119,7 +119,7 @@ def crearUsuario(request):
                 experto = form_experto.save(commit=False)
                 experto.usuario = usuario
                 experto.save()
-                return redirect('login')
+                return redirect('registration:login')
         if request.POST['tipo_usuario'] == 'docente':
             form_usuario = UsuarioForm(request.POST)
             form_docente = DocenteForm(request.POST)
@@ -133,7 +133,7 @@ def crearUsuario(request):
                 docente = form_docente.save(commit=False)
                 docente.usuario = usuario
                 docente.save()
-                return redirect('login')
+                return redirect('registration:login')
         if request.POST['tipo_usuario'] == 'representante':
             form_usuario = UsuarioForm(request.POST)
             form_representante = RepresentanteForm(request.POST)
@@ -147,7 +147,7 @@ def crearUsuario(request):
                 representante = form_representante.save(commit=False)
                 representante.usuario = usuario
                 representante.save()
-                return redirect('login')
+                return redirect('registration:login')
                 # experto = Experto()
                 # experto.usuario = usuario
                 # experto.tituloUniversitario = request.POST['tituloUniversitario']

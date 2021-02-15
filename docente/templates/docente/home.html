@@ -2,23 +2,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="jafet galvez && katty gonzalez">
-    <title>Plainced|Representante</title>
+    <meta name="author" content="jafet galvez">
+    <title>Plainced|Docente</title>
     <!-- Custom fonts for this template-->
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
-    <!-- Custom styles for this page -->
-    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
-    <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+    <!-- Datepicker styles for this template-->
+    <link href="{% static 'dist/datepicker.css' %}" rel="stylesheet">
+    <!-- Css DataTables -->
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
     <!-- SummerNote for this template-->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 </head>
@@ -29,23 +30,20 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center"
-           href="{% url 'apprepresentante:base' %}">
+           href="{% url 'appdocente:home' %}">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">Portal Representante</div>
+            <div class="sidebar-brand-text mx-3">Portal Docente</div>
         </a>
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
-
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="{% url 'apprepresentante:base' %}">
+            <a class="nav-link" href="{% url 'appdocente:home' %}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Inicio</span></a>
         </li>
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -53,10 +51,10 @@
     </ul>
     <!-- End of Sidebar -->
     <!-- Content Wrapper -->
-
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
         <div id="content">
+            <!-- Topbar -->
             <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                 <!-- Sidebar Toggle (Topbar) -->
                 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -104,14 +102,18 @@
                                           clip-rule="evenodd"/>
                                 </svg>
                             {% endif %}
+
+
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                              aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="{% url 'apprepresentante:perfil' %}">
+                            <a class="dropdown-item" href="{% url 'appdocente:perfil' %}">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Perfil
                             </a>
+
+
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal"
                                data-target="#logoutModal">
@@ -127,13 +129,13 @@
                 {% block contenido %}
                     <!-- Begin Page Content -->
                     <div class="p-2">
-                        <a class="btn btn-success" href="{% url 'apprepresentante:buscarEstudiante' %}">Crear nueva
+                        <a class="btn btn-success" href="{% url 'appdocente:buscarEstudiante' %}">Crear nueva
                             ficha</a>
                     </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Fichas de estudiantes</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Fichas de Estudiantes</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -157,10 +159,10 @@
                                                 <td>{{ estudiante.institucion }}</td>
                                                 <td class="text-center">
                                                     <a class="btn btn-primary"
-                                                       href="{% url 'apprepresentante:verFichaInformativa' estudiante.cedula %}">Ver
+                                                       href="{% url 'appdocente:verFichaInformativa' estudiante.cedula %}">Ver
                                                     </a>
                                                     <a class="btn btn-success"
-                                                       href="{% url 'apprepresentante:editarFichaInformativa' estudiante.id %}">Editar
+                                                       href="{% url 'appdocente:editarFichaInformativa' estudiante.id %}">Editar
                                                     </a>
                                                 </td>
                                             </tr>
@@ -171,10 +173,10 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.container-fluid -->
                 {% endblock %}
             </div>
         </div>
+        <!-- End of Main Content -->
         <!-- Footer -->
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
@@ -185,14 +187,15 @@
         </footer>
         <!-- End of Footer -->
     </div>
+    <!-- End of Content Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
+
 
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -212,33 +215,89 @@
         </div>
     </div>
 </div>
-</div>
 {% block js %}
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
-
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="{% static 'js/i18n/defaults-es_ES.min.js' %}"></script>
+    <!-- DatePicker core JavaScript-->
+    <script src="{% static 'dist/datepicker.js' %}"></script>
+    <script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
     <!-- Js DataTables -->
     <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
     <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
-
-    <!-- DatePicker core JavaScript-->
-    <script src="{% static 'dist/datepicker.js' %}"></script>
-    <script src="{% static 'dist/datepicker.es-ES.js' %}"></script>
     <!-- Summer keyboard-->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function cargarNotificaciones() {
+                $.ajax({
+                    url: "{% url 'core:notificaciones' %}",
+                    success: function (data) {
+                        if (data.length > 0) {
+                            var html = "";
+                            var html1 = "";
+                            var unread = 0;
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].fields.unread == true) {
+                                    unread++;
+                                    html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +
+                                        '                                <div class="mr-3">\n' +
+                                        '                                    <div class="icon-circle bg-primary">\n' +
+                                        '                                        <i class="fas fa-file-alt text-white"></i>\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>\n' +
+                                        '                                <div>\n' +
+                                        '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +
+                                        '                                    <span class="font-weight-bold"> ' + data[i].fields.description + '</span>\n' +
+                                        '                                </div>\n' +
+                                        '                            </a>' + html1;
 
+                                } else {
+                                    html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +
+                                        '                                <div class="mr-3">\n' +
+                                        '                                    <div class="icon-circle bg-primary">\n' +
+                                        '                                        <i class="fas fa-file-alt text-white"></i>\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>\n' +
+                                        '                                <div>\n' +
+                                        '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +
+                                        '                                    ' + data[i].fields.description + '\n' +
+                                        '                                </div>\n' +
+                                        '                            </a>' + html1;
 
+                                }
+                            }
+                            if (unread > 0) {
+                                $('#unread_notifications').html(unread);
+                                $('#unread_notification').html(html1);
+
+                            } else {
+                                $('#unread_notifications').html('');
+                                $('#unread_notification').html(html1);
+                            }
+
+                        } else {
+                            $('#unread_notification').html('<p class="text-center p-3">No hay notificaciones</p>');
+                        }
+                    },
+                    error: function () {
+                        console.log('no hay notificaciones');
+                    }
+                });
+            }
+
+            setInterval(cargarNotificaciones, 500);
+        });
+    </script>
     <script>
         $('#dataTable').dataTable({
             paging: true,
@@ -261,6 +320,7 @@
             }
 
         });
+
     </script>
     <script>
         $('#fechaNacimiento').datepicker({
@@ -269,111 +329,6 @@
             autoHide: true
         });
     </script>
-
-    {#    <script>#}
-    {#        $(document).ready(function () {#}
-    {#            function cargarNotificaciones() {#}
-    {#                $.ajax({#}
-    {#                    url: "{% url 'core:notificaciones' %}",#}
-    {#                    success: function (data) {#}
-    {#                        if (data.length > 0) {#}
-    {#                            var html = "";#}
-    {#                            var html1 = "";#}
-    {#                            var unread = 0;#}
-    {#                            for (var i = 0; i < data.length; i++) {#}
-    {#                                if (data[i].fields.unread == true) {#}
-    {#                                    unread++;#}
-    {#                                    html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +#}
-    {#                                        '                                <div class="mr-3">\n' +#}
-    {#                                        '                                    <div class="icon-circle bg-primary">\n' +#}
-    {#                                        '                                        <i class="fas fa-file-alt text-white"></i>\n' +#}
-    {#                                        '                                    </div>\n' +#}
-    {#                                        '                                </div>\n' +#}
-    {#                                        '                                <div>\n' +#}
-    {#                                        '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +#}
-    {#                                        '                                    <span class="font-weight-bold"> ' + data[i].fields.description + '</span>\n' +#}
-    {#                                        '                                </div>\n' +#}
-    {#                                        '                            </a>' + html1;#}
-    {##}
-    {#                                } else {#}
-    {#                                    html1 = '   <a class="dropdown-item d-flex align-items-center"  href="' + data[i].fields.verb + '">\n' +#}
-    {#                                        '                                <div class="mr-3">\n' +#}
-    {#                                        '                                    <div class="icon-circle bg-primary">\n' +#}
-    {#                                        '                                        <i class="fas fa-file-alt text-white"></i>\n' +#}
-    {#                                        '                                    </div>\n' +#}
-    {#                                        '                                </div>\n' +#}
-    {#                                        '                                <div>\n' +#}
-    {#                                        '                                    <div class="small text-gray-500">' + data[i].fields.timestamp + '</div>\n' +#}
-    {#                                        '                                    ' + data[i].fields.description + '\n' +#}
-    {#                                        '                                </div>\n' +#}
-    {#                                        '                            </a>' + html1;#}
-    {##}
-    {#                                }#}
-    {#                            }#}
-    {#                            if (unread > 0) {#}
-    {#                                $('#unread_notifications').html(unread);#}
-    {#                                $('#unread_notification').html(html1);#}
-    {##}
-    {#                            } else {#}
-    {#                                $('#unread_notifications').html('');#}
-    {#                                $('#unread_notification').html(html1);#}
-    {#                            }#}
-    {##}
-    {#                        } else {#}
-    {#                            $('#unread_notification').html('<p class="text-center p-3">No hay notificaciones</p>');#}
-    {#                        }#}
-    {#                    },#}
-    {#                    error: function () {#}
-    {#                        console.log('no hay notificaciones');#}
-    {#                    }#}
-    {#                });#}
-    {#            }#}
-    {##}
-    {#            setInterval(cargarNotificaciones, 500);#}
-    {#        });#}
-    {#    </script>#}
-    {#    <script>#}
-    {#        function soloNumeros(evt) {#}
-    {#            var charCode = (evt.which) ? evt.which : event.keyCode;#}
-    {#            if (charCode > 31 && (charCode < 48 || charCode > 57)) {#}
-    {#                console.log('entro aqui')#}
-    {#                return false;#}
-    {#            } else#}
-    {#var cedula = document.getElementById("cedula").value.trim();#}
-    {#                var cad = "";#}
-    {#            $("#cedula").on('input', function () {#}
-    {#                document.getElementById("salida").innerHTML = ("La cedula no existe");#}
-    {#                cad = $(this).val();#}
-    {#                var total = 0;#}
-    {#                var longitud = cad.length;#}
-    {#                var longcheck = longitud - 1;#}
-    {#                console.log("tamano = " + longitud);#}
-    {#                if (cad !== "") {#}
-    {#                    for (i = 0; i < longcheck; i++) {#}
-    {#                        if (i % 2 === 0) {#}
-    {#                            var aux = cad.charAt(i) * 2;#}
-    {#                            if (aux > 9) aux -= 9;#}
-    {#                            total += aux;#}
-    {#                        } else {#}
-    {#                            total += parseInt(cad.charAt(i)); // parseInt o concatenará en lugar de sumar#}
-    {#                        }#}
-    {#                    }#}
-    {##}
-    {#                    total = total % 10 ? 10 - total % 10 : 0;#}
-    {##}
-    {#                    if (cad.charAt(longitud - 1) == total) {#}
-    {#                        console.log("entro");#}
-    {#                        document.getElementById("salida").innerHTML = ("Cedula correcta");#}
-    {##}
-    {#                    } else {#}
-    {#                        document.getElementById("salida").innerHTML = ("La cedula no existe");#}
-    {##}
-    {#                    }#}
-    {#                }#}
-    {#            });#}
-    {#            return true;#}
-    {#        }#}
-    {#    </script>#}
 {% endblock %}
 </body>
 </html>

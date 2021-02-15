@@ -189,7 +189,7 @@
             var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             var html = "";
             $.ajax({
-                url: "{% url 'gestionsistema:cambiarContrasena' %}",
+                url: "{% url 'core:cambiarContrasena' %}",
                 type: "post", // or "get"
                 headers: {'X-CSRFToken': csrftoken},
                 data: {

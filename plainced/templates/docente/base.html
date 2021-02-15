@@ -240,7 +240,7 @@
         $(document).ready(function () {
             function cargarNotificaciones() {
                 $.ajax({
-                    url: "{% url 'gestionsistema:notificaciones' %}",
+                    url: "{% url 'core:notificaciones' %}",
                     success: function (data) {
                         if (data.length > 0) {
                             var html = "";

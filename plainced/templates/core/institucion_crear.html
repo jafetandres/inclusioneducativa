@@ -55,7 +55,7 @@
                     <div align="center">
                         <button type="submit" class="btn btn-primary btn-user">Guardar</button>
                         <a class="btn btn btn-danger btn-user"
-                           href="{% url 'gestionsistema:institucion_listar' %}">Cancelar</a>
+                           href="{% url 'core:institucion_listar' %}">Cancelar</a>
                     </div>
                 </form>
             </div>
@@ -102,7 +102,7 @@
                         document.getElementById("salida").innerHTML = ("Cedula correcta");
 
                         $.ajax({
-                            url: "{% url 'gestionsistema:buscarUsuario'  %}",
+                            url: "{% url 'core:buscarUsuario'  %}",
                             type: "get", // or "get"
                             data: {
                                 'cedula': cad,

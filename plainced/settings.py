@@ -3,7 +3,10 @@ from os.path import join
 
 import dj_database_url
 from plainced.settings import *
-
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '0r9u3z=w6j2mq$vbus@(ppx5%f+c63pgmsnum10=!_jvl7i@2h'
 DEBUG = True
@@ -123,8 +126,8 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 10242880
 # LOGIN_URL = '/gestionsistema/login/'
 # LOGOUT_REDIRECT_URL = 'index'
 LOGIN_URL = 'registration:login'
-LOGIN_REDIRECT_URL = 'registration:login'
-LOGOUT_REDIRECT_URL = 'registration:login'
+# LOGIN_REDIRECT_URL = 'registration:login'
+LOGOUT_REDIRECT_URL = 'core:index'
 
 AUTH_USER_MODEL = 'core.Usuario'
 

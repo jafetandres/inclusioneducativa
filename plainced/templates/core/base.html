@@ -29,7 +29,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center"
-           href="{% url 'gestionsistema:base' %}">
+           href="{% url 'core:base' %}">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -40,7 +40,7 @@
         <hr class="sidebar-divider my-0">
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="{% url 'gestionsistema:base' %}">
+            <a class="nav-link" href="{% url 'core:base' %}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Inicio</span></a>
         </li>
@@ -61,10 +61,10 @@
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{% url 'gestionsistema:institucion_listar' %}">Instituciones</a>
-                    {#                                <a class="collapse-item" href="{% url 'gestionsistema:experto_listar' %}">Expertos</a>#}
-                    {#                                <a class="collapse-item" href="{% url 'gestionsistema:docente_listar' %}">Docentes</a>#}
-                    {#                                <a class="collapse-item" href="{% url 'gestionsistema:representante_listar' %}">Representantes</a>#}
+                    <a class="collapse-item" href="{% url 'core:institucion_listar' %}">Instituciones</a>
+                    {#                                <a class="collapse-item" href="{% url 'core:experto_listar' %}">Expertos</a>#}
+                    {#                                <a class="collapse-item" href="{% url 'core:docente_listar' %}">Docentes</a>#}
+                    {#                                <a class="collapse-item" href="{% url 'core:representante_listar' %}">Representantes</a>#}
                 </div>
             </div>
         </li>
@@ -121,7 +121,7 @@
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                              aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="{% url 'gestionsistema:perfil' %}">
+                            <a class="dropdown-item" href="{% url 'core:perfil' %}">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Perfil
                             </a>
@@ -166,12 +166,12 @@
                                                 <tr>
                                                     {% if usuario.is_active == True %}
                                                         <td class="text-center"><a class="btn btn-danger"
-                                                                                   href="{% url 'gestionsistema:desactivarUsuario' usuario.id %}">Desactivar
+                                                                                   href="{% url 'core:desactivarUsuario' usuario.id %}">Desactivar
                                                         </a>
                                                         </td>
                                                     {% else %}
                                                         <td class="text-center"><a class="btn btn-success"
-                                                                                   href="{% url 'gestionsistema:activarUsuario' usuario.id %}">Activar
+                                                                                   href="{% url 'core:activarUsuario' usuario.id %}">Activar
                                                         </a>
                                                         </td>
                                                     {% endif %}
@@ -181,7 +181,7 @@
                                                     <td>{{ usuario.tipo_usuario }}</td>
                                                     <td>
                                                         <a class="btn btn-primary"
-                                                           href="{% url 'gestionsistema:verCurriculum' usuario.id %}">Ver
+                                                           href="{% url 'core:verCurriculum' usuario.id %}">Ver
                                                         </a>
                                                     </td>
                                                 </tr>
@@ -227,7 +227,7 @@
             <div class="modal-body">Selecione Cerrar sesión para salir o Cancelar para volver</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                <a class="btn btn-primary" href="{% url 'gestionsistema:logout' %}">Cerrar sesión</a>
+                <a class="btn btn-primary" href="{% url 'core:logout' %}">Cerrar sesión</a>
             </div>
         </div>
     </div>
@@ -277,7 +277,7 @@
         $(document).ready(function () {
             function cargarNotificaciones() {
                 $.ajax({
-                    url: "{% url 'gestionsistema:notificaciones' %}",
+                    url: "{% url 'core:notificaciones' %}",
                     success: function (data) {
                         if (data.length > 0) {
                             var html = "";

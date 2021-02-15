@@ -62,7 +62,7 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{% url 'core:institucion_listar' %}">Instituciones</a>
-                    {#                                <a class="collapse-item" href="{% url 'gestionsistema:experto_listar' %}">Expertos</a>#}
+                    {#                                <a class="collapse-item" href="{% url 'core:experto_listar' %}">Expertos</a>#}
                     {#                                <a class="collapse-item" href="{% url 'gestionsistema:docente_listar' %}">Docentes</a>#}
                     {#                                <a class="collapse-item" href="{% url 'gestionsistema:representante_listar' %}">Representantes</a>#}
                 </div>
@@ -126,7 +126,7 @@
                                 Perfil
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" data-toggle="modal"
+                            <a class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal"
                                data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Cerrar Sesión

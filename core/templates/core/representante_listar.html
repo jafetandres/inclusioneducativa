@@ -8,7 +8,7 @@
     <div class="table-responsive">
         <form method="post">
             {% csrf_token %}
-            <a class="btn btn-success" href="{% url 'gestionsistema:representante_crear' %}">Nuevo Registro <i class="far fa-file"></i></a>
+            <a class="btn btn-success" href="{% url 'core:representante_crear' %}">Nuevo Registro <i class="far fa-file"></i></a>
             <br/>
             <br/>
             <br/>
@@ -50,9 +50,9 @@
                                     <td>{{ representante.usuario.username }}</td>
                                     <td>
                                         <a class="btn btn-primary"
-                                           href="{% url 'gestionsistema:representante_editar' representante.id %}">Editar <i class="fas fa-cogs"></i></a>
+                                           href="{% url 'core:representante_editar' representante.id %}">Editar <i class="fas fa-cogs"></i></a>
                                         <a class="btn btn-danger"
-                                           href="{% url 'gestionsistema:representante_eliminar' representante.id %}">Eliminar <i class="far fa-trash-alt"></i></a>
+                                           href="{% url 'core:representante_eliminar' representante.id %}">Eliminar <i class="far fa-trash-alt"></i></a>
                                     </td>
 
                                 </tr>

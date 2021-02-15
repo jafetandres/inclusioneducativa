@@ -5,7 +5,7 @@
 {% block contenido %}
     <form method="post" class="py-4">
         {% csrf_token %}
-        <a class="btn btn-success" href="{% url 'gestionsistema:institucion_crear' %}">Crear Institución <i
+        <a class="btn btn-success" href="{% url 'core:institucion_crear' %}">Crear Institución <i
                 class="far fa-file"></i></a>
     </form>
     <!-- DataTales Example -->
@@ -38,9 +38,9 @@
                                 <td>
                                     <div align="center">
                                         <a class="btn btn-primary"
-                                           href="{% url 'gestionsistema:institucion_editar' institucion.id %}">Editar </a>
+                                           href="{% url 'core:institucion_editar' institucion.id %}">Editar </a>
                                         <a class="btn btn-danger"
-                                           href="{% url 'gestionsistema:institucion_eliminar' institucion.id %}">Eliminar
+                                           href="{% url 'core:institucion_eliminar' institucion.id %}">Eliminar
                                         </a>
                                     </div>
                                 </td>

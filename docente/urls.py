@@ -5,7 +5,7 @@ from docente.views import *
 
 app_name = 'appdocente'
 urlpatterns = [
-    url(r'^$', base, name='base'),
+    path('', home, name='home'),
     path('editarFichaInformativa/<int:estudiante_id>/', editarFichaInformativa, name='editarFichaInformativa'),
     url(r'^comentarios$', comentarios, name='comentarios'),
     path('buscarEstudiante/', buscarEstudiante, name='buscarEstudiante'),

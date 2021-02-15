@@ -64,7 +64,7 @@ def buscarEstudiante(request):
 
 
 @login_required
-def base(request):
+def home(request):
     usuario_logueado = request.user
     docente = Docente.objects.get(usuario_id=usuario_logueado.id)
     fichasInformativas = FichaInformativaDocente.objects.filter(docente_id=docente.id)

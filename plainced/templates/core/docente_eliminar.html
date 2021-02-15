@@ -9,7 +9,7 @@
         {% csrf_token %}
         <h3>Desea eliminar el registro de {{ docente.usuario.nombres }} ?</h3>
         <button class="btn btn-danger" type="submit">Si, eliminar</button>
-        <a class="btn btn-success" href="{% url 'gestionsistema:docente_listar' %}">Cancelar</a>
+        <a class="btn btn-success" href="{% url 'core:docente_listar' %}">Cancelar</a>
     </form>
 
 {% endblock %}
