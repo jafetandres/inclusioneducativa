@@ -50,7 +50,8 @@ def home(request):
     if ExpertoFichaInformativa.objects.filter(experto_id=experto.id).exists():
         expertoFichasInformativas = ExpertoFichaInformativa.objects.filter(experto_id=experto.id)
         for expertoFichaInformativa in expertoFichasInformativas:
-            estudiantes.append(Estudiante.objects.get(id=expertoFichaInformativa.estudiante.id))
+            if Estudiante.objects.filter(id=expertoFichaInformativa.estudiante.id).exists():
+                estudiantes.append(Estudiante.objects.get(id=expertoFichaInformativa.estudiante.id))
     return render(request, 'experto/home.html',
                   {'estudiantes': estudiantes})
 
