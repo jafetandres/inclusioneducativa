@@ -230,6 +230,7 @@
         if (tipo_usuario.value === 'docente') {
             document.getElementById("profesional-form").hidden = false;
             document.getElementById("id_institucion").hidden = false;
+            document.getElementById("institucion").disabled = false;
             document.getElementById("tituloUniversitario").disabled = false;
             document.getElementById("experienciaProfesional").disabled = false;
         } else if (tipo_usuario.value === 'experto') {
@@ -242,6 +243,7 @@
         } else if (tipo_usuario.value === 'representante') {
             document.getElementById("profesional-form").hidden = true;
             document.getElementById("id_institucion").hidden = false;
+            document.getElementById("institucion").disabled = false;
             document.getElementById("tituloUniversitario").disabled = true;
             document.getElementById("experienciaProfesional").disabled = true;
         }
