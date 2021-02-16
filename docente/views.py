@@ -114,7 +114,7 @@ def crearEstudiante(request, cedula, user_list):
                 estudiante = form_estudiante.save(commit=False)
                 estudiante.cedula = cedula
                 estudiante = form_estudiante.save()
-                create_room(user_list, str(estudiante.nombres + " " + estudiante.apellidos))
+                # create_room(user_list, str(estudiante.nombres + " " + estudiante.apellidos))
                 return estudiante
 
 
@@ -173,6 +173,7 @@ def crearFichaInformativa(request, estudiante_cedula):
                             expertoFichaInformativa.estudiante = fichaInformativaDocente.estudiante
                             expertoFichaInformativa.experto = experto
                             expertoFichaInformativa.save()
+                    create_room(user_list, str(estudiante.nombres + " " + estudiante.apellidos))
                     return redirect('appdocente:home')
                 elif request.POST.getlist('experto'):
                     expertos = []
