@@ -55,18 +55,23 @@ class Chatbot:
             elif (datos[0] == 'significado' or datos[0] == 'palabras' or datos[0] == 'acciones') == True:
                 context.bot.send_message(chat_id=update.effective_chat.id,
                                          text=utils.MsgTemplate.dificultad1_msg, parser='Markdown')
+                break
             elif (datos[0] == 'escuchar' or datos[0] == 'sonidos' or datos[0] == 'ambiente') == True:
                 context.bot.send_message(chat_id=update.effective_chat.id,
                                          text=utils.MsgTemplate.dificultad2_msg, parser='Markdown')
+                break
             elif (datos[0] == 'ordenes' or datos[0] == 'sigue') == 1:
                 context.bot.send_message(chat_id=update.effective_chat.id,
                                          text=utils.MsgTemplate.dificultad3_msg, parser='Markdown')
+                break
             elif (datos[0] == 'comprende' or datos[0] == 'preguntas' or datos[0] == 'responde') == True:
                 context.bot.send_message(chat_id=update.effective_chat.id,
                                          text=utils.MsgTemplate.dificultad4_msg, parser='Markdown')
+                break
             elif (datos[0] == 'identifica' or datos[0] == 'contenidos' or datos[0] == 'trabajan') == True:
                 context.bot.send_message(chat_id=update.effective_chat.id,
                                          text=utils.MsgTemplate.dificultad5_msg, parser='Markdown')
+                break
             elif (datos[0] == 'regresar') == True:
                 context.bot.send_message(chat_id=update.effective_chat.id,
                                          text=utils.MsgTemplate.inicial_msg, parser='Markdown')
@@ -95,19 +100,21 @@ class Chatbot:
         print('LLego texto')
         txt_mensaje = str(update.message.text)
 
-        conexion1 = psycopg2.connect(database="chatbot", user="plainced")
-        cursor1 = conexion1.cursor()
+        # conexion1 = psycopg2.connect(database="chatbot", user="plainced")
+        # cursor1 = conexion1.cursor()
+        #
+
         # import mysql.connector
         #
         # cnx = mysql.connector.connect(user='plainced',
         #                               host='localhost',
         #                               database='plainced')
 
-        sql = "insert into usuario(usuario_nombre, usuario_fecha) values (%s,%s)"
-        datos = (usuario, fecha)
-        cursor1.execute("insert into usuario(usuario_nombre, usuario_fecha) values (%s,%s)", datos)
-        conexion1.commit()
-        conexion1.close()
+        # sql = "insert into usuario(usuario_nombre, usuario_fecha) values (%s,%s)"
+        # datos = (usuario, fecha)
+        # cursor1.execute("insert into usuario(usuario_nombre, usuario_fecha) values (%s,%s)", datos)
+        # conexion1.commit()
+        # conexion1.close()
         #
         # cursor = cnx.cursor()
         # cursor.execute(sql, datos)
