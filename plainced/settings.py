@@ -81,20 +81,20 @@ CHANNEL_LAYERS = {
     },
 }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'plainced.db',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'plainced',
-#         'USER': 'plainced',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'plainced.db',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'plainced',
+        'USER': 'plainced',
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
