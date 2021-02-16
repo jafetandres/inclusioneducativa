@@ -1,0 +1,47 @@
+{% load static %}
+<div class="col-md-4 col-xl-3 chat">
+    <div class="card mb-sm-3 mb-md-0 contacts_card">
+        <div class="card-header">
+            <div class="input-group">
+                <input type="text" placeholder="Buscar..." name="" class="form-control search">
+                <div class="input-group-prepend">
+                    <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body contacts_body">
+            <ui class="contacts">
+                {% for room in rooms_list %}
+                    {% if room.id in rooms_with_unread %}
+                        <a id="chat-list-item" style="font-weight: bold;" href="{% url 'chat:chatroom' uuid=room.id %}">
+                    {% else %}
+                        <a id="chat-list-item" href="{% url 'chat:chatroom' uuid=room.id %}">
+                    {% endif %}
+                <li id="{{ room.id }}">
+                    <div class="d-flex bd-highlight">
+                        <div class="img_cont">
+                            <img src="{% static 'chat/img/group.png' %}"
+                                 class="rounded-circle user_img">
+                            <span class="online_icon"></span>
+                        </div>
+                        <div class="user_info">
+                            <span>{{ room.name }}</span>
+                            {% with room.message_set.all.0 as message %}
+                                {% if message.sender == request.user %}
+                                    <p id="chat-list-last-message"> Tu: {{ message.text }}</p>
+                                {% else %}
+                                    <p id="chat-list-last-message"> {{ message.sender.nombres }}:{{ message.text }}</p>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                </li>
+                </a>
+                {% endfor %}
+            </ui>
+        </div>
+        <div class="card-footer"></div>
+    </div>
+</div>
+
+
