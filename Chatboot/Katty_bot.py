@@ -87,7 +87,7 @@ class Chatbot:
 
         v = ''
 
-        ordenes = ['Hola', 'Does not know the meaning of the words or actions',
+        ordenes = ['Hola', 'No conoce el significado de las palabras o acciones',
                    'No puede escuchar sonidos del ambiente',
                    'No sigue órdenes ', 'No comprende preguntas o no las responde de manera lógica',
                    'No identifica contenidos pedagógicos que trabajan en su nivel escolar', 'Regresar']
@@ -151,7 +151,7 @@ class Chatbot:
         if mensajecom.find('Hola') != -1:
             context.bot.send_message(chat_id=update.effective_chat.id, text=utils.MsgTemplate.inicial_msg,
                                      parser='Markdown')
-        elif (v.find('know') and mensajecom.find('words')) != -1:
+        elif (v.find('conoce') and mensajecom.find('words')) != -1:
             context.bot.send_message(chat_id=update.effective_chat.id,
                                      text='La dificultad seleccionada es:\n' + mensajecom)
             context.bot.send_message(chat_id=update.effective_chat.id, text=utils.MsgTemplate.dificultad1_msg,

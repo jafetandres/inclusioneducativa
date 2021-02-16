@@ -16,7 +16,7 @@ from core.models import *
 @login_required
 def perfil(request):
     usuario = Usuario.objects.get(id=request.user.id)
-    representante=Representante.objects.get(usuario=usuario)
+    representante = Representante.objects.get(usuario=usuario)
     if request.method == 'POST':
         try:
             usuario.nombres = request.POST['nombres']
@@ -30,7 +30,7 @@ def perfil(request):
         except IntegrityError as e:
             messages.error(request, 'El correo electronico ya esta en uso')
         return redirect('apprepresentante:perfil')
-    return render(request, 'representante/perfil.html', {'representante':representante})
+    return render(request, 'representante/perfil.html', {'representante': representante})
 
 
 @login_required
@@ -65,11 +65,13 @@ def buscarEstudiante(request):
 @login_required
 def home(request):
     representante = Representante.objects.get(usuario_id=request.user.id)
-    fichasInformativas = FichaInformativaRepresentante.objects.filter(representante_id=representante.id)
-    estudiantes = []
-    for fichaInformativaRepresentante in fichasInformativas:
-        if fichaInformativaRepresentante.representante_id == representante.id:
-            estudiantes.append(Estudiante.objects.get(id=fichaInformativaRepresentante.estudiante_id))
+    if FichaInformativaRepresentante.objects.filter(representante_id=representante.id).exists():
+        fichasInformativas = FichaInformativaRepresentante.objects.filter(representante_id=representante.id)
+        estudiantes = []
+        for fichaInformativaRepresentante in fichasInformativas:
+            if fichaInformativaRepresentante.representante_id == representante.id:
+                if Estudiante.objects.filter(id=fichaInformativaRepresentante.estudiante_id).exists():
+                    estudiantes.append(Estudiante.objects.get(id=fichaInformativaRepresentante.estudiante_id))
     return render(request, 'representante/home.html',
                   {'estudiantes': estudiantes})
 
@@ -210,5 +212,5 @@ def editarFichaInformativa(request, estudiante_id):
     else:
         fichaInformativa = FichaInformativaRepresentante.objects.get(estudiante_id=estudiante_id)
     return render(request, 'representante/crearFichaInformativa.html', {'fichaInformativa': fichaInformativa,
-                                                                           'estudiante': fichaInformativa.estudiante
-                                                                           })
+                                                                        'estudiante': fichaInformativa.estudiante
+                                                                        })
