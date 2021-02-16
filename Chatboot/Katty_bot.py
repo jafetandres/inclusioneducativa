@@ -95,7 +95,7 @@ class Chatbot:
         print('LLego texto')
         txt_mensaje = str(update.message.text)
 
-        conexion1 = psycopg2.connect(database="chatbot", user="postgres")
+        conexion1 = psycopg2.connect(database="chatbot", user="plainced")
         cursor1 = conexion1.cursor()
         # import mysql.connector
         #
