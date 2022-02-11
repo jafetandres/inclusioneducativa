@@ -72,7 +72,7 @@ pathy==0.3.6
 Pillow==7.0.0
 pluggy==0.13.1
 preshed==3.0.5
-protobuf==3.11.2
+protobuf==3.15.0
 psycopg2==2.7.6
 psycopg2-binary==2.8.5
 pyasn1==0.4.8
