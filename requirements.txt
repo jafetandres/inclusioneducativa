@@ -83,7 +83,7 @@ pydantic==1.7.3
 pydot==1.4.1
 pygraphviz==1.5
 PyHamcrest==1.9.0
-PyJWT==1.7.1
+PyJWT==2.4.0
 pyOpenSSL==19.1.0
 pyparsing==2.4.7
 Pyrebase==3.0.27
