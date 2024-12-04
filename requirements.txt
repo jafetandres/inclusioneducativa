@@ -16,7 +16,7 @@ chardet==3.0.4
 click==7.1.2
 constantly==15.1.0
 consumers==0.6.1
-cryptography==2.8
+cryptography==3.3.2
 cymem==2.0.5
 daphne==2.4.1
 decorator==4.4.2
